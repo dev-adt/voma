@@ -6,14 +6,43 @@
 <title>BizHub — Đăng ký hội viên</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="css/main.css">
+<style>
+.split-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: calc(100vh - 60px);
+  background-color: var(--bg-base);
+}
+.sidebar-panel {
+  background-color: #0F172A;
+  color: #FFFFFF;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+.form-panel {
+  padding: 2.5rem 3rem;
+  overflow-y: auto;
+  max-width: 760px;
+}
+@media(max-width: 768px) {
+  .split-layout { grid-template-columns: 1fr; }
+  .sidebar-panel { display: none; }
+  .form-panel { padding: 1.5rem; }
+}
+</style>
 </head>
 <body class="public-body">
+
 <nav>
   <div class="nav-logo">
     <div class="nav-logo-icon"><i class="ti ti-building-community" aria-hidden="true"></i></div>
     BizHub
   </div>
   <div class="nav-links">
+    <a href="index.html#features" class="nav-link">Tính năng</a>
     <a href="index.html#members" class="nav-link">Hội viên</a>
     <a href="index.html#posts" class="nav-link">Bài viết</a>
     <a href="index.html#events" class="nav-link">Sự kiện</a>
@@ -21,120 +50,163 @@
     <a href="ai-chat.html" class="nav-link">Trợ lý AI</a>
   </div>
   <div class="nav-right">
-    <a href="login.html" class="btn-ghost">Đăng nhập</a>
-    <a href="register.html" class="btn-primary"><i class="ti ti-user-plus" aria-hidden="true"></i> Đăng ký hội viên</a>
+    <a href="login.html" class="btn">Đăng nhập</a>
+    <a href="register.html" class="btn btn-primary"><i class="ti ti-user-plus" aria-hidden="true"></i> Đăng ký hội viên</a>
   </div>
 </nav>
 
-<div class="public-container" style="max-width:680px">
-  <div style="text-align:center;margin-bottom:2rem">
-    <h1 style="font-size:26px;font-weight:500;color:var(--text-primary);margin-bottom:6px"><i class="ti ti-user-plus" style="color:var(--blue)"></i> Đăng ký hội viên doanh nghiệp</h1>
-    <p style="font-size:13px;color:var(--text-secondary)">Tham gia BizHub để kết nối đối tác, chia sẻ cơ hội kinh doanh và tiếp cận trợ lý AI thông minh.</p>
-  </div>
-
-  <!-- Steps -->
-  <div class="wizard-steps" id="steps" style="margin-bottom:1.5rem">
-    <div class="ws active" id="s0"><div class="ws-dot">1</div> Doanh nghiệp</div>
-    <div class="ws-line"></div>
-    <div class="ws" id="s1"><div class="ws-dot">2</div> Đại diện</div>
-    <div class="ws-line"></div>
-    <div class="ws" id="s2"><div class="ws-dot">3</div> Gói hội viên</div>
-    <div class="ws-line"></div>
-    <div class="ws" id="s3"><div class="ws-dot">4</div> Xem trước</div>
-  </div>
-
-  <!-- Step 1 -->
-  <div id="step1">
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-header"><div class="card-title"><i class="ti ti-building-skyscraper"></i> Thông tin doanh nghiệp</div></div>
-      <div style="padding:1.25rem">
-        <div class="form-row">
-          <div class="fg"><label>Tên doanh nghiệp <span class="req">*</span></label><input id="r-name" type="text" placeholder="Công ty TNHH ABC"></div>
-          <div class="fg"><label>Mã số thuế <span class="req">*</span></label><input id="r-tax" type="text" placeholder="0123456789"></div>
-        </div>
-        <div class="form-row">
-          <div class="fg"><label>Ngành nghề <span class="req">*</span></label>
-            <select id="r-industry"><option value="">Chọn ngành nghề</option><option>Công nghệ thông tin</option><option>Xuất nhập khẩu</option><option>Bất động sản</option><option>Sản xuất & Chế biến</option><option>Dịch vụ tài chính</option><option>Du lịch & Khách sạn</option><option>Giáo dục & Đào tạo</option><option>Y tế & Sức khỏe</option><option>Nông nghiệp</option><option>Xây dựng</option></select>
-          </div>
-          <div class="fg"><label>Quy mô nhân sự</label>
-            <select id="r-size"><option value="">Chọn quy mô</option><option>Dưới 10 người</option><option>10 – 50 người</option><option>50 – 200 người</option><option>200 – 500 người</option><option>Trên 500 người</option></select>
+<div class="split-layout">
+  <!-- Left Side: Features and Art -->
+  <div class="sidebar-panel">
+    <div>
+      <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.08); color:var(--primary); font-size:10px; font-weight:600; padding:4px 10px; border-radius:99px; margin-bottom:1.5rem; text-transform:uppercase; letter-spacing:0.06em">
+        Quyền lợi hội viên
+      </div>
+      <h2 style="font-family:var(--font-title); font-size:24px; font-weight:600; color:#FFFFFF; margin-bottom:1.5rem; line-height:1.3">Gia nhập cộng đồng BizHub ngay hôm nay</h2>
+      
+      <div style="display:flex; flex-direction:column; gap:16px">
+        <div style="display:flex; gap:10px">
+          <div style="width:24px; height:24px; border-radius:6px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:var(--primary); flex-shrink:0"><i class="ti ti-users"></i></div>
+          <div>
+            <h4 style="font-size:12px; font-weight:600; color:#FFFFFF">Mạng lưới 47+ đối tác</h4>
+            <p style="font-size:11px; color:#94A3B8; margin-top:2px; line-height:1.4">Kết nối trực tiếp tới các giám đốc, chủ doanh nghiệp đã được xác thực năng lực.</p>
           </div>
         </div>
-        <div class="fg"><label>Địa chỉ trụ sở <span class="req">*</span></label><input id="r-address" type="text" placeholder="123 Nguyễn Huệ, Quận 1, TP. HCM"></div>
-        <div class="form-row">
-          <div class="fg"><label>Website</label><input id="r-web" type="text" placeholder="https://company.vn"></div>
-          <div class="fg"><label>Fanpage / LinkedIn</label><input id="r-social" type="text" placeholder="facebook.com/company"></div>
+        
+        <div style="display:flex; gap:10px">
+          <div style="width:24px; height:24px; border-radius:6px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:var(--primary); flex-shrink:0"><i class="ti ti-robot"></i></div>
+          <div>
+            <h4 style="font-size:12px; font-weight:600; color:#FFFFFF">Hỗ trợ từ Trợ lý AI</h4>
+            <p style="font-size:11px; color:#94A3B8; margin-top:2px; line-height:1.4">AI trả lời thông minh về thông tin hội, gợi ý đối tác phù hợp dựa trên ngữ cảnh thực tế.</p>
+          </div>
         </div>
-        <div class="fg"><label>Mô tả hoạt động <span class="req">*</span></label><textarea id="r-desc" placeholder="Mô tả ngắn về sản phẩm, dịch vụ và thị trường..."></textarea></div>
-      </div>
-    </div>
-    <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="goStep(2)">Tiếp theo <i class="ti ti-arrow-right"></i></button></div>
-  </div>
 
-  <!-- Step 2 -->
-  <div id="step2" style="display:none">
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-header"><div class="card-title"><i class="ti ti-user-circle"></i> Người đại diện pháp lý</div></div>
-      <div style="padding:1.25rem">
-        <div class="form-row">
-          <div class="fg"><label>Họ và tên <span class="req">*</span></label><input id="r-cname" type="text" placeholder="Nguyễn Văn A"></div>
-          <div class="fg"><label>Chức vụ <span class="req">*</span></label><input id="r-pos" type="text" placeholder="Giám đốc / CEO"></div>
-        </div>
-        <div class="form-row">
-          <div class="fg"><label>Email <span class="req">*</span></label><input id="r-email" type="email" placeholder="contact@company.vn"></div>
-          <div class="fg"><label>Điện thoại <span class="req">*</span></label><input id="r-phone" type="tel" placeholder="0901 234 567"></div>
+        <div style="display:flex; gap:10px">
+          <div style="width:24px; height:24px; border-radius:6px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:var(--primary); flex-shrink:0"><i class="ti ti-news"></i></div>
+          <div>
+            <h4 style="font-size:12px; font-weight:600; color:#FFFFFF">Quảng bá thương hiệu miễn phí</h4>
+            <p style="font-size:11px; color:#94A3B8; margin-top:2px; line-height:1.4">Đăng tin tức, tìm kiếm nhà thầu, tuyển dụng nhân sự chất lượng cao lên bảng tin hội.</p>
+          </div>
         </div>
       </div>
     </div>
-    <div style="display:flex;justify-content:space-between">
-      <button class="btn" onclick="goStep(1)"><i class="ti ti-arrow-left"></i> Quay lại</button>
-      <button class="btn btn-primary" onclick="goStep(3)">Tiếp theo <i class="ti ti-arrow-right"></i></button>
+    
+    <div style="margin-top:2rem; border-radius:var(--radius); overflow:hidden; border:1px solid rgba(255,255,255,0.1)">
+      <img src="images/hero_network.png" alt="BizHub Illustration" style="width:100%; height:auto; display:block; opacity:0.85">
     </div>
   </div>
 
-  <!-- Step 3 -->
-  <div id="step3" style="display:none">
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-header"><div class="card-title"><i class="ti ti-award"></i> Chọn gói hội viên</div></div>
-      <div style="padding:1.25rem">
-        <div class="tier-sel-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem">
-          <div class="ts-card" id="tc-Silver" onclick="selTier('Silver')"><div class="ts-name">🪙 Silver</div><div class="ts-price">Miễn phí</div></div>
-          <div class="ts-card active" id="tc-Gold" onclick="selTier('Gold')"><div class="ts-name">🏅 Gold</div><div class="ts-price">5M / năm</div></div>
-          <div class="ts-card" id="tc-Platinum" onclick="selTier('Platinum')"><div class="ts-name">💎 Platinum</div><div class="ts-price">15M / năm</div></div>
-        </div>
-        <div class="fg"><label>Mục tiêu khi tham gia BizHub</label><input id="r-goal" type="text" placeholder="Tìm khách hàng mới, đối tác gia công..."></div>
-        <div class="fg"><label>Bạn biết đến BizHub từ nguồn nào?</label>
-          <select id="r-ref"><option value="">Chọn nguồn thông tin</option><option>Mạng xã hội (Facebook, LinkedIn)</option><option>Được hội viên khác giới thiệu</option><option>Tìm kiếm Google</option><option>Báo chí / Sự kiện</option><option>Khác</option></select>
+  <!-- Right Side: Wizard Form -->
+  <div class="form-panel">
+    <div style="margin-bottom:2rem">
+      <h2 style="font-family:var(--font-title); font-size:24px; font-weight:700; color:var(--text-primary); margin-bottom:4px">Đăng ký thành viên</h2>
+      <p style="font-size:12px; color:var(--text-secondary)">Hoàn thành các bước để gửi thông tin doanh nghiệp tới ban thẩm định BizHub.</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="wizard-steps" id="steps" style="margin-bottom:2rem">
+      <div class="ws active" id="s0"><div class="ws-dot">1</div> Doanh nghiệp</div>
+      <div class="ws-line"></div>
+      <div class="ws" id="s1"><div class="ws-dot">2</div> Đại diện</div>
+      <div class="ws-line"></div>
+      <div class="ws" id="s2"><div class="ws-dot">3</div> Gói dịch vụ</div>
+      <div class="ws-line"></div>
+      <div class="ws" id="s3"><div class="ws-dot">4</div> Xem lại</div>
+    </div>
+
+    <!-- Step 1 -->
+    <div id="step1">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"><div class="card-title"><i class="ti ti-building-skyscraper"></i> Thông tin doanh nghiệp</div></div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="fg"><label>Tên doanh nghiệp <span class="req">*</span></label><input id="r-name" type="text" placeholder="Công ty TNHH ABC"></div>
+            <div class="fg"><label>Mã số thuế <span class="req">*</span></label><input id="r-tax" type="text" placeholder="0123456789"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Lĩnh vực kinh doanh <span class="req">*</span></label>
+              <select id="r-industry"><option value="">Chọn ngành nghề</option><option>Công nghệ thông tin</option><option>Xuất nhập khẩu</option><option>Bất động sản</option><option>Sản xuất & Chế biến</option><option>Dịch vụ tài chính</option><option>Du lịch & Khách sạn</option><option>Giáo dục & Đào tạo</option><option>Y tế & Sức khỏe</option><option>Nông nghiệp</option><option>Xây dựng</option></select>
+            </div>
+            <div class="fg"><label>Quy mô nhân sự</label>
+              <select id="r-size"><option value="">Chọn quy mô</option><option>Dưới 10 người</option><option>10 – 50 người</option><option>50 – 200 người</option><option>200 – 500 người</option><option>Trên 500 người</option></select>
+            </div>
+          </div>
+          <div class="fg"><label>Địa chỉ trụ sở chính <span class="req">*</span></label><input id="r-address" type="text" placeholder="123 Nguyễn Huệ, Quận 1, TP. HCM"></div>
+          <div class="form-row">
+            <div class="fg"><label>Địa chỉ Website</label><input id="r-web" type="text" placeholder="https://company.vn"></div>
+            <div class="fg"><label>Fanpage / LinkedIn</label><input id="r-social" type="text" placeholder="facebook.com/company"></div>
+          </div>
+          <div class="fg"><label>Mô tả ngắn hoạt động <span class="req">*</span></label><textarea id="r-desc" placeholder="Giới thiệu sơ lược sản phẩm, phân khúc khách hàng..."></textarea></div>
         </div>
       </div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="goStep(2)">Tiếp tục <i class="ti ti-chevron-right"></i></button></div>
     </div>
-    <div style="display:flex;justify-content:space-between">
-      <button class="btn" onclick="goStep(2)"><i class="ti ti-arrow-left"></i> Quay lại</button>
-      <button class="btn btn-primary" onclick="goStep(4)">Tiếp theo <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
 
-  <!-- Step 4 (Preview) -->
-  <div id="step4" style="display:none">
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-header"><div class="card-title"><i class="ti ti-file-text"></i> Xem lại thông tin đăng ký</div></div>
-      <div style="padding:1.25rem" id="preview-body"></div>
+    <!-- Step 2 -->
+    <div id="step2" style="display:none">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"><div class="card-title"><i class="ti ti-user-circle"></i> Người đại diện liên hệ</div></div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="fg"><label>Họ và tên <span class="req">*</span></label><input id="r-cname" type="text" placeholder="Nguyễn Văn A"></div>
+            <div class="fg"><label>Chức vụ <span class="req">*</span></label><input id="r-pos" type="text" placeholder="Giám đốc / CEO"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Email nhận tin <span class="req">*</span></label><input id="r-email" type="email" placeholder="contact@company.vn"></div>
+            <div class="fg"><label>Số điện thoại <span class="req">*</span></label><input id="r-phone" type="tel" placeholder="0901 234 567"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn" onclick="goStep(1)"><i class="ti ti-chevron-left"></i> Quay lại</button>
+        <button class="btn btn-primary" onclick="goStep(3)">Tiếp tục <i class="ti ti-chevron-right"></i></button>
+      </div>
     </div>
-    <div style="padding:0 5px 12px"><label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);cursor:pointer"><input type="checkbox" id="agree"> Tôi đồng ý cam kết tuân thủ Điều lệ và Đóng góp xây dựng Hội.</label></div>
-    <div style="display:flex;justify-content:space-between">
-      <button class="btn" onclick="goStep(3)"><i class="ti ti-arrow-left"></i> Quay lại</button>
-      <button class="btn btn-primary" onclick="submitForm()"><i class="ti ti-send"></i> Gửi đăng ký</button>
-    </div>
-  </div>
 
-  <!-- Success -->
-  <div id="step-success" style="display:none;text-align:center;padding:2.5rem 1rem">
-    <div style="width:54px;height:54px;border-radius:50%;background:#EAF3DE;color:#27500A;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 1rem"><i class="ti ti-circle-check"></i></div>
-    <h2 style="font-size:20px;font-weight:500;margin-bottom:8px;color:var(--text-primary)">Đăng ký thành công!</h2>
-    <p style="font-size:13px;color:var(--text-secondary);max-width:380px;margin:0 auto 1.5rem;line-height:1.6">Yêu cầu tham gia của doanh nghiệp <strong id="success-name">—</strong> đã được gửi tới Ban quản trị BizHub. Chúng tôi sẽ xem xét hồ sơ và liên hệ với bạn trong vòng 24 giờ làm việc.</p>
-    <div style="display:flex;gap:8px;justify-content:center">
-      <a href="index.html" class="btn btn-primary"><i class="ti ti-home" aria-hidden="true"></i> Quay về Trang chủ</a>
-      <button class="btn" onclick="resetForm()"><i class="ti ti-plus"></i> Đăng ký công ty khác</button>
+    <!-- Step 3 -->
+    <div id="step3" style="display:none">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"><div class="card-title"><i class="ti ti-award"></i> Chọn gói hội viên</div></div>
+        <div class="card-body">
+          <div class="tier-sel-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem">
+            <div class="ts-card" id="tc-Silver" onclick="selTier('Silver')"><div class="ts-name">🪙 Silver</div><div class="ts-price">Miễn phí</div></div>
+            <div class="ts-card active" id="tc-Gold" onclick="selTier('Gold')"><div class="ts-name">🏅 Gold</div><div class="ts-price">5M/năm</div></div>
+            <div class="ts-card" id="tc-Platinum" onclick="selTier('Platinum')"><div class="ts-name">💎 Platinum</div><div class="ts-price">15M/năm</div></div>
+          </div>
+          <div class="fg"><label>Mục tiêu lớn nhất khi tham gia hội</label><input id="r-goal" type="text" placeholder="Tìm đại lý, liên kết xuất khẩu nông sản..."></div>
+          <div class="fg"><label>Bạn biết đến BizHub qua kênh nào?</label>
+            <select id="r-ref"><option value="">Chọn nguồn thông tin</option><option>Mạng xã hội (Facebook, LinkedIn)</option><option>Hội viên khác giới thiệu</option><option>Tìm kiếm Google</option><option>Báo chí / Sự kiện</option><option>Khác</option></select>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn" onclick="goStep(2)"><i class="ti ti-chevron-left"></i> Quay lại</button>
+        <button class="btn btn-primary" onclick="goStep(4)">Tiếp tục <i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <!-- Step 4 (Preview) -->
+    <div id="step4" style="display:none">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"><div class="card-title"><i class="ti ti-file-text"></i> Xác nhận thông tin khai báo</div></div>
+        <div class="card-body" id="preview-body" style="padding:1rem 1.25rem"></div>
+      </div>
+      <div style="padding:0 5px 15px"><label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);cursor:pointer"><input type="checkbox" id="agree" style="width:15px;height:15px"> Cam kết các thông tin khai báo trên là chính xác và tuân thủ điều lệ hội.</label></div>
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn" onclick="goStep(3)"><i class="ti ti-chevron-left"></i> Quay lại</button>
+        <button class="btn btn-primary" onclick="submitForm()"><i class="ti ti-send"></i> Gửi hồ sơ đăng ký</button>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div id="step-success" style="display:none;text-align:center;padding:3rem 1.5rem">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--emerald-bg);color:var(--emerald-dark);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 1.5rem"><i class="ti ti-circle-check"></i></div>
+      <h2 style="font-family:var(--font-title);font-size:22px;font-weight:700;margin-bottom:10px;color:var(--text-primary)">Gửi hồ sơ thành công!</h2>
+      <p style="font-size:13px;color:var(--text-secondary);max-width:420px;margin:0 auto 2rem;line-height:1.6">Yêu cầu đăng ký của doanh nghiệp <strong id="success-name">—</strong> đã được lưu trữ thành công. Chúng tôi sẽ thẩm định hồ sơ pháp nhân và liên hệ lại trong vòng 24h làm việc.</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <a href="index.html" class="btn btn-primary"><i class="ti ti-home" aria-hidden="true"></i> Về Trang chủ</a>
+        <button class="btn" onclick="resetForm()"><i class="ti ti-plus"></i> Đăng ký công ty khác</button>
+      </div>
     </div>
   </div>
 </div>
@@ -167,36 +239,36 @@ function selTier(t){
 function renderPreview(){
   const tierLabel={Silver:'🪙 Silver (Miễn phí)',Gold:'🏅 Gold (5.000.000 đ/năm)',Platinum:'💎 Platinum (15.000.000 đ/năm)'};
   document.getElementById('preview-body').innerHTML=`
-    <div style="margin-bottom:12px">
-      <div style="font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.06em;border-bottom:0.5px solid var(--border);padding-bottom:4px;margin-bottom:8px">THÔNG TIN DOANH NGHIỆP</div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:.08em;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;text-transform:uppercase">Doanh nghiệp</div>
       ${row('Tên doanh nghiệp',g('r-name'))}
       ${row('Mã số thuế',g('r-tax'))}
-      ${row('Ngành nghề',document.getElementById('r-industry').value)}
-      ${row('Quy mô nhân sự',document.getElementById('r-size').value||'Chưa cung cấp')}
+      ${row('Ngành nghề kinh doanh',document.getElementById('r-industry').value)}
+      ${row('Quy mô nhân sự',document.getElementById('r-size').value||'Chưa nhập')}
       ${row('Địa chỉ trụ sở',g('r-address'))}
-      ${row('Website',g('r-web')||'—')}
+      ${row('Trang Website',g('r-web')||'—')}
       ${row('Fanpage / LinkedIn',g('r-social')||'—')}
-      ${row('Mô tả hoạt động',g('r-desc'))}
+      ${row('Hoạt động kinh doanh',g('r-desc'))}
     </div>
-    <div style="margin-bottom:12px">
-      <div style="font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.06em;border-bottom:0.5px solid var(--border);padding-bottom:4px;margin-bottom:8px">NGƯỜI ĐẠI DIỆN</div>
-      ${row('Họ và tên',g('r-cname'))}${row('Chức vụ',g('r-pos'))}${row('Email',g('r-email'))}${row('Điện thoại',g('r-phone'))}
+    <div style="margin-bottom:16px">
+      <div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:.08em;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;text-transform:uppercase">Người liên hệ</div>
+      ${row('Họ và tên',g('r-cname'))}${row('Chức vụ',g('r-pos'))}${row('Địa chỉ Email',g('r-email'))}${row('Số điện thoại',g('r-phone'))}
     </div>
     <div>
-      <div style="font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.06em;border-bottom:0.5px solid var(--border);padding-bottom:4px;margin-bottom:8px">GÓI HỘI VIÊN</div>
-      ${row('Gói đăng ký',tierLabel[selectedTier])}${row('Biết đến qua',document.getElementById('r-ref').value||'—')}
+      <div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:.08em;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;text-transform:uppercase">Đăng ký gói</div>
+      ${row('Gói lựa chọn',tierLabel[selectedTier])}${row('Nguồn thông tin',document.getElementById('r-ref').value||'—')}
     </div>`;
 }
-function row(k,v){return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:12px;color:var(--text-secondary)">${k}</span><span style="font-size:12px;text-align:right;max-width:60%">${v}</span></div>`;}
+function row(k,v){return `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);gap:15px"><span style="font-size:12px;color:var(--text-secondary)">${k}</span><span style="font-size:12px;text-align:right;max-width:65%;color:var(--text-primary);font-weight:500">${v}</span></div>`;}
 
 async function submitForm(){
-  if(!document.getElementById('agree').checked){alert('Vui lòng đồng ý với điều lệ hội viên.');return;}
+  if(!document.getElementById('agree').checked){alert('Vui lòng đồng ý với cam kết điều lệ hội.');return;}
   
   const submitBtn = document.querySelector('#step4 button[onclick="submitForm()"]');
   const originalHtml = submitBtn ? submitBtn.innerHTML : 'Gửi đăng ký';
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="ti ti-loader animate-spin"></i> Đang gửi...';
+    submitBtn.innerHTML = '<i class="ti ti-loader animate-spin"></i> Đang gửi hồ sơ...';
   }
 
   const payload = {

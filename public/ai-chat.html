@@ -6,14 +6,50 @@
 <title>BizHub — Trợ lý AI</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="css/main.css">
+<style>
+.chat-layout {
+  display: flex;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+.chat-sidebar {
+  width: 220px;
+  background-color: var(--surface-2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--bg-base);
+}
+.bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+@media(max-width: 768px) {
+  .chat-sidebar { display: none; }
+}
+</style>
 </head>
 <body class="public-body" style="height:100vh;overflow:hidden">
+
+<!-- Decorative background gradient blobs -->
+<div style="position:fixed;top:-20%;left:-10%;width:50vw;height:50vw;background:radial-gradient(circle, rgba(79,70,229,0.06) 0%, rgba(79,70,229,0) 70%);z-index:-1;pointer-events:none;border-radius:50%"></div>
+<div style="position:fixed;bottom:-20%;right:-10%;width:60vw;height:60vw;background:radial-gradient(circle, rgba(16,185,129,0.04) 0%, rgba(16,185,129,0) 70%);z-index:-1;pointer-events:none;border-radius:50%"></div>
+
 <nav>
   <div class="nav-logo">
     <div class="nav-logo-icon"><i class="ti ti-building-community" aria-hidden="true"></i></div>
     BizHub
   </div>
   <div class="nav-links">
+    <a href="index.html#features" class="nav-link">Tính năng</a>
     <a href="index.html#members" class="nav-link">Hội viên</a>
     <a href="index.html#posts" class="nav-link">Bài viết</a>
     <a href="index.html#events" class="nav-link">Sự kiện</a>
@@ -21,62 +57,67 @@
     <a href="ai-chat.html" class="nav-link">Trợ lý AI</a>
   </div>
   <div class="nav-right">
-    <a href="login.html" class="btn-ghost">Đăng nhập</a>
-    <a href="register.html" class="btn-primary"><i class="ti ti-user-plus" aria-hidden="true"></i> Đăng ký hội viên</a>
+    <a href="login.html" class="btn">Đăng nhập</a>
+    <a href="register.html" class="btn btn-primary"><i class="ti ti-user-plus" aria-hidden="true"></i> Đăng ký hội viên</a>
   </div>
 </nav>
 
-<div style="display:flex;height:calc(100vh - 60px);overflow:hidden">
+<div class="chat-layout">
   <!-- Chat Sidebar -->
-  <div style="width:190px;background:var(--surface-2);border-right:0.5px solid var(--border);display:flex;flex-direction:column;flex-shrink:0">
-    <div style="padding:.75rem .85rem;border-bottom:0.5px solid var(--border)">
-      <button onclick="newChat()" style="width:100%;padding:6px 10px;border-radius:7px;border:0.5px solid var(--border-strong);background:var(--surface-1);color:var(--text-secondary);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;outline:none">
+  <div class="chat-sidebar">
+    <div style="padding: 1rem; border-bottom: 1px solid var(--border)">
+      <button onclick="newChat()" class="btn" style="width:100%; justify-content:center; border-radius:8px">
         <i class="ti ti-plus"></i> Cuộc trò chuyện mới
       </button>
     </div>
-    <div style="font-size:10px;font-weight:500;color:var(--text-muted);padding:8px .85rem 3px;letter-spacing:.06em">LỊCH SỬ</div>
-    <div style="flex:1;overflow-y:auto;padding:4px 6px" id="hist-list">
-      <div class="hist-item active" onclick="selectHist(this,'Tìm đối tác công nghệ','Tìm hội viên ngành công nghệ thông tin')">Tìm đối tác công nghệ<div style="font-size:10px;color:var(--text-muted);margin-top:1px">Hôm nay</div></div>
-      <div class="hist-item" onclick="selectHist(this,'Gói hội viên Gold','So sánh gói Gold và Platinum')">Gói hội viên Gold<div style="font-size:10px;color:var(--text-muted);margin-top:1px">Hôm qua</div></div>
-      <div class="hist-item" onclick="selectHist(this,'Sự kiện tháng 7','Có sự kiện nào sắp tới không?')">Sự kiện tháng 7<div style="font-size:10px;color:var(--text-muted);margin-top:1px">22/06</div></div>
+    <div style="font-size: 10px; font-weight: 600; color: var(--text-muted); padding: 12px 1rem 4px; letter-spacing: 0.08em; text-transform: uppercase">Lịch sử chat</div>
+    <div style="flex:1; overflow-y:auto; padding:6px" id="hist-list">
+      <div class="hist-item active" onclick="selectHist(this,'Tìm đối tác công nghệ','Tìm hội viên ngành công nghệ thông tin')">Tìm đối tác công nghệ<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Hôm nay</div></div>
+      <div class="hist-item" onclick="selectHist(this,'Gói hội viên Gold','So sánh gói Gold và Platinum')">Gói hội viên Gold<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Hôm qua</div></div>
+      <div class="hist-item" onclick="selectHist(this,'Sự kiện sắp diễn ra','Có sự kiện nào sắp tới không?')">Sự kiện tháng tới<div style="font-size:10px;color:var(--text-muted);margin-top:2px">22/06</div></div>
     </div>
-    <div style="padding:12px 8px;border-top:0.5px solid var(--border)">
-      <div style="font-size:9px;font-weight:500;color:var(--text-muted);letter-spacing:.05em;margin-bottom:6px">NGỮ CẢNH HỘI</div>
-      <div style="font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:5px;margin-bottom:5px" id="ctx-members"><i class="ti ti-users" style="font-size:12px;color:#185FA5"></i> 0 hội viên</div>
-      <div style="font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:5px;margin-bottom:5px" id="ctx-posts"><i class="ti ti-news" style="font-size:12px;color:#185FA5"></i> 0 bài viết</div>
-      <div style="font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:5px" id="ctx-events"><i class="ti ti-calendar-event" style="font-size:12px;color:#185FA5"></i> 3 sự kiện</div>
+    
+    <div style="padding:1rem; border-top:1px solid var(--border)">
+      <div style="font-size: 9px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 8px; text-transform: uppercase">Bối cảnh nạp vào AI</div>
+      <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-bottom: 6px" id="ctx-members"><i class="ti ti-users" style="color:var(--primary)"></i> 0 hội viên</div>
+      <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-bottom: 6px" id="ctx-posts"><i class="ti ti-news" style="color:var(--primary)"></i> 0 cơ hội</div>
+      <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px" id="ctx-events"><i class="ti ti-calendar" style="color:var(--primary)"></i> 3 sự kiện</div>
     </div>
   </div>
 
   <!-- Chat Main -->
-  <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;background:#f5f5f2">
-    <!-- Topbar info -->
-    <div style="background:var(--surface-2);border-bottom:0.5px solid var(--border);padding:0 1rem;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-      <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;color:var(--text-primary)"><i class="ti ti-robot" style="color:var(--blue)"></i> Trợ lý AI BizHub</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#3B6D11;background:#EAF3DE;border:0.5px solid #97C459;padding:3px 9px;border-radius:99px">
-        <span id="ai-status-dot" style="width:6px;height:6px;border-radius:50%;background:#639922;animation:pulse 2s infinite"></span>
-        <span id="ai-provider-label">Đang kết nối...</span>
+  <div class="chat-main">
+    <div style="background-color:var(--surface-2); border-bottom:1px solid var(--border); padding:0 1.25rem; height:50px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0">
+      <div style="font-size:13px; font-weight:600; color:var(--text-primary); display:flex; align-items:center; gap:6px">
+        <i class="ti ti-robot" style="color:var(--primary); font-size:16px"></i> Trợ lý AI BizHub
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:#047857; background:var(--emerald-bg); border:0.5px solid rgba(16,185,129,0.25); padding:3px 10px; border-radius:99px">
+        <span style="width:6px; height:6px; border-radius:50%; background:#10B981; animation:pulse 2s infinite"></span>
+        <span id="ai-provider-label">AI Connected</span>
       </div>
     </div>
 
-    <!-- Message list -->
-    <div class="chat-msgs" id="chat-msgs" style="flex:1;overflow-y:auto;padding:1.5rem"></div>
+    <!-- Message Area -->
+    <div id="chat-msgs" style="flex:1; overflow-y:auto; padding:1.5rem">
+      <div class="bubble-wrap" id="bubble-container"></div>
+    </div>
 
-    <!-- Input area -->
-    <div class="chat-input-area" style="padding:1rem;background:var(--surface-2);border-top:0.5px solid var(--border)">
-      <div style="background:#E6F1FB;border:0.5px solid #85B7EB;border-radius:7px;padding:5px 10px;margin-bottom:8px;font-size:11px;color:#0C447C;display:flex;align-items:center;gap:6px">
-        <i class="ti ti-database" style="font-size:13px"></i>
-        AI truy cập dữ liệu hội viên thời gian thực qua <strong id="ctx-provider">AI</strong>.
+    <!-- Input Area -->
+    <div class="chat-input-area">
+      <div style="background:var(--primary-bg); border:0.5px solid rgba(79,70,229,0.15); border-radius:8px; padding:6px 12px; margin-bottom:8px; font-size:11px; color:var(--primary-dark); display:flex; align-items:center; gap:6px">
+        <i class="ti ti-database" style="font-size:14px"></i>
+        <span>AI truy xuất dữ liệu doanh nghiệp thời gian thực qua nguồn: <strong id="ctx-provider">AI Model</strong></span>
       </div>
+      
       <div class="chat-input-inner">
-        <textarea class="chat-ta" id="chat-input" placeholder="Hỏi về hội viên, đối tác, sự kiện..." rows="1"
+        <textarea class="chat-ta" id="chat-input" placeholder="Hỏi đối tác công nghệ, sự kiện sắp tới, so sánh gói hội viên..." rows="1"
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"
           oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="send-btn" id="send-btn" onclick="sendMsg()"><i class="ti ti-send" style="font-size:14px"></i></button>
+        <button class="send-btn" id="send-btn" onclick="sendMsg()"><i class="ti ti-send" style="font-size:13px"></i></button>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:5px;padding:0 2px">
-        <span style="font-size:10px;color:var(--text-muted)">Enter gửi · Shift+Enter xuống dòng</span>
-        <a href="login.html" style="font-size:11px;color:#185FA5;display:flex;align-items:center;gap:3px"><i class="ti ti-settings" style="font-size:12px"></i> Cấu hình AI</a>
+      <div style="display:flex; justify-content:space-between; margin-top:6px; padding:0 4px">
+        <span style="font-size:10px; color:var(--text-muted)">Gõ Enter để gửi · Shift+Enter để xuống dòng</span>
+        <a href="login.html" style="font-size:11px; color:var(--primary); font-weight:500; display:flex; align-items:center; gap:4px"><i class="ti ti-settings"></i> Cấu hình mô hình AI</a>
       </div>
     </div>
   </div>
@@ -84,11 +125,11 @@
 
 <style>
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hist-item{padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--text-primary);margin-bottom:2px;transition:background .1s;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hist-item:hover{background:var(--surface-1)}
-.hist-item.active{background:#E6F1FB;color:#185FA5;font-weight:500}
-.bubble ul{padding-left:16px;margin-top:4px}
-.bubble li{margin-bottom:2px}
+.hist-item{padding:8px 10px;border-radius:8px;cursor:pointer;font-size:12px;color:var(--text-secondary);margin:0 6px 3px;transition:var(--transition);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-item:hover{background-color:var(--surface-0);color:var(--text-primary)}
+.hist-item.active{background-color:var(--primary-bg);color:var(--primary);font-weight:600}
+.bubble ul{padding-left:18px;margin-top:4px}
+.bubble li{margin-bottom:3px}
 </style>
 
 <script src="js/i18n.js"></script>
@@ -104,14 +145,13 @@ async function initContextAndProvider(){
   document.getElementById('ai-provider-label').textContent = name;
   document.getElementById('ctx-provider').textContent = name+' ('+cfg.model+')';
 
-  // Tải thống kê số lượng hội viên/bài viết thật
   try {
     const res = await fetch('/api/stats');
     if (res.ok) {
       const stats = await res.json();
-      document.getElementById('ctx-members').innerHTML = `<i class="ti ti-users" style="font-size:12px;color:#185FA5"></i> ${stats.members || 0} hội viên`;
-      document.getElementById('ctx-posts').innerHTML = `<i class="ti ti-news" style="font-size:12px;color:#185FA5"></i> ${stats.posts || 0} bài viết`;
-      document.getElementById('ctx-events').innerHTML = `<i class="ti ti-calendar-event" style="font-size:12px;color:#185FA5"></i> ${stats.events || 3} sự kiện`;
+      document.getElementById('ctx-members').innerHTML = `<i class="ti ti-users" style="color:var(--primary)"></i> ${stats.members || 0} hội viên`;
+      document.getElementById('ctx-posts').innerHTML = `<i class="ti ti-news" style="color:var(--primary)"></i> ${stats.posts || 0} bài viết`;
+      document.getElementById('ctx-events').innerHTML = `<i class="ti ti-calendar" style="color:var(--primary)"></i> ${stats.events || 3} sự kiện`;
     }
   } catch(e) {
     console.error('Không thể tải context stats:', e);
@@ -125,9 +165,15 @@ function appendMsg(role, html){
   const d = document.createElement('div');
   d.className = 'msg '+(role==='user'?'user':'ai');
   const avHtml = role==='user'
-    ? `<div class="msg-av av-user">Bạn</div>`
-    : `<div class="msg-av av-ai"><i class="ti ti-robot" style="font-size:13px"></i></div>`;
-  d.innerHTML = `${avHtml}<div><div class="bubble ${role==='user'?'bub-user':'bub-ai'}">${html}</div><div style="font-size:10px;color:var(--text-muted);margin-top:3px;${role==='user'?'text-align:right':''}">${nowTime()}</div></div>`;
+    ? `<div class="msg-av av-user">B</div>`
+    : `<div class="msg-av av-ai"><i class="ti ti-robot"></i></div>`;
+  d.innerHTML = `
+    ${avHtml}
+    <div style="max-width:85%">
+      <div class="bubble ${role==='user'?'bub-user':'bub-ai'}">${html}</div>
+      <div style="font-size:9px;color:var(--text-muted);margin-top:4px;${role==='user'?'text-align:right':''}">${nowTime()}</div>
+    </div>
+  `;
   area.appendChild(d);
   area.scrollTop = area.scrollHeight;
 }
@@ -136,7 +182,7 @@ function appendTyping(){
   const area = document.getElementById('chat-msgs');
   const d = document.createElement('div');
   d.id = 'typing-msg'; d.className = 'msg ai';
-  d.innerHTML = `<div class="msg-av av-ai"><i class="ti ti-robot" style="font-size:13px"></i></div><div class="typing-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  d.innerHTML = `<div class="msg-av av-ai"><i class="ti ti-robot"></i></div><div class="typing-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
   area.appendChild(d); area.scrollTop = area.scrollHeight;
 }
 function removeTyping(){ document.getElementById('typing-msg')?.remove(); }
@@ -166,7 +212,7 @@ async function sendMsg(){
     chatHistory.push({role:'assistant', content:reply});
   } catch(e) {
     removeTyping();
-    appendMsg('ai', `<span style="color:#A32D2D"><i class="ti ti-alert-circle"></i> Lỗi: ${e.message}. <a href="login.html" style="color:#185FA5;font-weight:500">Cấu hình AI</a></span>`);
+    appendMsg('ai', `<span style="color:var(--rose-dark)"><i class="ti ti-alert-circle"></i> Có lỗi xảy ra: ${e.message}. <a href="login.html" style="color:var(--primary);font-weight:600">Vui lòng kiểm tra cấu hình AI của quản trị viên</a></span>`);
   }
   isBusy=false; document.getElementById('send-btn').disabled=false;
   inp.focus();
@@ -198,20 +244,19 @@ function renderWelcome(){
   const area = document.getElementById('chat-msgs');
   const d = document.createElement('div');
   d.className = 'msg ai';
-  d.innerHTML = `<div class="msg-av av-ai"><i class="ti ti-robot" style="font-size:13px"></i></div>
+  d.innerHTML = `<div class="msg-av av-ai"><i class="ti ti-robot"></i></div>
   <div>
     <div class="bubble bub-ai">
-      Xin chào! Tôi là trợ lý AI của <strong>BizHub</strong>, được kết nối với dữ liệu hội viên thời gian thực.<br><br>
-      Tôi có thể giúp bạn tìm đối tác, tra cứu hội viên, thông tin sự kiện và gói hội viên.
+      Xin chào! Tôi là trợ lý AI doanh nghiệp của <strong>BizHub</strong>.<br><br>
+      Tôi được tích hợp dữ liệu cơ sở của hội để giúp bạn tìm kiếm đối tác, tra cứu thông tin lĩnh vực và gói hội viên nhanh nhất. Bạn cần tôi trợ giúp gì hôm nay?
     </div>
-    <div class="chip-row" id="chips-wrap" style="margin-top:6px">
+    <div class="chip-row" id="chips-wrap" style="margin-top:8px">
       <button class="chip" onclick="sendChip('Tìm hội viên ngành công nghệ thông tin')">Tìm đối tác công nghệ</button>
       <button class="chip" onclick="sendChip('Tìm hội viên ngành xuất nhập khẩu')">Hội viên XNK</button>
       <button class="chip" onclick="sendChip('Có sự kiện nào sắp tới không?')">Sự kiện sắp tới</button>
-      <button class="chip" onclick="sendChip('So sánh gói Gold và Platinum')">So sánh gói hội viên</button>
-      <button class="chip" onclick="sendChip('Danh sách toàn bộ hội viên')">Toàn bộ hội viên</button>
+      <button class="chip" onclick="sendChip('So sánh gói Gold và Platinum')">Gói hội viên</button>
     </div>
-    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">${nowTime()}</div>
+    <div style="font-size:9px;color:var(--text-muted);margin-top:4px">${nowTime()}</div>
   </div>`;
   area.appendChild(d);
 }

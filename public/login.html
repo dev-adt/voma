@@ -8,102 +8,117 @@
 <link rel="stylesheet" href="css/main.css">
 <style>
   body {
-    background: radial-gradient(circle at 10% 20%, rgba(24, 95, 165, 0.05) 0%, rgba(255, 255, 255, 0) 90%), var(--surface-0);
+    background-color: #0F172A;
+    color: #F8FAFC;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
   }
   .login-container {
     width: 100%;
     max-width: 400px;
-    padding: 1rem;
+    padding: 1.5rem;
+    z-index: 10;
   }
   .glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     border-radius: 16px;
-    padding: 2.2rem 2rem;
+    padding: 2.5rem 2.25rem;
+    position: relative;
+    overflow: hidden;
   }
   .logo-block {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 2rem;
     text-align: center;
   }
   .logo-icon {
-    width: 46px;
-    height: 46px;
+    width: 50px;
+    height: 50px;
     border-radius: 12px;
-    background: var(--blue-bg);
-    color: var(--blue);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 4px 10px rgba(24, 95, 165, 0.1);
+    font-size: 24px;
+    box-shadow: 0 8px 20px var(--primary-glow);
   }
   .logo-name {
-    font-size: 20px;
-    font-weight: 600;
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--text-primary);
+    color: #FFFFFF;
   }
   .logo-sub {
     font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 1px;
+    color: #64748B;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
   .input-group {
     position: relative;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.25rem;
   }
   .input-label {
     display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    color: #94A3B8;
     margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .input-wrapper {
     position: relative;
   }
   .input-wrapper input {
     width: 100%;
-    padding: 10px 12px 10px 34px;
+    padding: 10px 12px 10px 36px;
     border-radius: 8px;
-    border: 1px solid var(--border-strong);
-    background: var(--surface-2);
-    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    color: #FFFFFF;
     font-family: inherit;
     font-size: 13px;
-    transition: all 0.15s ease;
+    outline: none;
+    transition: var(--transition);
   }
   .input-wrapper input:focus {
-    outline: none;
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.15);
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 3px var(--primary-glow);
   }
   .input-wrapper i {
     position: absolute;
-    left: 10px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 15px;
-    color: var(--text-muted);
+    color: #475569;
+    transition: var(--transition);
+  }
+  .input-wrapper input:focus + i {
+    color: var(--primary);
   }
   .btn-submit {
     width: 100%;
     padding: 10px;
-    background: var(--blue);
-    color: white;
-    font-weight: 500;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #ffffff;
+    font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -112,25 +127,26 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    transition: all 0.15s ease;
-    box-shadow: 0 4px 12px rgba(24, 95, 165, 0.2);
+    transition: var(--transition);
+    box-shadow: 0 8px 16px var(--primary-glow);
+    font-family: inherit;
+    outline: none;
   }
   .btn-submit:hover {
-    background: var(--blue-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(24, 95, 165, 0.3);
+    box-shadow: 0 12px 20px var(--primary-glow);
   }
   .btn-submit:active {
     transform: translateY(0);
   }
   .error-box {
-    background: #FCEBEB;
-    border: 0.5px solid #F3C3C3;
-    color: #A32D2D;
+    background: rgba(239, 68, 68, 0.1);
+    border: 0.5px solid rgba(239, 68, 68, 0.25);
+    color: #FCA5A5;
     font-size: 12px;
     padding: 8px 12px;
     border-radius: 8px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.25rem;
     display: none;
     align-items: center;
     gap: 6px;
@@ -139,12 +155,16 @@
   .footer-text {
     text-align: center;
     font-size: 11px;
-    color: var(--text-muted);
+    color: #475569;
     margin-top: 1.5rem;
   }
 </style>
 </head>
 <body>
+
+<!-- Background Blur Spots -->
+<div style="position:fixed;top:-10%;left:-10%;width:350px;height:350px;background:radial-gradient(circle, rgba(79,70,229,0.15) 0%, rgba(79,70,229,0) 70%);border-radius:50%;z-index:1;filter:blur(30px);pointer-events:none"></div>
+<div style="position:fixed;bottom:-10%;right:-10%;width:400px;height:400px;background:radial-gradient(circle, rgba(16,185,129,0.12) 0%, rgba(16,185,129,0) 70%);border-radius:50%;z-index:1;filter:blur(30px);pointer-events:none"></div>
 
 <div class="login-container">
   <div class="glass-card">
@@ -152,39 +172,39 @@
       <div class="logo-icon"><i class="ti ti-building-community"></i></div>
       <div>
         <div class="logo-name">BizHub AI</div>
-        <div class="logo-sub">Hệ thống quản lý Admin</div>
+        <div class="logo-sub">Hệ thống quản trị hội viên</div>
       </div>
     </div>
 
     <div class="error-box" id="error-box">
       <i class="ti ti-circle-x" style="font-size: 14px;"></i>
-      <span id="error-msg">Tên đăng nhập hoặc mật khẩu sai.</span>
+      <span id="error-msg">Tên đăng nhập hoặc mật khẩu không chính xác.</span>
     </div>
 
     <form id="login-form" onsubmit="handleLogin(event)">
       <div class="input-group">
         <label class="input-label" for="username">Tài khoản</label>
         <div class="input-wrapper">
+          <input type="text" id="username" placeholder="Tên đăng nhập admin..." required autofocus autocomplete="username">
           <i class="ti ti-user"></i>
-          <input type="text" id="username" placeholder="Nhập tài khoản admin..." required autofocus autocomplete="username">
         </div>
       </div>
 
       <div class="input-group" style="margin-bottom: 1.5rem;">
         <label class="input-label" for="password">Mật khẩu</label>
         <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Mật khẩu..." required autocomplete="current-password">
           <i class="ti ti-lock"></i>
-          <input type="password" id="password" placeholder="Nhập mật khẩu..." required autocomplete="current-password">
         </div>
       </div>
 
       <button type="submit" class="btn-submit" id="btn-text">
-        <i class="ti ti-login"></i> Đăng nhập
+        <i class="ti ti-login"></i> Đăng nhập hệ thống
       </button>
     </form>
 
     <div class="footer-text">
-      BizHub AI v2.0 &middot; Bảo mật hệ thống
+      BizHub AI &middot; Phiên bản Bảo mật 2.0
     </div>
   </div>
 </div>
@@ -225,7 +245,7 @@ async function handleLogin(e) {
     errorMsg.textContent = err.message;
     errorBox.style.display = 'flex';
     btn.disabled = false;
-    btn.innerHTML = '<i class="ti ti-login"></i> Đăng nhập';
+    btn.innerHTML = '<i class="ti ti-login"></i> Đăng nhập hệ thống';
   }
 }
 </script>

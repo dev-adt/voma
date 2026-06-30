@@ -232,7 +232,7 @@ export const Home = () => {
             <div className="pkg-card silver">
               <div className="pkg-header">
                 <div className="pkg-name" style={{ color: 'var(--text-dark-secondary)' }}>Silver</div>
-                <div className="pkg-price">1.600đ <span>/ ngày</span></div>
+                <div className="pkg-price">Miễn phí</div>
               </div>
               <div className="pkg-list">
                 <div className="pkg-item"><i className="ti ti-check"></i> Hội viên hoạt động cơ bản</div>
@@ -248,7 +248,7 @@ export const Home = () => {
               <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'var(--amber)', color: '#000', fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase' }}>Phổ biến</div>
               <div className="pkg-header">
                 <div className="pkg-name" style={{ color: 'var(--amber)' }}>Gold</div>
-                <div className="pkg-price">25.000đ <span>/ ngày</span></div>
+                <div className="pkg-price" style={{ fontSize: '24px' }}>5.000.000đ <span>/ năm</span></div>
               </div>
               <div className="pkg-list">
                 <div className="pkg-item"><i className="ti ti-check"></i> Đầy đủ quyền lợi gói Silver</div>
@@ -265,7 +265,7 @@ export const Home = () => {
               <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'var(--primary)', color: '#fff', fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase' }}>Thượng lưu</div>
               <div className="pkg-header">
                 <div className="pkg-name" style={{ color: 'var(--primary-light)' }}>Platinum</div>
-                <div className="pkg-price">75.000đ <span>/ ngày</span></div>
+                <div className="pkg-price" style={{ fontSize: '24px' }}>15.000.000đ <span>/ năm</span></div>
               </div>
               <div className="pkg-list">
                 <div className="pkg-item"><i className="ti ti-check"></i> Quyền lợi cao cấp nhất hệ thống</div>

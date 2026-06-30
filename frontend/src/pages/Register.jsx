@@ -379,7 +379,7 @@ export const Register = () => {
                           }}
                         >
                           <div style={{ fontWeight: '700', fontSize: '13px', color: '#0F172A' }}>🏅 Gold</div>
-                          <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>5M đ/năm</div>
+                          <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>5.000.000đ/năm</div>
                         </div>
 
                         <div 
@@ -394,7 +394,7 @@ export const Register = () => {
                           }}
                         >
                           <div style={{ fontWeight: '700', fontSize: '13px', color: '#0F172A' }}>💎 Platinum</div>
-                          <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>15M đ/năm</div>
+                          <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>15.000.000đ/năm</div>
                         </div>
                       </div>
                     </div>

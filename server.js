@@ -798,17 +798,103 @@ app.post('/api/posts', memberAuthMiddleware, async (req, res) => {
       }
     }
 
-    const { title, summary, body, type, category, tags, contact_info, deadline, image_url } = req.body;
+    const { title, summary, body, type, category, tags, contact_info, deadline, image_url, isDraft } = req.body;
     if (!title) return res.status(400).json({ success: false, error: 'Tiêu đề bài đăng không được trống.' });
+
+    const finalStatus = isDraft ? 'draft' : 'pending';
 
     const [result] = await db.query(
       `INSERT INTO posts (member_id, title, summary, body, type, category, tags, contact_info, deadline, image_url, status)
-       VALUES (?,?,?,?,?,?,?,?,?,?,'pending')`,
-      [req.member.id, title, summary, body, type, category, JSON.stringify(tags || []), contact_info, deadline || null, image_url || null]
+       VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+      [req.member.id, title, summary, body, type, category, JSON.stringify(tags || []), contact_info, deadline || null, image_url || null, finalStatus]
     );
-    res.json({ success: true, id: result.insertId, message: 'Bài viết đã gửi để admin duyệt.' });
+    res.json({ success: true, id: result.insertId, message: isDraft ? 'Đã lưu bản nháp.' : 'Bài viết đã gửi để admin duyệt.' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Lấy chi tiết 1 bài đăng
+app.get('/api/posts/:id', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      `SELECT p.*, m.name AS company_name, m.tier AS company_tier 
+       FROM posts p LEFT JOIN members m ON p.member_id = m.id 
+       WHERE p.id = ?`,
+      [req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ success: false, error: 'Không tìm thấy bài viết.' });
+    res.json({ success: true, data: rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Chỉnh sửa bài đăng — chỉ cho phép chính chủ sở hữu bài đăng chỉnh sửa
+app.put('/api/posts/:id', memberAuthMiddleware, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const memberId = req.member.id;
+
+    // Kiểm tra xem bài đăng có thuộc về hội viên này không
+    const [posts] = await db.query('SELECT member_id, status FROM posts WHERE id = ?', [postId]);
+    if (!posts.length) {
+      return res.status(404).json({ success: false, error: 'Không tìm thấy bài đăng.' });
+    }
+    if (posts[0].member_id !== memberId) {
+      return res.status(403).json({ success: false, error: 'Bạn không có quyền chỉnh sửa bài đăng này.' });
+    }
+
+    const { title, summary, body, type, category, tags, contact_info, deadline, image_url, isDraft } = req.body;
+    if (!title) return res.status(400).json({ success: false, error: 'Tiêu đề bài đăng không được trống.' });
+
+    // Trạng thái sau chỉnh sửa: lưu nháp -> 'draft', đăng tin -> 'pending' (yêu cầu duyệt lại)
+    const finalStatus = isDraft ? 'draft' : 'pending';
+
+    await db.query(
+      `UPDATE posts SET 
+        title = ?, summary = ?, body = ?, type = ?, category = ?, 
+        tags = ?, contact_info = ?, deadline = ?, image_url = ?, status = ?
+       WHERE id = ?`,
+      [
+        title, summary || '', body || '', type || 'Tìm kiếm đối tác', category || '', 
+        JSON.stringify(tags || []), contact_info || '', deadline || null, image_url || null, 
+        finalStatus, postId
+      ]
+    );
+
+    res.json({ success: true, message: 'Cập nhật bài viết thành công.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Upload tệp tin ảnh dạng Base64
+app.post('/api/upload', memberAuthMiddleware, async (req, res) => {
+  try {
+    const { fileName, fileType, base64Data } = req.body;
+    if (!base64Data) {
+      return res.status(400).json({ success: false, error: 'Thiếu dữ liệu tệp tin.' });
+    }
+
+    const uploadDir = path.join(__dirname, 'public', 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const buffer = Buffer.from(base64Data, 'base64');
+    const ext = path.extname(fileName) || '.jpg';
+    const uniqueName = crypto.randomBytes(16).toString('hex') + ext;
+    const filePath = path.join(uploadDir, uniqueName);
+
+    fs.writeFileSync(filePath, buffer);
+
+    res.json({
+      success: true,
+      url: `/uploads/${uniqueName}`
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Lỗi tải tệp: ' + err.message });
   }
 });
 

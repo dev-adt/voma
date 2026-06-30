@@ -2038,6 +2038,10 @@ nav {
   background: rgba(239,68,68,0.15);
   color: #EF4444;
 }
+.badge.draft {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94A3B8;
+}
 
 /* --- 5. Admin Dashboard & Admin Layout styles (from admin-dashboard.html) --- */
 .db-sparkline {

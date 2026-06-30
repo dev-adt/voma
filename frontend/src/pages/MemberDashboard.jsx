@@ -24,6 +24,8 @@ export const MemberDashboard = () => {
 
   const [memberPosts, setMemberPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingPostId, setEditingPostId] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
@@ -120,45 +122,139 @@ export const MemberDashboard = () => {
     }));
   };
 
-  const handleNewPostSubmit = async (e) => {
-    e.preventDefault();
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Vui lòng chọn file ảnh nhỏ hơn 2MB.');
+      return;
+    }
+
+    setUploadingImage(true);
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
+        const base64Data = reader.result.split(',')[1];
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            fileName: file.name,
+            fileType: file.type,
+            base64Data
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          setNewPostData(prev => ({ ...prev, image_url: data.url }));
+        } else {
+          alert(data.error || 'Tải tệp ảnh thất bại.');
+        }
+      } catch (err) {
+        alert('Lỗi tải ảnh lên: ' + err.message);
+      } finally {
+        setUploadingImage(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleStartEditPost = async (id) => {
+    try {
+      const res = await fetch(`/api/posts/${id}`, {
+        headers: getAuthHeaders()
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          const p = data.data;
+          let parsedTags = '';
+          if (p.tags) {
+            try {
+              const tagsArray = typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags;
+              parsedTags = Array.isArray(tagsArray) ? tagsArray.join(', ') : '';
+            } catch (err) {
+              parsedTags = '';
+            }
+          }
+          let formattedDeadline = '';
+          if (p.deadline) {
+            formattedDeadline = new Date(p.deadline).toISOString().substring(0, 10);
+          }
+          setNewPostData({
+            title: p.title || '',
+            summary: p.summary || '',
+            body: p.body || '',
+            type: p.type || 'Tìm kiếm đối tác',
+            category: p.category || '',
+            tags: parsedTags,
+            contact_info: p.contact_info || '',
+            deadline: formattedDeadline,
+            image_url: p.image_url || ''
+          });
+          setEditingPostId(id);
+          setModalOpen(true);
+        }
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Không thể tải chi tiết bài viết.');
+      }
+    } catch (e) {
+      alert('Lỗi: ' + e.message);
+    }
+  };
+
+  const handleSubmitAction = async (isDraft) => {
     if (!newPostData.title) {
       alert('Vui lòng nhập tiêu đề bài đăng');
+      return;
+    }
+    if (!newPostData.body) {
+      alert('Vui lòng nhập nội dung chi tiết bài đăng');
+      return;
+    }
+    if (!newPostData.contact_info) {
+      alert('Vui lòng cung cấp thông tin liên hệ trực tiếp');
       return;
     }
 
     setCreatingPost(true);
     try {
-      // Chuyển tags từ string sang mảng
       const tagsArray = newPostData.tags 
         ? newPostData.tags.split(',').map(t => t.trim()).filter(Boolean)
         : [];
 
-      const res = await fetch('/api/posts', {
-        method: 'POST',
+      const payload = {
+        ...newPostData,
+        tags: tagsArray,
+        isDraft
+      };
+
+      const url = editingPostId ? `/api/posts/${editingPostId}` : '/api/posts';
+      const method = editingPostId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: getAuthHeaders(),
-        body: JSON.stringify({
-          ...newPostData,
-          tags: tagsArray
-        })
+        body: JSON.stringify(payload)
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Không thể đăng tin bài.');
+        throw new Error(data.error || 'Giao dịch không thành công.');
       }
 
-      alert('Đăng tin thành công! Tin đăng đang chờ Admin duyệt.');
+      alert(isDraft ? 'Đã lưu bản nháp thành công!' : 'Đã đăng tin thành công! Tin đăng đang chờ Admin duyệt.');
       setModalOpen(false);
-      // Reset form
+      setEditingPostId(null);
       setNewPostData({
         title: '', summary: '', body: '', type: 'Tìm kiếm đối tác',
-        category: '', tags: '', contact_info: '', deadline: '',
-        image_url: ''
+        category: '', tags: '', contact_info: '', deadline: '', image_url: ''
       });
       loadDashboardData();
     } catch (err) {
-      alert('Lỗi đăng tin bài: ' + err.message);
+      alert('Có lỗi xảy ra: ' + err.message);
     } finally {
       setCreatingPost(false);
     }
@@ -200,7 +296,14 @@ export const MemberDashboard = () => {
             </div>
             
             <button 
-              onClick={() => setModalOpen(true)}
+              onClick={() => {
+                setEditingPostId(null);
+                setNewPostData({
+                  title: '', summary: '', body: '', type: 'Tìm kiếm đối tác',
+                  category: '', tags: '', contact_info: '', deadline: '', image_url: ''
+                });
+                setModalOpen(true);
+              }}
               className="btn btn-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
               disabled={userStatus !== 'approved'}
@@ -372,10 +475,17 @@ export const MemberDashboard = () => {
                           <span>{p.type}</span>
                           <span>·</span>
                           <span><i className="ti ti-eye"></i> {p.views || 0}</span>
+                          <span>·</span>
+                          <button 
+                            onClick={() => handleStartEditPost(p.id)}
+                            style={{ background: 'none', border: 'none', color: 'var(--primary-light)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '11px', outline: 'none' }}
+                          >
+                            <i className="ti ti-edit"></i> Sửa
+                          </button>
                         </div>
                       </div>
-                      <span className={`badge ${p.status === 'approved' ? 'approved' : p.status === 'rejected' ? 'rejected' : 'pending'}`}>
-                        {p.status === 'approved' ? 'Đã duyệt' : p.status === 'rejected' ? 'Từ chối' : 'Chờ duyệt'}
+                      <span className={`badge ${p.status === 'approved' ? 'approved' : p.status === 'rejected' ? 'rejected' : p.status === 'draft' ? 'draft' : 'pending'}`}>
+                        {p.status === 'approved' ? 'Đã duyệt' : p.status === 'rejected' ? 'Từ chối' : p.status === 'draft' ? 'Bản nháp' : 'Chờ duyệt'}
                       </span>
                     </div>
                   ))}
@@ -398,7 +508,7 @@ export const MemberDashboard = () => {
               <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px', cursor: 'pointer' }}><i className="ti ti-x"></i></button>
             </div>
 
-            <form onSubmit={handleNewPostSubmit}>
+            <form onSubmit={(e) => e.preventDefault()}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '60vh', overflowY: 'auto', paddingRight: '6px' }}>
                 <div className="fg">
                   <label>Tiêu đề bài đăng <span style={{ color: 'var(--rose)' }}>*</span></label>
@@ -447,15 +557,63 @@ export const MemberDashboard = () => {
                 </div>
 
                 <div className="fg">
-                  <label>Ảnh minh họa (Link hình ảnh)</label>
-                  <input type="text" id="image_url" value={newPostData.image_url} onChange={handleNewPostChange} placeholder="Nhập link ảnh (Unsplash, Imgur...) để làm hình nền cho bài viết..." />
+                  <label>Ảnh minh họa</label>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <input 
+                      type="text" 
+                      id="image_url" 
+                      value={newPostData.image_url} 
+                      onChange={handleNewPostChange} 
+                      placeholder="Dán link ảnh hoặc chọn tệp tải lên..." 
+                      style={{ flex: 1 }} 
+                    />
+                    <label 
+                      className="btn" 
+                      style={{ 
+                        fontSize: '11px', 
+                        padding: '9px 12px', 
+                        cursor: 'pointer', 
+                        margin: 0, 
+                        flexShrink: 0,
+                        backgroundColor: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        color: '#FFF'
+                      }}
+                    >
+                      <i className="ti ti-upload"></i> Chọn tệp
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleFileUpload} 
+                        style={{ display: 'none' }} 
+                      />
+                    </label>
+                  </div>
+                  {uploadingImage && <div style={{ fontSize: '11px', color: 'var(--primary-light)', marginTop: '2px' }}><i className="ti ti-loader animate-spin"></i> Đang tải ảnh lên...</div>}
                 </div>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '1.5rem', borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
                 <button type="button" className="btn" onClick={() => setModalOpen(false)}>Hủy</button>
-                <button type="submit" className="btn btn-primary" disabled={creatingPost}>
-                  {creatingPost ? <><i className="ti ti-loader animate-spin"></i> Đang đăng...</> : <><i className="ti ti-plus"></i> Đăng tin</>}
+                <button 
+                  type="button" 
+                  onClick={() => handleSubmitAction(true)} 
+                  className="btn" 
+                  style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF' }}
+                  disabled={creatingPost || uploadingImage}
+                >
+                  Lưu nháp
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => handleSubmitAction(false)} 
+                  className="btn btn-primary" 
+                  disabled={creatingPost || uploadingImage}
+                >
+                  {creatingPost ? <><i className="ti ti-loader animate-spin"></i> Đang gửi...</> : (editingPostId ? <><i className="ti ti-save"></i> Cập nhật & Đăng</> : <><i className="ti ti-plus"></i> Đăng tin</>)}
                 </button>
               </div>
             </form>

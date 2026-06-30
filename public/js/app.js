@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
       av.title = 'Đăng nhập Hội viên';
       
       // Hướng cả icon chuông thông báo hoặc nút đăng nhập khác về member-login.html
-      const bell = document.querySelector('.nav-right a[href="login.html"]');
+      const bell = document.querySelector('.nav-right a[href="member-login.html"]');
       if (bell) {
         bell.href = 'member-login.html';
       }

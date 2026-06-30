@@ -2426,4 +2426,23 @@ nav {
   color: var(--text-primary) !important;
 }
 
+/* Registration Page Form Panel Input Overrides to resolve white-on-white text */
+.register-form-panel .fg input,
+.register-form-panel .fg select,
+.register-form-panel .fg textarea,
+.register-form-panel input,
+.register-form-panel select,
+.register-form-panel textarea {
+  color: #1E293B !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+}
+
+.register-form-panel .fg select option,
+.register-form-panel select option {
+  background-color: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+
 

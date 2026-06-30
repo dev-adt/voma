@@ -15,6 +15,7 @@ export const AdminDashboard = () => {
   
   const [pendingMembers, setPendingMembers] = useState([]);
   const [pendingPosts, setPendingPosts] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const loadStats = async () => {
@@ -57,10 +58,26 @@ export const AdminDashboard = () => {
     }
   };
 
+  const loadActivities = async () => {
+    try {
+      const res = await fetch('/api/admin/recent-activity', {
+        headers: getAuthHeaders()
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setActivities(data.data || []);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading activities", e);
+    }
+  };
+
   useEffect(() => {
     const initData = async () => {
       setLoading(true);
-      await Promise.all([loadStats(), loadPendingApprovals()]);
+      await Promise.all([loadStats(), loadPendingApprovals(), loadActivities()]);
       setLoading(false);
     };
     initData();
@@ -78,6 +95,7 @@ export const AdminDashboard = () => {
         alert(`Đã phê duyệt thành viên ${name}`);
         loadStats();
         loadPendingApprovals();
+        loadActivities();
       } else {
         const err = await res.json();
         alert(err.error || 'Duyệt thành viên thất bại.');
@@ -101,6 +119,7 @@ export const AdminDashboard = () => {
         alert(`Đã từ chối thành viên ${name}`);
         loadStats();
         loadPendingApprovals();
+        loadActivities();
       } else {
         const err = await res.json();
         alert(err.error || 'Từ chối thành viên thất bại.');
@@ -122,6 +141,7 @@ export const AdminDashboard = () => {
         alert(`Đã duyệt đăng tin bài`);
         loadStats();
         loadPendingApprovals();
+        loadActivities();
       } else {
         const err = await res.json();
         alert(err.error || 'Duyệt bài đăng thất bại.');
@@ -145,6 +165,7 @@ export const AdminDashboard = () => {
         alert(`Đã từ chối đăng tin bài`);
         loadStats();
         loadPendingApprovals();
+        loadActivities();
       } else {
         const err = await res.json();
         alert(err.error || 'Từ chối bài đăng thất bại.');
@@ -186,8 +207,12 @@ export const AdminDashboard = () => {
         {/* Card 3 */}
         <div className="stat-card">
           <div className="stat-label">Chờ duyệt</div>
-          <div className="stat-val" style={{ color: 'var(--amber-dark)' }}>{stats.members.pending + stats.posts.pending}</div>
-          <div className="stat-sub" style={{ color: 'var(--amber-dark)' }}><i className="ti ti-alert-circle"></i> Cần phê duyệt sớm</div>
+          <div className="stat-val" style={{ color: 'var(--amber-dark)' }}>
+            {Number(stats.members.pending || 0) + Number(stats.posts.pending || 0)}
+          </div>
+          <div className="stat-sub" style={{ color: 'var(--amber-dark)' }}>
+            <i className="ti ti-alert-circle"></i> {stats.members.pending || 0} hội viên · {stats.posts.pending || 0} bài viết
+          </div>
           <div className="db-sparkline">
             <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
               <path d="M 0,15 T 25,25 T 50,15 T 75,25 T 100,15" fill="none" stroke="var(--amber)" stroke-width="2"/>
@@ -217,22 +242,31 @@ export const AdminDashboard = () => {
           </div>
           <div className="card-body">
             <div className="db-activity-timeline">
-              <div className="db-activity-item">
-                <div className="db-activity-time">Hôm nay</div>
-                <div className="db-activity-text">Hệ thống AI Chat đồng bộ hoá thành công trên React SPA.</div>
-              </div>
-              <div className="db-activity-item post">
-                <div className="db-activity-time">Hôm nay</div>
-                <div className="db-activity-text">Khởi chạy hệ quản trị hội viên 3 cổng phân quyền.</div>
-              </div>
-              <div className="db-activity-item">
-                <div className="db-activity-time">Hôm qua</div>
-                <div className="db-activity-text">Admin cập nhật cấu hình API key cho AI provider.</div>
-              </div>
-              <div className="db-activity-item post">
-                <div className="db-activity-time">2 ngày trước</div>
-                <div className="db-activity-text">Kiểm thử tải thành công hệ thống dữ liệu doanh nghiệp.</div>
-              </div>
+              {activities.length === 0 ? (
+                <div style={{ padding: '1rem 0', color: 'var(--text-muted)', fontSize: '12px' }}>Không có hoạt động nào gần đây.</div>
+              ) : (
+                activities.map((act, index) => {
+                  const isPost = act.type === 'post';
+                  const dateLabel = new Date(act.created_at).toLocaleDateString('vi-VN', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  });
+                  return (
+                    <div className={`db-activity-item ${isPost ? 'post' : ''}`} key={index}>
+                      <div className="db-activity-time">{dateLabel}</div>
+                      <div className="db-activity-text">
+                        {isPost ? (
+                          <>Tin giao thương mới: <strong>"{act.title}"</strong> vừa được đăng tải.</>
+                        ) : (
+                          <>Doanh nghiệp <strong>{act.title}</strong> vừa đăng ký gia nhập hệ thống.</>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>

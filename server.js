@@ -887,6 +887,29 @@ app.get('/api/stats', authMiddleware, async (req, res) => {
   }
 });
 
+// Lấy danh sách hoạt động gần đây của hệ thống
+app.get('/api/admin/recent-activity', authMiddleware, async (req, res) => {
+  try {
+    const [members] = await db.query(
+      "SELECT id, name, created_at, 'member' as type FROM members ORDER BY created_at DESC LIMIT 5"
+    );
+    const [posts] = await db.query(
+      "SELECT id, title, created_at, 'post' as type FROM posts ORDER BY created_at DESC LIMIT 5"
+    );
+
+    const combined = [
+      ...members.map(m => ({ id: m.id, title: m.name, type: m.type, created_at: m.created_at })),
+      ...posts.map(p => ({ id: p.id, title: p.title, type: p.type, created_at: p.created_at }))
+    ]
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(0, 5);
+
+    res.json({ success: true, data: combined });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // ════════════════════════════════════════════
 // AI CHAT API
 // ════════════════════════════════════════════

@@ -2444,5 +2444,28 @@ nav {
   color: #1E293B !important;
 }
 
+/* Admin Dashboard Timeline visibility fix */
+.light-theme .db-activity-text {
+  color: #0F172A !important;
+}
+.light-theme .db-activity-time {
+  color: #64748B !important;
+}
+
+/* Select dropdown option visibility globally across themes */
+.public-body select option {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
+.light-theme select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+select option {
+  background-color: #FFFFFF;
+  color: #0F172A;
+}
+
+
 
 

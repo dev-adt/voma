@@ -28,11 +28,15 @@ window.getAIConfig = () => JSON.parse(localStorage.getItem('bizhub_ai_config') |
 window.setAIConfig = (cfg) => localStorage.setItem('bizhub_ai_config', JSON.stringify(cfg));
 
 // ── Gọi AI qua backend proxy ──────────────────────────────────
-window.callAI = async (messages, systemPrompt) => {
+window.callAI = async (messages, systemPrompt, sessionId) => {
   const cfg = window.getAIConfig();
+  const headers = { 'Content-Type': 'application/json' };
+  if (sessionId) {
+    headers['X-Session-Id'] = sessionId;
+  }
   const res = await fetch('/api/chat', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: headers,
     body: JSON.stringify({
       provider: cfg.provider,
       model:    cfg.model,

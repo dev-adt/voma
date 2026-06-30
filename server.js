@@ -499,6 +499,50 @@ app.get('/api/stats', authMiddleware, async (req, res) => {
 // ════════════════════════════════════════════
 // AI CHAT API
 // ════════════════════════════════════════════
+
+// Lấy danh sách các phiên chat độc lập
+app.get('/api/chat/sessions', async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        session_id, 
+        MAX(created_at) as last_activity, 
+        (SELECT content FROM chat_logs WHERE session_id = t.session_id ORDER BY id ASC LIMIT 1) as title
+      FROM chat_logs t
+      WHERE session_id != 'anonymous'
+      GROUP BY session_id
+      ORDER BY last_activity DESC
+      LIMIT 50
+    `);
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Lấy toàn bộ lịch sử tin nhắn của một phiên chat
+app.get('/api/chat/history/:sessionId', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      'SELECT role, content, created_at FROM chat_logs WHERE session_id = ? ORDER BY id ASC',
+      [req.params.sessionId]
+    );
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Xóa một phiên chat
+app.delete('/api/chat/session/:sessionId', async (req, res) => {
+  try {
+    await db.query('DELETE FROM chat_logs WHERE session_id = ?', [req.params.sessionId]);
+    res.json({ success: true, message: 'Đã xóa lịch sử trò chuyện thành công.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.post('/api/chat', async (req, res) => {
   const { provider, model, messages, system, apiKey } = req.body;
   if (!provider || !model || !messages) {

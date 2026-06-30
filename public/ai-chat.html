@@ -300,26 +300,9 @@
     </div>
     
     <div class="chat-hist-card-list" id="history-container">
-      <div class="chat-hist-card active" onclick="loadPreloadChat()">
-        <div class="chat-hist-card-title">Phân tích thị trường 2023</div>
-        <div class="chat-hist-card-meta">
-          <span>Hôm nay</span>
-          <span>Phân tích B2B...</span>
-        </div>
-      </div>
-      <div class="chat-hist-card" onclick="alert('Đang tải lịch sử trò chuyện...')">
-        <div class="chat-hist-card-title">Tìm kiếm đối tác ERP</div>
-        <div class="chat-hist-card-meta">
-          <span>Hôm qua</span>
-          <span>Tìm kiếm đối tác...</span>
-        </div>
-      </div>
-      <div class="chat-hist-card" onclick="alert('Đang tải lịch sử trò chuyện...')">
-        <div class="chat-hist-card-title">Gia nhập gói Gold</div>
-        <div class="chat-hist-card-meta">
-          <span>24/06/2026</span>
-          <span>So sánh Gold & Plat...</span>
-        </div>
+      <div style="padding: 1.5rem; text-align: center; font-size: 11px; color: var(--text-muted)">
+        <i class="ti ti-loader animate-spin" style="font-size: 14px; display: block; margin: 0 auto 6px"></i>
+        Đang tải lịch sử...
       </div>
     </div>
     
@@ -452,12 +435,40 @@
 <script>
 let localHistory = [];
 let isBusy = false;
+let currentSessionId = sessionStorage.getItem('current_chat_session_id') || '';
+
+function generateUUID() {
+  return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
 
 function formatTime() {
   return new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
 }
 
+function getFriendlyDate(date) {
+  const now = new Date();
+  const diffMs = now - date;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) return 'Hôm nay';
+  if (diffDays === 1) return 'Hôm qua';
+  return date.toLocaleDateString('vi-VN');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function appendUIMsg(role, html) {
+  appendUIMsgWithTime(role, html, formatTime());
+}
+
+function appendUIMsgWithTime(role, html, timeStr) {
   const container = document.getElementById('bubble-container');
   const msgDiv = document.createElement('div');
   msgDiv.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
@@ -470,7 +481,7 @@ function appendUIMsg(role, html) {
     ${avatar}
     <div style="max-width: 85%">
       <div class="bubble ${role === 'user' ? 'bub-user' : 'bub-ai'}">${html}</div>
-      <div style="font-size: 9px; color: var(--text-dark-muted); margin-top: 4px; ${role==='user'?'text-align:right':''}">${formatTime()}</div>
+      <div style="font-size: 9px; color: var(--text-dark-muted); margin-top: 4px; ${role==='user'?'text-align:right':''}">${timeStr}</div>
     </div>
   `;
   container.appendChild(msgDiv);
@@ -500,11 +511,16 @@ function removeTypingIndicator() {
   document.getElementById('typing-indicator-msg')?.remove();
 }
 
-// Intercept chat queries to render custom bar chart/table for B2B analysis
 async function submitChatMsg() {
   const inputEl = document.getElementById('chat-input');
   const text = inputEl.value.trim();
   if (!text || isBusy) return;
+  
+  // Đảm bảo đã có Session ID hoạt động
+  if (!currentSessionId) {
+    currentSessionId = generateUUID();
+    sessionStorage.setItem('current_chat_session_id', currentSessionId);
+  }
   
   inputEl.value = '';
   inputEl.style.height = 'auto';
@@ -515,24 +531,12 @@ async function submitChatMsg() {
   localHistory.push({role: 'user', content: text});
   appendTypingIndicator();
 
-  // If user requests B2B analysis or similar queries, render the chart layout mock!
-  if (text.toLowerCase().includes('b2b') || text.toLowerCase().includes('phân tích') || text.toLowerCase().includes('xu hướng')) {
-    setTimeout(() => {
-      removeTypingIndicator();
-      renderB2BReportBubble();
-      isBusy = false;
-      document.getElementById('send-btn').disabled = false;
-    }, 1200);
-    return;
-  }
-
-  // Fallback to real backend callAI proxy
   try {
-    const result = await window.callAI(localHistory, window.buildSysPrompt());
+    const result = await window.callAI(localHistory, window.buildSysPrompt(), currentSessionId);
     removeTypingIndicator();
     const reply = result.text || 'Không nhận được phản hồi.';
     
-    // Parse formatting simply
+    // Định dạng markdown đơn giản
     const formatted = reply
       .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
       .replace(/^- (.+)$/gm,'<li>$1</li>')
@@ -541,6 +545,11 @@ async function submitChatMsg() {
 
     appendUIMsg('ai', formatted);
     localHistory.push({role: 'assistant', content: reply});
+    
+    // Nếu là tin nhắn đầu tiên của phiên mới, tải lại danh sách phiên ở sidebar để hiện tiêu đề!
+    if (localHistory.length === 2) {
+      await loadSessionsFromDB();
+    }
   } catch (err) {
     removeTypingIndicator();
     appendUIMsg('ai', `<span style="color:var(--rose)"><i class="ti ti-alert-circle"></i> Lỗi: ${err.message}. Đảm bảo Admin đã cấu hình API key.</span>`);
@@ -556,10 +565,19 @@ function sendChipText(text) {
   submitChatMsg();
 }
 
-function newChatSession() {
+function startNewSession() {
+  currentSessionId = generateUUID();
+  sessionStorage.setItem('current_chat_session_id', currentSessionId);
   localHistory = [];
   document.getElementById('bubble-container').innerHTML = '';
   renderWelcomeMessage();
+  
+  // Bỏ kích hoạt các thẻ cũ bên sidebar
+  document.querySelectorAll('.chat-hist-card').forEach(c => c.classList.remove('active'));
+}
+
+function newChatSession() {
+  startNewSession();
 }
 
 function renderWelcomeMessage() {
@@ -575,108 +593,118 @@ function renderWelcomeMessage() {
   appendUIMsg('ai', html);
 }
 
-// Renders the exact UI shown in Screenshot 3 (B2B market reports with charts & tables)
-function renderB2BReportBubble() {
-  const reportHtml = `
-    Vui lòng phân tích xu hướng thị trường B2B năm 2024 và đề xuất cơ hội kết nối.<br>
-    Phía dưới là các dữ liệu về xu hướng thị trường, mức độ giao dịch thương mại giữa các ngành nghề:
+async function loadSessionsFromDB() {
+  const container = document.getElementById('history-container');
+  try {
+    const res = await fetch('/api/chat/sessions');
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    const list = json.data || [];
     
-    <div class="report-chart-container">
-      <!-- Left side: Bar chart -->
-      <div class="report-bar-chart">
-        <div style="font-size:9.5px; font-weight:700; color:#FFFFFF; margin-bottom:8px; text-align:center">Xu hướng tăng trưởng (Growth Trends)</div>
-        <div class="chart-bars">
-          <div class="chart-bar-item">
-            <div class="chart-fill-bar" style="height: 35px"></div>
-            <span class="chart-label">2018</span>
+    if (list.length === 0) {
+      container.innerHTML = `
+        <div style="padding: 1.5rem; text-align: center; font-size: 11px; color: var(--text-muted)">
+          <i class="ti ti-messages" style="font-size: 18px; display: block; margin: 0 auto 6px"></i>
+          Không có lịch sử trò chuyện.
+        </div>
+      `;
+      if (!currentSessionId) {
+        startNewSession();
+      }
+      return;
+    }
+    
+    container.innerHTML = list.map(item => {
+      const activeClass = item.session_id === currentSessionId ? 'active' : '';
+      const titleText = item.title ? (item.title.length > 22 ? item.title.slice(0, 22) + '...' : item.title) : 'Cuộc trò chuyện mới';
+      const dateLabel = getFriendlyDate(new Date(item.last_activity));
+      
+      return `
+        <div class="chat-hist-card ${activeClass}" id="card-${item.session_id}" onclick="selectSession('${item.session_id}')" style="position: relative">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px">
+            <div class="chat-hist-card-title" style="flex: 1">${escapeHtml(titleText)}</div>
+            <button class="delete-session-btn" onclick="deleteSession(event, '${item.session_id}')" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 2px; font-size: 11px; line-height: 1" title="Xóa hội thoại"><i class="ti ti-trash"></i></button>
           </div>
-          <div class="chart-bar-item">
-            <div class="chart-fill-bar" style="height: 48px"></div>
-            <span class="chart-label">2019</span>
-          </div>
-          <div class="chart-bar-item">
-            <div class="chart-fill-bar" style="height: 30px"></div>
-            <span class="chart-label">2020</span>
-          </div>
-          <div class="chart-bar-item">
-            <div class="chart-fill-bar" style="height: 65px"></div>
-            <span class="chart-label">2021</span>
-          </div>
-          <div class="chart-bar-item">
-            <div class="chart-fill-bar" style="height: 82px"></div>
-            <span class="chart-label">2022</span>
-          </div>
-          <div class="chart-bar-item">
-            <div class="chart-fill-bar" style="height: 95px"></div>
-            <span class="chart-label">2023</span>
+          <div class="chat-hist-card-meta" style="margin-top: 4px">
+            <span>${dateLabel}</span>
           </div>
         </div>
-      </div>
-      
-      <!-- Right side: Sector table -->
-      <div class="report-table-side">
-        <table class="mini-report-table">
-          <thead>
-            <tr>
-              <th>Ngành</th>
-              <th>Growth</th>
-              <th>Match</th>
-              <th>Trend</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>VinaTech</td>
-              <td style="color:var(--emerald)">+15.0%</td>
-              <td>95.0%</td>
-              <td>Tăng</td>
-            </tr>
-            <tr>
-              <td>Nông sản HL</td>
-              <td style="color:var(--emerald)">+12.5%</td>
-              <td>90.0%</td>
-              <td>Tăng</td>
-            </tr>
-            <tr>
-              <td>Phú Thịnh BĐS</td>
-              <td style="color:var(--amber)">+8.0%</td>
-              <td>75.0%</td>
-              <td>Ổn định</td>
-            </tr>
-            <tr>
-              <td>Dược Sao Mai</td>
-              <td style="color:var(--emerald)">+14.2%</td>
-              <td>92.0%</td>
-              <td>Tăng</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      `;
+    }).join('');
     
-    Một số định hướng kết nối cho doanh nghiệp trong năm 2024:
-    <ul>
-      <li><strong>Chuyển đổi số B2B:</strong> Các ngành Dịch vụ & Công nghệ thông tin có xu hướng giao thương cao nhất (+15%).</li>
-      <li><strong>Hợp tác xuất khẩu:</strong> Nông sản (ST25) xuất khẩu đạt tỉ lệ tăng trưởng 12.5%, khuyến nghị kết nối sớm.</li>
-      <li><strong>Xúc tiến đầu tư:</strong> BĐS công nghiệp đang ổn định, thích hợp hợp tác dài hạn.</li>
-    </ul>
-  `;
-  
-  appendUIMsg('ai', reportHtml);
-  localHistory.push({
-    role: 'assistant', 
-    content: 'Báo cáo xu hướng thị trường B2B 2024 đã được hiển thị kèm biểu đồ phân tích.'
-  });
+    if (!currentSessionId && list.length > 0) {
+      selectSession(list[0].session_id);
+    }
+  } catch (err) {
+    console.error('Lỗi tải danh sách session:', err);
+    container.innerHTML = `<div style="padding: 1rem; font-size: 10px; color: var(--rose); text-align: center"><i class="ti ti-alert-triangle"></i> Lỗi lịch sử</div>`;
+  }
 }
 
-function loadPreloadChat() {
-  document.getElementById('bubble-container').innerHTML = '';
-  appendUIMsg('user', 'Vui lòng phân tích xu hướng thị trường B2B năm 2024 và đề xuất cơ hội kết nối.');
-  appendTypingIndicator();
-  setTimeout(() => {
-    removeTypingIndicator();
-    renderB2BReportBubble();
-  }, 500);
+async function selectSession(sessionId) {
+  currentSessionId = sessionId;
+  sessionStorage.setItem('current_chat_session_id', sessionId);
+  
+  document.querySelectorAll('.chat-hist-card').forEach(c => c.classList.remove('active'));
+  const activeCard = document.getElementById(`card-${sessionId}`);
+  if (activeCard) activeCard.classList.add('active');
+  
+  const container = document.getElementById('bubble-container');
+  container.innerHTML = `
+    <div style="padding: 3rem; text-align: center; font-size: 11px; color: var(--text-muted)">
+      <i class="ti ti-loader animate-spin" style="font-size: 16px; display: block; margin: 0 auto 6px"></i>
+      Đang tải tin nhắn...
+    </div>
+  `;
+  
+  try {
+    const res = await fetch(`/api/chat/history/${sessionId}`);
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    const messages = json.data || [];
+    
+    container.innerHTML = '';
+    localHistory = [];
+    
+    if (messages.length === 0) {
+      renderWelcomeMessage();
+    } else {
+      messages.forEach(msg => {
+        localHistory.push({ role: msg.role, content: msg.content });
+        
+        const formatted = msg.content
+          .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+          .replace(/^- (.+)$/gm,'<li>$1</li>')
+          .replace(/(<li>.*<\/li>\n?)+/s, m => `<ul>${m}</ul>`)
+          .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+        
+        const msgTime = new Date(msg.created_at).toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+        appendUIMsgWithTime(msg.role, formatted, msgTime);
+      });
+    }
+  } catch (err) {
+    console.error('Lỗi tải lịch sử tin nhắn:', err);
+    container.innerHTML = `<div style="padding: 2rem; font-size: 11px; color: var(--rose); text-align: center"><i class="ti ti-alert-triangle"></i> Không thể tải cuộc trò chuyện này.</div>`;
+  }
+}
+
+async function deleteSession(event, sessionId) {
+  event.stopPropagation();
+  if (!confirm('Bạn có chắc chắn muốn xóa cuộc trò chuyện này?')) return;
+  
+  try {
+    const res = await fetch(`/api/chat/session/${sessionId}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error();
+    
+    if (sessionId === currentSessionId) {
+      currentSessionId = '';
+      sessionStorage.removeItem('current_chat_session_id');
+    }
+    
+    loadSessionsFromDB();
+  } catch (err) {
+    alert('Không thể xóa cuộc trò chuyện.');
+  }
 }
 
 function filterHistory(query) {
@@ -698,7 +726,6 @@ async function initChatDetails() {
   document.getElementById('ai-active-provider').textContent = name + ' (' + cfg.model + ')';
   document.getElementById('ctx-summary').textContent = name + ' Context Loaded';
   
-  // Update navbar avatar if logged in
   const token = localStorage.getItem('bizhub_admin_token');
   const userStr = localStorage.getItem('bizhub_admin_user');
   if (token && userStr) {
@@ -718,8 +745,7 @@ async function initChatDetails() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initChatDetails();
-  // Pre-load the B2B report conversation to match Image 3 exactly on first load
-  loadPreloadChat();
+  loadSessionsFromDB();
 });
 </script>
 </body>

@@ -47,7 +47,6 @@ export const Navbar = () => {
         <div className="nav-link nav-dropdown">
           {t('menu_members')} <i className="ti ti-chevron-down" style={{ fontSize: '10px' }}></i>
           <div className="nav-dropdown-menu">
-            <a href="#members" onClick={(e) => handleAnchorClick(e, '#members')} className="nav-dropdown-item">Doanh nghiệp hội viên <span className="nav-dropdown-sub">&gt;</span></a>
             <Link to="/members" className="nav-dropdown-item">Danh mục đầy đủ <span className="nav-dropdown-sub">&gt;</span></Link>
             <a href="#tiers" onClick={(e) => handleAnchorClick(e, '#tiers')} className="nav-dropdown-item">Quyền lợi gói dịch vụ <span className="nav-dropdown-sub">&gt;</span></a>
           </div>

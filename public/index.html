@@ -610,7 +610,33 @@ function closeOppModal() {
   document.getElementById('opp-modal').style.display = 'none';
 }
 
-document.addEventListener('DOMContentLoaded', initDynamicData);
+function updateNavbar() {
+  const memberUser = JSON.parse(localStorage.getItem('bizhub_member_user') || 'null');
+  const memberToken = localStorage.getItem('bizhub_member_token');
+  const adminUser  = JSON.parse(localStorage.getItem('bizhub_admin_user') || 'null');
+  const adminToken = localStorage.getItem('bizhub_admin_token');
+  const navAv = document.getElementById('nav-av');
+  if (!navAv) return;
+
+  if (memberToken && memberUser) {
+    const initials = memberUser.name
+      ? memberUser.name.trim().split(/\s+/).map(w => w[0]).join('').substring(0, 2).toUpperCase()
+      : 'HV';
+    navAv.href = 'member-dashboard.html';
+    navAv.textContent = initials;
+    navAv.title = memberUser.name + ' — Xem Dashboard';
+  } else if (adminToken && adminUser) {
+    const initials = (adminUser.name || 'AD').substring(0, 2).toUpperCase();
+    navAv.href = 'admin.html';
+    navAv.textContent = initials;
+    navAv.title = adminUser.name + ' — Admin Panel';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateNavbar();
+  initDynamicData();
+});
 </script>
 
 <!-- Modal xem chi tiết cơ hội giao thương -->

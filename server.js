@@ -221,6 +221,84 @@ async function anyAuthMiddleware(req, res, next) {
 
 
 // ════════════════════════════════════════════
+// UNIFIED AUTH API
+// ════════════════════════════════════════════
+
+// Đăng nhập Hợp nhất (Unified Login for Admin & Member)
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ success: false, error: 'Vui lòng cung cấp tài khoản và mật khẩu.' });
+    }
+
+    // 1. Thử tìm trong bảng admins trước
+    const [adminRows] = await db.query('SELECT * FROM admins WHERE username = ?', [username]);
+    if (adminRows.length > 0) {
+      const admin = adminRows[0];
+      const match = await bcrypt.compare(password, admin.password_hash);
+      if (match) {
+        // Cấp token Admin
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 giờ
+        await db.query(
+          'INSERT INTO admin_sessions (admin_id, token, expires_at) VALUES (?, ?, ?)',
+          [admin.id, token, expiresAt]
+        );
+        await db.query('UPDATE admins SET last_login = NOW() WHERE id = ?', [admin.id]);
+        return res.json({
+          success: true,
+          role: 'admin',
+          token,
+          user: {
+            username: admin.username,
+            name: admin.name,
+            role: admin.role
+          }
+        });
+      }
+    }
+
+    // 2. Thử tìm trong bảng members nếu không khớp admin
+    const [memberRows] = await db.query('SELECT * FROM members WHERE username = ? OR email = ?', [username, username]);
+    if (memberRows.length > 0) {
+      const member = memberRows[0];
+      if (!member.password_hash) {
+        return res.status(401).json({ success: false, error: 'Tài khoản chưa được kích hoạt mật khẩu. Vui lòng liên hệ ban quản trị.' });
+      }
+      const match = await bcrypt.compare(password, member.password_hash);
+      if (match) {
+        // Cấp token Member
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 ngày
+        await db.query(
+          'INSERT INTO member_sessions (member_id, token, expires_at) VALUES (?, ?, ?)',
+          [member.id, token, expiresAt]
+        );
+        return res.json({
+          success: true,
+          role: 'member',
+          token,
+          user: {
+            id: member.id,
+            name: member.name,
+            email: member.email,
+            status: member.status,
+            tier: member.tier
+          }
+        });
+      }
+    }
+
+    // 3. Không tìm thấy hoặc mật khẩu không chính xác
+    return res.status(401).json({ success: false, error: 'Tài khoản hoặc mật khẩu không chính xác.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+
+// ════════════════════════════════════════════
 // ADMIN AUTH API
 // ════════════════════════════════════════════
 

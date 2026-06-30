@@ -237,6 +237,64 @@
     color: var(--text-secondary);
   }
   
+  /* Middle column specific layout styles */
+  .chat-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  .chat-input-area {
+    padding: 1rem 1.25rem;
+    background-color: var(--surface-2);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+  }
+  .chat-input-inner {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .chat-ta {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 13px;
+    outline: none;
+    resize: none;
+    max-height: 100px;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+  .send-btn {
+    background: var(--primary);
+    color: #FFFFFF;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .send-btn:hover {
+    background: var(--primary-light);
+    transform: scale(1.05);
+  }
+  .send-btn:disabled {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+  }
+
   @media(max-width: 1000px) {
     .chat-grid-layout {
       grid-template-columns: 240px 1fr;
@@ -392,37 +450,6 @@
         <div>
           <div style="font-size:12px; font-weight:600; color:#FFFFFF">Sự giao thương</div>
           <div style="font-size:10px; color:var(--text-muted); margin-top:1px">Trợ lý giao dịch xúc tiến giao thương</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Related Reports Card -->
-    <div class="chat-panel-card">
-      <div class="chat-panel-title">
-        <i class="ti ti-file-text" style="color:var(--neon-cyan)"></i> Báo cáo liên quan
-      </div>
-      
-      <div class="chat-panel-item" onclick="alert('Đang tải tài liệu Báo cáo Ngành 2023...')">
-        <div class="chat-panel-icon" style="color:var(--amber)"><i class="ti ti-file-analytics"></i></div>
-        <div>
-          <div style="font-size:12px; font-weight:600; color:#FFFFFF">Báo cáo Ngành 2023</div>
-          <div style="font-size:10px; color:var(--text-muted); margin-top:1px">PDF báo cáo tăng trưởng B2B</div>
-        </div>
-      </div>
-      
-      <div class="chat-panel-item" onclick="alert('Đang tải tài liệu Báo cáo Phân tích thị trường...')">
-        <div class="chat-panel-icon" style="color:var(--amber)"><i class="ti ti-file-analytics"></i></div>
-        <div>
-          <div style="font-size:12px; font-weight:600; color:#FFFFFF">Báo cáo Ngành 2023</div>
-          <div style="font-size:10px; color:var(--text-muted); margin-top:1px">Phân tích chuyên sâu chuyển đổi số</div>
-        </div>
-      </div>
-      
-      <div class="chat-panel-item" onclick="alert('Đang tải tài liệu Dự báo Đầu tư Q1 2024...')">
-        <div class="chat-panel-icon" style="color:var(--primary-light)"><i class="ti ti-presentation-analytics"></i></div>
-        <div>
-          <div style="font-size:12px; font-weight:600; color:#FFFFFF">Dự báo Đầu tư Q1 2024</div>
-          <div style="font-size:10px; color:var(--text-muted); margin-top:1px">Dự thảo và xu hướng gọi vốn</div>
         </div>
       </div>
     </div>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BizHub — Bảng điều khiển Hội viên</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="css/main.css?v=2.1">
+<style>
+  .dashboard-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-base);
+  }
+  .dash-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+  @media(max-width: 992px) {
+    .dash-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  .dash-card {
+    background: rgba(15, 27, 53, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-deep);
+  }
+  .card-title {
+    font-family: var(--font-title);
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-bottom: 8px;
+  }
+  .status-banner {
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .status-banner.pending {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #FCD34D;
+  }
+  .status-banner.approved {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    color: #A7F3D0;
+  }
+  .status-banner.rejected {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #FCA5A5;
+  }
+  .status-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .stat-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--neon-cyan);
+    margin-top: 4px;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  @media(max-width: 576px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .fg {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fg label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .fg input, .fg select, .fg textarea {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    transition: var(--transition);
+  }
+  .fg input:focus, .fg select:focus, .fg textarea:focus {
+    border-color: var(--primary);
+    background-color: rgba(255,255,255,0.05);
+  }
+  .post-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: var(--transition);
+  }
+  .post-item:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .badge {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge.pending {
+    background: rgba(245,158,11,0.15);
+    color: #F59E0B;
+  }
+  .badge.approved {
+    background: rgba(16,185,129,0.15);
+    color: #10B981;
+  }
+  .badge.rejected {
+    background: rgba(239,68,68,0.15);
+    color: #EF4444;
+  }
+</style>
+</head>
+<body class="public-body">
+
+<div class="dashboard-wrap">
+  
+  <!-- HEADER -->
+  <nav class="public-nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">
+        <i class="ti ti-building-community"></i>
+        <span>BizHub</span>
+      </a>
+      <a href="index.html" class="nav-link">Trang chủ</a>
+      <a href="posts.html" class="nav-link">Cơ hội</a>
+      <a href="ai-chat.html" class="nav-link">Trợ lý AI</a>
+    </div>
+    <div class="nav-right">
+      <span style="font-size:12.5px; color:#FFFFFF; font-weight:600; margin-right:8px" id="comp-display-name">Loading...</span>
+      <button onclick="handleLogout()" class="btn" style="padding: 6px 14px; font-size:11.5px; background: rgba(255, 69, 58, 0.15); border: 1px solid rgba(255, 69, 58, 0.3); color: #FF453A"><i class="ti ti-logout"></i> Đăng xuất</button>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD INNER -->
+  <div class="dash-container">
+    
+    <!-- Left column: Profile Edit -->
+    <div>
+      
+      <!-- Profile Application Status Banner -->
+      <div id="status-card" class="status-banner pending">
+        <div class="status-icon"><i class="ti ti-hourglass-empty"></i></div>
+        <div>
+          <div style="font-weight:700; font-size:15px; margin-bottom:2px" id="status-title">Hồ sơ đang chờ duyệt</div>
+          <div style="font-size:12.5px; opacity:0.85" id="status-desc">Hồ sơ đăng ký doanh nghiệp của bạn đang được ban thẩm định BizHub xem xét.</div>
+        </div>
+      </div>
+
+      <!-- Company Profile Form -->
+      <div class="dash-card">
+        <div class="card-title"><i class="ti ti-edit" style="color:var(--neon-cyan)"></i> Cập nhật hồ sơ Doanh nghiệp</div>
+        
+        <form id="profile-form" onsubmit="updateProfile(event)">
+          <div class="form-grid" style="margin-bottom:1.25rem">
+            <div class="fg">
+              <label>Tên Doanh nghiệp *</label>
+              <input type="text" id="p-name" required>
+            </div>
+            <div class="fg">
+              <label>Mã số thuế *</label>
+              <input type="text" id="p-tax" required>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:1.25rem">
+            <div class="fg">
+              <label>Lĩnh vực hoạt động</label>
+              <input type="text" id="p-industry">
+            </div>
+            <div class="fg">
+              <label>Quy mô (Nhân sự)</label>
+              <input type="text" id="p-size">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:1.25rem">
+            <div class="fg">
+              <label>Địa chỉ website chính thức</label>
+              <input type="text" id="p-web">
+            </div>
+            <div class="fg">
+              <label>Địa chỉ trụ sở chính *</label>
+              <input type="text" id="p-address" required>
+            </div>
+          </div>
+
+          <div class="fg" style="margin-bottom:1.25rem">
+            <label>Mô tả hoạt động kinh doanh *</label>
+            <textarea id="p-desc" rows="4" required></textarea>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:1.25rem">
+            <div class="fg">
+              <label>Họ và tên người đại diện *</label>
+              <input type="text" id="p-cname" required>
+            </div>
+            <div class="fg">
+              <label>Chức vụ người đại diện *</label>
+              <input type="text" id="p-cpos" required>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:1.5rem">
+            <div class="fg">
+              <label>Số điện thoại liên hệ *</label>
+              <input type="text" id="p-phone" required>
+            </div>
+            <div class="fg">
+              <label>Mục tiêu kết nối B2B</label>
+              <input type="text" id="p-goal">
+            </div>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:1.5rem; margin-bottom:1.5rem">
+            <div style="font-weight:600; font-size:13px; color:#FFFFFF; margin-bottom:1rem"><i class="ti ti-key"></i> Đổi mật khẩu tài khoản (Bỏ trống nếu không đổi)</div>
+            <div class="form-grid">
+              <div class="fg">
+                <label>Mật khẩu mới</label>
+                <input type="password" id="p-pwd" placeholder="Mật khẩu từ 8 ký tự">
+              </div>
+              <div class="fg">
+                <label>Xác nhận mật khẩu mới</label>
+                <input type="password" id="p-pwd2" placeholder="Nhập lại mật khẩu mới">
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end">
+            <button type="submit" class="btn btn-primary" id="save-profile-btn"><i class="ti ti-device-floppy"></i> Lưu thay đổi hồ sơ</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Right column: Stats and Postings -->
+    <div>
+      
+      <!-- Tier Box -->
+      <div class="dash-card" style="background:linear-gradient(135deg, rgba(15, 27, 53, 0.6) 0%, rgba(30, 136, 229, 0.08) 100%)">
+        <div class="card-title"><i class="ti ti-medal" style="color:var(--amber)"></i> Cấp bậc Hội viên</div>
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <div>
+            <div style="font-size:20px; font-weight:800; color:#FFFFFF; margin-bottom:4px" id="tier-display">🏅 Gold Member</div>
+            <div style="font-size:11px; color:var(--text-muted)">Quyền lợi của bạn đã được kích hoạt hoàn toàn</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Box -->
+      <div class="dash-card">
+        <div class="card-title"><i class="ti ti-chart-bar" style="color:var(--neon-cyan)"></i> Thống kê bài đăng</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-lbl">Đã đăng</div>
+            <div class="stat-val" id="stat-total">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-lbl">Đang duyệt</div>
+            <div class="stat-val" id="stat-pending" style="color:var(--amber)">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-lbl">Lượt xem</div>
+            <div class="stat-val" id="stat-views" style="color:var(--emerald)">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- B2B Postings list -->
+      <div class="dash-card">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center">
+          <span style="display:flex; align-items:center; gap:8px"><i class="ti ti-list" style="color:var(--neon-cyan)"></i> Cơ hội giao thương đã đăng</span>
+        </div>
+        <div id="posts-container">
+          <div style="text-align:center; padding:2rem; font-size:12px; color:var(--text-muted)">Không có tin đăng nào.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const token = localStorage.getItem('bizhub_member_token');
+if (!token) {
+  window.location.href = 'member-login.html';
+}
+
+async function loadDashboard() {
+  try {
+    const res = await fetch('/api/member/dashboard', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!res.ok) {
+      if (res.status === 401) {
+        localStorage.removeItem('bizhub_member_token');
+        window.location.href = 'member-login.html';
+        return;
+      }
+      throw new Error('Không thể tải thông tin.');
+    }
+
+    const data = await res.json();
+    const m = data.member;
+    const posts = data.posts || [];
+    const stats = data.stats;
+
+    // Hiển thị tên hiển thị trên header
+    document.getElementById('comp-display-name').textContent = m.name;
+    document.getElementById('tier-display').textContent = 
+      m.tier === 'Silver' ? '🪙 Silver Member' :
+      m.tier === 'Gold' ? '🏅 Gold Member' : '💎 Platinum Member';
+
+    // Đổ dữ liệu vào Form hồ sơ
+    document.getElementById('p-name').value = m.name || '';
+    document.getElementById('p-tax').value = m.tax_code || '';
+    document.getElementById('p-industry').value = m.industry || '';
+    document.getElementById('p-size').value = m.size || '';
+    document.getElementById('p-web').value = m.website || '';
+    document.getElementById('p-address').value = m.address || '';
+    document.getElementById('p-desc').value = m.description || '';
+    document.getElementById('p-cname').value = m.contact_name || '';
+    document.getElementById('p-cpos').value = m.contact_pos || '';
+    document.getElementById('p-phone').value = m.phone || '';
+    document.getElementById('p-goal').value = m.goal || '';
+
+    // Cập nhật stats
+    document.getElementById('stat-total').textContent = stats.total_posts;
+    document.getElementById('stat-pending').textContent = stats.pending_posts;
+    document.getElementById('stat-views').textContent = stats.total_views;
+
+    // Trạng thái duyệt hồ sơ
+    const statusCard = document.getElementById('status-card');
+    const statusTitle = document.getElementById('status-title');
+    const statusDesc = document.getElementById('status-desc');
+
+    if (m.status === 'pending') {
+      statusCard.className = 'status-banner pending';
+      statusCard.querySelector('.status-icon').innerHTML = '<i class="ti ti-hourglass-empty"></i>';
+      statusTitle.textContent = 'Hồ sơ đang chờ duyệt';
+      statusDesc.textContent = 'Hồ sơ đăng ký doanh nghiệp của bạn đang được ban thẩm định BizHub xem xét.';
+    } else if (m.status === 'approved') {
+      statusCard.className = 'status-banner approved';
+      statusCard.querySelector('.status-icon').innerHTML = '<i class="ti ti-circle-check"></i>';
+      statusTitle.textContent = 'Hồ sơ đã được phê duyệt';
+      statusDesc.textContent = 'Tài khoản của bạn đã được phê duyệt thành công. Quyền lợi hội viên đã có hiệu lực!';
+    } else {
+      statusCard.className = 'status-banner rejected';
+      statusCard.querySelector('.status-icon').innerHTML = '<i class="ti ti-circle-x"></i>';
+      statusTitle.textContent = 'Hồ sơ bị từ chối';
+      statusDesc.textContent = m.reject_reason ? `Lý do từ chối: "${m.reject_reason}". Vui lòng cập nhật thông tin chính xác phía dưới và gửi lại để ban quản trị tái xét duyệt.` : 'Hồ sơ không đạt tiêu chuẩn xét duyệt của BizHub. Vui lòng liên hệ ban hỗ trợ.';
+    }
+
+    // Đổ danh sách bài đăng
+    const postsContainer = document.getElementById('posts-container');
+    if (posts.length === 0) {
+      postsContainer.innerHTML = '<div style="text-align:center; padding:2rem; font-size:12px; color:var(--text-muted)">Bạn chưa đăng cơ hội giao thương nào.</div>';
+    } else {
+      postsContainer.innerHTML = posts.map(p => {
+        const badgeClass = p.status === 'approved' ? 'approved' : p.status === 'pending' ? 'pending' : 'rejected';
+        const badgeText = p.status === 'approved' ? 'Đã duyệt' : p.status === 'pending' ? 'Chờ duyệt' : 'Từ chối';
+        const dateStr = new Date(p.created_at).toLocaleDateString('vi-VN');
+        return `
+          <div class="post-item">
+            <div style="flex: 1; overflow: hidden">
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">${escapeHtml(p.title)}</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px">Đăng ngày: ${dateStr} · Lượt xem: ${p.views}</div>
+            </div>
+            <span class="badge ${badgeClass}">${badgeText}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+async function updateProfile(event) {
+  event.preventDefault();
+  const btn = document.getElementById('save-profile-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader animate-spin"></i> Đang lưu hồ sơ...';
+
+  const pwd = document.getElementById('p-pwd').value;
+  const pwd2 = document.getElementById('p-pwd2').value;
+
+  if (pwd !== '') {
+    if (pwd.length < 8) {
+      alert('Mật khẩu mới phải có độ dài ít nhất 8 ký tự.');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="ti ti-device-floppy"></i> Lưu thay đổi hồ sơ';
+      return;
+    }
+    if (pwd !== pwd2) {
+      alert('Mật khẩu xác nhận mới không trùng khớp.');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="ti ti-device-floppy"></i> Lưu thay đổi hồ sơ';
+      return;
+    }
+  }
+
+  const payload = {
+    name: document.getElementById('p-name').value.trim(),
+    tax_code: document.getElementById('p-tax').value.trim(),
+    industry: document.getElementById('p-industry').value.trim(),
+    size: document.getElementById('p-size').value.trim(),
+    website: document.getElementById('p-web').value.trim(),
+    address: document.getElementById('p-address').value.trim(),
+    description: document.getElementById('p-desc').value.trim(),
+    contact_name: document.getElementById('p-cname').value.trim(),
+    contact_pos: document.getElementById('p-cpos').value.trim(),
+    phone: document.getElementById('p-phone').value.trim(),
+    goal: document.getElementById('p-goal').value.trim(),
+    password: pwd
+  };
+
+  try {
+    const res = await fetch('/api/member/profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Cập nhật thất bại.');
+
+    alert('Cập nhật hồ sơ thành công!');
+    document.getElementById('p-pwd').value = '';
+    document.getElementById('p-pwd2').value = '';
+    loadDashboard();
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-device-floppy"></i> Lưu thay đổi hồ sơ';
+  }
+}
+
+async function handleLogout() {
+  if (!confirm('Bạn chắc chắn muốn đăng xuất?')) return;
+  try {
+    await fetch('/api/member/logout', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+  } catch (e) {}
+  localStorage.removeItem('bizhub_member_token');
+  localStorage.removeItem('bizhub_member_user');
+  window.location.href = 'member-login.html';
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+document.addEventListener('DOMContentLoaded', loadDashboard);
+</script>
+</body>
+</html>

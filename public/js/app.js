@@ -136,18 +136,24 @@ window.logoutAdmin = async () => {
   window.location.href = 'login.html';
 };
 
-// Khởi tạo các tương tác Admin trên DOM
+// Khởi tạo các tương tác Admin & Member trên DOM
 document.addEventListener('DOMContentLoaded', () => {
-  const av = document.querySelector('.av-sm');
+  const av = document.getElementById('nav-av') || document.querySelector('.av-sm');
   if (av) {
-    // Chỉ kích hoạt chức năng logout cho Admin nếu đã đăng nhập
-    const token = window.getAuthToken();
-    if (token) {
+    const adminToken = window.getAuthToken();
+    const memberToken = localStorage.getItem('bizhub_member_token');
+
+    if (adminToken) {
+      // 1. Nếu là Admin đăng nhập
       av.style.cursor = 'pointer';
       av.title = 'Đăng xuất Admin';
-      av.addEventListener('click', () => {
-        if (confirm('Bạn có muốn đăng xuất tài khoản Admin?')) {
-          window.logoutAdmin();
+      av.addEventListener('click', (e) => {
+        // Nếu click vào thẻ a mà đang ở trang admin, thực hiện logout
+        if (window.location.pathname.includes('admin')) {
+          e.preventDefault();
+          if (confirm('Bạn có muốn đăng xuất tài khoản Admin?')) {
+            window.logoutAdmin();
+          }
         }
       });
       
@@ -160,6 +166,36 @@ document.addEventListener('DOMContentLoaded', () => {
             av.textContent = initials;
           }
         } catch {}
+      }
+    } else if (memberToken) {
+      // 2. Nếu là Hội viên đăng nhập
+      av.style.cursor = 'pointer';
+      av.title = 'Bảng điều khiển Hội viên';
+      av.href = 'member-dashboard.html';
+      
+      const memberUserStr = localStorage.getItem('bizhub_member_user');
+      if (memberUserStr) {
+        try {
+          const user = JSON.parse(memberUserStr);
+          if (user && user.name) {
+            const initials = user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            av.textContent = initials;
+          }
+        } catch {}
+      }
+    } else {
+      // 3. Nếu chưa đăng nhập ai cả, hướng người dùng về trang đăng nhập Hội viên
+      av.href = 'member-login.html';
+      av.title = 'Đăng nhập Hội viên';
+      
+      // Hướng cả icon chuông thông báo hoặc nút đăng nhập khác về member-login.html
+      const bell = document.querySelector('.nav-right a[href="login.html"]');
+      if (bell) {
+        bell.href = 'member-login.html';
+      }
+      const navAv = document.getElementById('nav-av');
+      if (navAv) {
+        navAv.href = 'member-login.html';
       }
     }
   }

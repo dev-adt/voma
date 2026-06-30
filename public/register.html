@@ -642,7 +642,8 @@ async function submitRegistration() {
     phone: getVal('r-phone'),
     tier: selectedRegTier,
     goal: getVal('r-goal'),
-    referral: document.getElementById('r-ref').value
+    referral: document.getElementById('r-ref').value,
+    password: pwd
   };
 
   try {

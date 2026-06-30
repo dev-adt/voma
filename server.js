@@ -60,6 +60,32 @@ db.query(`
   console.error('❌ Lỗi tạo bảng admin_sessions:', err.message);
 });
 
+// Tự động nâng cấp bảng members và tạo bảng member_sessions
+(async () => {
+  try {
+    const [cols] = await db.query("SHOW COLUMNS FROM members LIKE 'username'");
+    if (!cols.length) {
+      await db.query("ALTER TABLE members ADD COLUMN username VARCHAR(100) UNIQUE AFTER email");
+      await db.query("ALTER TABLE members ADD COLUMN password_hash VARCHAR(255) AFTER username");
+      console.log('✅ Đã nâng cấp bảng members (thêm cột username, password_hash)');
+    }
+    
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS member_sessions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        member_id INT NOT NULL,
+        token VARCHAR(255) NOT NULL UNIQUE,
+        expires_at DATETIME NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE CASCADE
+      ) ENGINE=InnoDB COMMENT='Phiên đăng nhập hội viên'
+    `);
+    console.log('✅ Bảng member_sessions đã sẵn sàng');
+  } catch (err) {
+    console.error('❌ Lỗi khởi tạo DB hội viên:', err.message);
+  }
+})();
+
 // Middleware xác thực Admin bằng token
 async function authMiddleware(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -93,6 +119,42 @@ async function authMiddleware(req, res, next) {
     res.status(500).json({ success: false, error: 'Lỗi xác thực: ' + err.message });
   }
 }
+
+// Middleware xác thực Hội viên bằng token
+async function memberAuthMiddleware(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ success: false, error: 'Chưa đăng nhập hoặc thiếu token hội viên.' });
+  }
+
+  const token = authHeader.substring(7);
+  try {
+    const [sessions] = await db.query(
+      `SELECT s.*, m.name, m.email, m.status, m.tier
+       FROM member_sessions s 
+       JOIN members m ON s.member_id = m.id 
+       WHERE s.token = ? AND s.expires_at > NOW()`, 
+      [token]
+    );
+
+    if (!sessions.length) {
+      return res.status(401).json({ success: false, error: 'Phiên đăng nhập hội viên không hợp lệ hoặc đã hết hạn.' });
+    }
+
+    req.member = {
+      id: sessions[0].member_id,
+      name: sessions[0].name,
+      email: sessions[0].email,
+      status: sessions[0].status,
+      tier: sessions[0].tier,
+      token: token
+    };
+    next();
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Lỗi xác thực hội viên: ' + err.message });
+  }
+}
+
 
 // ════════════════════════════════════════════
 // ADMIN AUTH API
@@ -157,6 +219,152 @@ app.post('/api/admin/logout', authMiddleware, async (req, res) => {
 app.get('/api/admin/check-auth', authMiddleware, (req, res) => {
   res.json({ success: true, admin: req.admin });
 });
+
+// ════════════════════════════════════════════
+// MEMBER AUTH & PROFILE API
+// ════════════════════════════════════════════
+
+// Đăng nhập Hội viên
+app.post('/api/member/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ success: false, error: 'Vui lòng cung cấp tài khoản và mật khẩu.' });
+    }
+
+    const [rows] = await db.query('SELECT * FROM members WHERE username = ? OR email = ?', [username, username]);
+    if (!rows.length) {
+      return res.status(401).json({ success: false, error: 'Tài khoản hoặc mật khẩu không chính xác.' });
+    }
+
+    const member = rows[0];
+    
+    if (!member.password_hash) {
+      return res.status(401).json({ success: false, error: 'Tài khoản chưa được kích hoạt mật khẩu. Vui lòng liên hệ ban quản trị.' });
+    }
+
+    const match = await bcrypt.compare(password, member.password_hash);
+    if (!match) {
+      return res.status(401).json({ success: false, error: 'Tài khoản hoặc mật khẩu không chính xác.' });
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 ngày
+
+    await db.query(
+      'INSERT INTO member_sessions (member_id, token, expires_at) VALUES (?, ?, ?)',
+      [member.id, token, expiresAt]
+    );
+
+    res.json({
+      success: true,
+      token,
+      member: {
+        id: member.id,
+        name: member.name,
+        email: member.email,
+        status: member.status,
+        tier: member.tier
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Đăng xuất Hội viên
+app.post('/api/member/logout', memberAuthMiddleware, async (req, res) => {
+  try {
+    await db.query('DELETE FROM member_sessions WHERE token = ?', [req.member.token]);
+    res.json({ success: true, message: 'Đăng xuất thành công.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Kiểm tra trạng thái Auth Hội viên
+app.get('/api/member/check-auth', memberAuthMiddleware, (req, res) => {
+  res.json({ success: true, member: req.member });
+});
+
+// Xem Hồ sơ Hội viên đang đăng nhập
+app.get('/api/member/profile', memberAuthMiddleware, async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM members WHERE id = ?', [req.member.id]);
+    if (!rows.length) return res.status(404).json({ success: false, error: 'Không tìm thấy hồ sơ.' });
+    res.json({ success: true, data: rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Cập nhật Hồ sơ Hội viên
+app.put('/api/member/profile', memberAuthMiddleware, async (req, res) => {
+  try {
+    const {
+      name, tax_code, license, industry, size, address, website, social,
+      description, contact_name, contact_pos, phone, goal, password
+    } = req.body;
+
+    if (!name) return res.status(400).json({ success: false, error: 'Tên doanh nghiệp không được trống.' });
+
+    let sql = `UPDATE members SET 
+      name=?, tax_code=?, license=?, industry=?, size=?, address=?, website=?, social=?, 
+      description=?, contact_name=?, contact_pos=?, phone=?, goal=?`;
+    const params = [
+      name, tax_code || '', license || '', industry || '', size || '', address || '', website || '', social || '',
+      description || '', contact_name || '', contact_pos || '', phone || '', goal || ''
+    ];
+
+    if (password && password.trim() !== '') {
+      if (password.length < 8) {
+        return res.status(400).json({ success: false, error: 'Mật khẩu phải tối thiểu 8 ký tự.' });
+      }
+      const hash = await bcrypt.hash(password, 10);
+      sql += `, password_hash=?`;
+      params.push(hash);
+    }
+
+    sql += ` WHERE id=?`;
+    params.push(req.member.id);
+
+    await db.query(sql, params);
+    res.json({ success: true, message: 'Đã cập nhật hồ sơ doanh nghiệp thành công.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Xem thông tin Dashboard và tin đăng của Hội viên
+app.get('/api/member/dashboard', memberAuthMiddleware, async (req, res) => {
+  try {
+    const memberId = req.member.id;
+    const [memberRows] = await db.query('SELECT * FROM members WHERE id = ?', [memberId]);
+    if (!memberRows.length) return res.status(404).json({ success: false, error: 'Không tìm thấy dữ liệu hội viên.' });
+
+    const [postRows] = await db.query(
+      'SELECT id, title, type, status, views, created_at FROM posts WHERE member_id = ? ORDER BY created_at DESC',
+      [memberId]
+    );
+
+    const [[viewsStats]] = await db.query('SELECT SUM(views) AS total_views FROM posts WHERE member_id = ?', [memberId]);
+
+    res.json({
+      success: true,
+      member: memberRows[0],
+      posts: postRows,
+      stats: {
+        total_posts: postRows.length,
+        approved_posts: postRows.filter(p => p.status === 'approved').length,
+        pending_posts: postRows.filter(p => p.status === 'pending').length,
+        total_views: viewsStats.total_views || 0
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 
 // Lưu cấu hình và API key của AI Provider
 app.post('/api/admin/save-config', authMiddleware, async (req, res) => {
@@ -314,7 +522,7 @@ app.post('/api/members', async (req, res) => {
   try {
     const {
       name, tax_code, license, industry, size, address, website, social,
-      description, tier, contact_name, contact_pos, email, phone, goal, referral
+      description, tier, contact_name, contact_pos, email, phone, goal, referral, password
     } = req.body;
 
     if (!name || !email) return res.status(400).json({ success: false, error: 'Thiếu tên hoặc email.' });
@@ -322,12 +530,17 @@ app.post('/api/members', async (req, res) => {
     const [existing] = await db.query('SELECT id FROM members WHERE email = ?', [email]);
     if (existing.length) return res.status(409).json({ success: false, error: 'Email này đã được đăng ký.' });
 
+    let hash = null;
+    if (password && password.trim() !== '') {
+      hash = await bcrypt.hash(password, 10);
+    }
+
     const [result] = await db.query(
       `INSERT INTO members (name, tax_code, license, industry, size, address, website, social,
-        description, tier, status, contact_name, contact_pos, email, phone, goal, referral)
-       VALUES (?,?,?,?,?,?,?,?,?,?,'pending',?,?,?,?,?,?)`,
+        description, tier, status, contact_name, contact_pos, email, username, password_hash, phone, goal, referral)
+       VALUES (?,?,?,?,?,?,?,?,?,?,'pending',?,?,?,?,?,?,?,?)`,
       [name, tax_code, license, industry, size, address, website, social,
-       description, tier || 'Silver', contact_name, contact_pos, email, phone, goal, referral]
+       description, tier || 'Silver', contact_name, contact_pos, email, email, hash, phone, goal, referral]
     );
     res.json({ success: true, id: result.insertId, message: 'Đăng ký thành công! Chờ admin xét duyệt.' });
   } catch (err) {

@@ -64,7 +64,7 @@ export const Home = () => {
       setLoadingEvents(true);
       try {
         const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-        const res = await fetch('/api/events', { headers });
+        const res = await fetch('/api/events?limit=3&upcoming=true', { headers });
         if (res.ok) {
           const data = await res.json();
           setEvents(data.data || []);
@@ -318,6 +318,9 @@ export const Home = () => {
               <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Sự kiện giao thương sắp tới</div>
               <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>Giao lưu & Kết nối doanh nghiệp</h2>
             </div>
+            <Link to="/events" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
+              Xem tất cả sự kiện <i className="ti ti-arrow-right"></i>
+            </Link>
           </div>
 
           <div className="opp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>

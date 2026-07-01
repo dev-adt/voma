@@ -1419,6 +1419,9 @@ ${events.map(e => `• ${e.title} — ${new Date(e.event_date).toLocaleDateStrin
 // Lấy danh sách sự kiện
 app.get('/api/events', async (req, res) => {
   try {
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
+    const upcomingOnly = req.query.upcoming === 'true';
+
     let memberId = null;
     const authHeader = req.headers['authorization'];
     if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -1434,6 +1437,14 @@ app.get('/api/events', async (req, res) => {
 
     let sql = '';
     let params = [];
+    let whereClause = '';
+
+    if (upcomingOnly) {
+      whereClause = ` WHERE e.event_date >= CURDATE() AND e.status != 'cancelled' `;
+    }
+
+    console.log(`[Events GET] Limit: ${limit}, Upcoming: ${upcomingOnly}, Member ID: ${memberId}`);
+
     if (memberId) {
       // Đã đăng nhập -> Lấy đầy đủ thông tin sự kiện và trạng thái quan tâm
       sql = `
@@ -1441,6 +1452,7 @@ app.get('/api/events', async (req, res) => {
                (SELECT COUNT(*) FROM event_interests WHERE event_id = e.id) AS interest_count,
                (SELECT COUNT(*) FROM event_interests WHERE event_id = e.id AND member_id = ?) > 0 AS is_interested
         FROM events e
+        ${whereClause}
         ORDER BY e.event_date ASC
       `;
       params.push(memberId);
@@ -1451,8 +1463,14 @@ app.get('/api/events', async (req, res) => {
                (SELECT COUNT(*) FROM event_interests WHERE event_id = e.id) AS interest_count,
                0 AS is_interested
         FROM events e
+        ${whereClause}
         ORDER BY e.event_date ASC
       `;
+    }
+
+    if (limit) {
+      sql += ` LIMIT ? `;
+      params.push(limit);
     }
 
     const [rows] = await db.query(sql, params);
@@ -1479,6 +1497,8 @@ app.post('/api/events/:id/interest', memberAuthMiddleware, async (req, res) => {
     const eventId = req.params.id;
     const memberId = req.member.id;
 
+    console.log(`[Interest Toggle] Request eventId: ${eventId}, memberId: ${memberId}`);
+
     // Kiểm tra sự kiện
     const [events] = await db.query('SELECT id FROM events WHERE id = ?', [eventId]);
     if (!events.length) {
@@ -1486,14 +1506,19 @@ app.post('/api/events/:id/interest', memberAuthMiddleware, async (req, res) => {
     }
 
     const [existing] = await db.query('SELECT id FROM event_interests WHERE event_id = ? AND member_id = ?', [eventId, memberId]);
+    console.log(`[Interest Toggle] Current existing matching rows: ${existing.length}`);
+
     if (existing.length) {
       await db.query('DELETE FROM event_interests WHERE event_id = ? AND member_id = ?', [eventId, memberId]);
+      console.log(`[Interest Toggle] Deleted interest record`);
       res.json({ success: true, is_interested: false, message: 'Đã hủy quan tâm sự kiện.' });
     } else {
       await db.query('INSERT INTO event_interests (event_id, member_id) VALUES (?, ?)', [eventId, memberId]);
+      console.log(`[Interest Toggle] Inserted new interest record`);
       res.json({ success: true, is_interested: true, message: 'Đã đăng ký quan tâm sự kiện.' });
     }
   } catch (err) {
+    console.error('[Interest Toggle ERROR]:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });

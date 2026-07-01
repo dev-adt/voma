@@ -783,7 +783,19 @@ app.post('/api/members', async (req, res) => {
 // Duyệt hội viên
 app.patch('/api/members/:id/approve', authMiddleware, async (req, res) => {
   try {
-    await db.query("UPDATE members SET status='approved' WHERE id=?", [req.params.id]);
+    const memberId = req.params.id;
+    const [rows] = await db.query('SELECT tier FROM members WHERE id = ?', [memberId]);
+    if (!rows.length) {
+      return res.status(404).json({ success: false, error: 'Không tìm thấy hội viên.' });
+    }
+
+    const memberTier = rows[0].tier;
+    if (memberTier === 'Gold' || memberTier === 'Platinum') {
+      await db.query("UPDATE members SET status='approved', tier_expires_at = DATE_ADD(NOW(), INTERVAL 1 YEAR) WHERE id=?", [memberId]);
+    } else {
+      await db.query("UPDATE members SET status='approved', tier_expires_at = NULL WHERE id=?", [memberId]);
+    }
+
     res.json({ success: true, message: 'Đã duyệt hội viên.' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

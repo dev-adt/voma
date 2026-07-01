@@ -1438,11 +1438,9 @@ app.get('/api/events', async (req, res) => {
       // Đã đăng nhập -> Lấy đầy đủ thông tin sự kiện và trạng thái quan tâm
       sql = `
         SELECT e.*, 
-               COUNT(ei.id) AS interest_count,
-               SUM(CASE WHEN ei.member_id = ? THEN 1 ELSE 0 END) > 0 AS is_interested
+               (SELECT COUNT(*) FROM event_interests WHERE event_id = e.id) AS interest_count,
+               (SELECT COUNT(*) FROM event_interests WHERE event_id = e.id AND member_id = ?) > 0 AS is_interested
         FROM events e
-        LEFT JOIN event_interests ei ON e.id = ei.event_id
-        GROUP BY e.id
         ORDER BY e.event_date ASC
       `;
       params.push(memberId);
@@ -1450,11 +1448,9 @@ app.get('/api/events', async (req, res) => {
       // Khách vãng lai -> Chỉ trả về thông tin hạn chế (mô tả, địa điểm bị ẩn/mã hóa)
       sql = `
         SELECT e.id, e.title, e.event_date, e.organizer, e.status, e.created_at, e.capacity,
-               COUNT(ei.id) AS interest_count,
+               (SELECT COUNT(*) FROM event_interests WHERE event_id = e.id) AS interest_count,
                0 AS is_interested
         FROM events e
-        LEFT JOIN event_interests ei ON e.id = ei.event_id
-        GROUP BY e.id
         ORDER BY e.event_date ASC
       `;
     }

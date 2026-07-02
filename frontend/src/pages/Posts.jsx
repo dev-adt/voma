@@ -132,7 +132,8 @@ export const Posts = () => {
           <div style={{ position: 'relative', height: '240px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', background: 'var(--surface-2)', marginBottom: '3rem', display: 'flex', alignItems: 'center' }}>
             {platinumPosts.map((p, idx) => {
               const isActive = idx === activeSlide;
-              const postImg = p.image_url || demoImages[p.id % demoImages.length];
+              const hasValidSlideImg = p.image_url && p.image_url !== 'null' && p.image_url !== 'undefined' && p.image_url.trim() !== '';
+              const postImg = hasValidSlideImg ? p.image_url : demoImages[p.id % demoImages.length];
               return (
                 <div key={p.id} style={{
                   position: 'absolute',
@@ -299,7 +300,8 @@ export const Posts = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {currentPosts.map((p) => {
               const dateStr = p.created_at ? new Date(p.created_at).toLocaleDateString('vi-VN') : '11/06/2026';
-              const pImg = p.image_url || demoImages[p.id % demoImages.length];
+              const hasValidListImg = p.image_url && p.image_url !== 'null' && p.image_url !== 'undefined' && p.image_url.trim() !== '';
+              const pImg = hasValidListImg ? p.image_url : demoImages[p.id % demoImages.length];
               const isPlat = p.company_tier === 'Platinum';
               const isGld = p.company_tier === 'Gold';
               const avatarColors = getInitialsColors(p.company_name);

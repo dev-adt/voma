@@ -18,6 +18,22 @@ export const Home = () => {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventModalOpen, setEventModalOpen] = useState(false);
+  const [featuredMembers, setFeaturedMembers] = useState([]);
+  const [loadingMembers, setLoadingMembers] = useState(true);
+
+  const getMemberInitialsColors = (name) => {
+    if (!name) return { bg: '#E6F1FB', fg: '#0C447C' };
+    const sum = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const colors = [
+      { bg: '#E6F1FB', fg: '#0C447C' },
+      { bg: '#EAF3DE', fg: '#27500A' },
+      { bg: '#FAEEDA', fg: '#633806' },
+      { bg: '#EEEDFE', fg: '#3C3489' },
+      { bg: '#E1F5EE', fg: '#085041' },
+      { bg: '#FAECE7', fg: '#712B13' }
+    ];
+    return colors[sum % colors.length];
+  };
   
   // Modal State
   const [selectedPost, setSelectedPost] = useState(null);
@@ -81,6 +97,26 @@ export const Home = () => {
     };
     fetchEvents();
   }, [token]);
+
+  // Fetch Featured Members (limit to 3)
+  useEffect(() => {
+    const fetchFeaturedMembers = async () => {
+      try {
+        const res = await fetch('/api/members?status=approved');
+        if (res.ok) {
+          const data = await res.json();
+          const all = data.data || [];
+          const featured = all.filter(m => m.is_featured === 1);
+          setFeaturedMembers(featured.slice(0, 3));
+        }
+      } catch (err) {
+        console.error('Error fetching featured members:', err);
+      } finally {
+        setLoadingMembers(false);
+      }
+    };
+    fetchFeaturedMembers();
+  }, []);
 
   const openPostDetail = (post) => {
     setSelectedPost(post);
@@ -286,7 +322,8 @@ export const Home = () => {
             ) : latestPosts.length > 0 ? (
               latestPosts.map((p, idx) => {
                 const dateStr = p.created_at ? new Date(p.created_at).toLocaleDateString('vi-VN') : '11/06/2026';
-                const imgUrl = p.image_url || demoImages[idx % demoImages.length];
+                const hasValidImage = p.image_url && p.image_url !== 'null' && p.image_url !== 'undefined' && p.image_url.trim() !== '';
+                const imgUrl = hasValidImage ? p.image_url : demoImages[idx % demoImages.length];
                 const companyName = p.company_name || 'Hội viên ẩn danh';
                 return (
                   <div className="opp-card" key={p.id} style={{ position: 'relative' }}>
@@ -319,6 +356,77 @@ export const Home = () => {
             )}
           </div>
         </section>
+
+        {/* FEATURED MEMBERS SECTION */}
+        {!loadingMembers && featuredMembers.length > 0 && (
+          <section id="featured-members" style={{ marginBottom: '5rem' }}>
+            <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
+              <div>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Đối tác tin cậy</div>
+                <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>Hội viên nổi bật</h2>
+              </div>
+              <Link to="/members" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
+                Xem tất cả hội viên <i className="ti ti-arrow-right"></i>
+              </Link>
+            </div>
+
+            <div className="opp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+              {featuredMembers.map((m) => {
+                const avatarColors = getMemberInitialsColors(m.name);
+                const initials = m.name ? m.name.split(' ').filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'HV';
+                const tierBadge = m.tier === 'Platinum' ? '💎 Platinum' : m.tier === 'Gold' ? '🏅 Gold' : '🪙 Silver';
+                const tierClass = m.tier === 'Platinum' ? 'b-platinum' : m.tier === 'Gold' ? 'b-gold' : 'b-silver';
+                
+                return (
+                  <div className="glass-card" key={m.id} style={{ 
+                    position: 'relative', 
+                    borderRadius: '16px', 
+                    overflow: 'hidden', 
+                    border: '1px solid rgba(245,158,11,0.25)', 
+                    background: 'linear-gradient(135deg, rgba(245,158,11,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    transition: 'transform 0.3s ease, border-color 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.borderColor = 'rgba(245,158,11,0.45)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'none';
+                    e.currentTarget.style.borderColor = 'rgba(245,158,11,0.25)';
+                  }}
+                  onClick={() => navigate('/members')}
+                  >
+                    <div style={{ position: 'absolute', top: 0, right: 0, width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0) 70%)', pointerEvents: 'none' }} />
+
+                    <div style={{ height: '60px', background: `linear-gradient(135deg, ${avatarColors.bg} 0%, rgba(255,255,255,0) 100%)`, borderBottom: '1px solid rgba(255,255,255,0.05)' }}></div>
+                    <div style={{ padding: '1.5rem', marginTop: '-35px', display: 'flex', flexDirection: 'column', flex: 1, textAlign: 'left' }}>
+                      <div className="av-circle" style={{ background: avatarColors.bg, color: avatarColors.fg, width: '54px', height: '54px', fontSize: '16px', border: '3px solid var(--surface-1)', marginBottom: '12px', fontWeight: 700 }}>{initials}</div>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                        <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', fontWeight: 700, color: '#fff', margin: 0, flex: 1 }}>{m.name}</h3>
+                        <span className={`badge ${tierClass}`} style={{ fontSize: '9px', padding: '2px 6px' }}>{tierBadge}</span>
+                      </div>
+
+                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <i className="ti ti-briefcase" style={{ color: 'var(--amber)' }}></i> {m.industry || 'Chưa phân loại'}
+                      </div>
+
+                      <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '15px', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{m.description || 'Chưa có mô tả chi tiết hoạt động kinh doanh.'}</p>
+                      
+                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px', marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}><i className="ti ti-map-pin"></i> {m.city || 'Việt Nam'}</span>
+                        <span style={{ fontSize: '12px', color: 'var(--amber)', fontWeight: 600 }}>Liên hệ <i className="ti ti-chevron-right"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* UPCOMING EVENTS SECTION */}
         <section id="events" style={{ marginBottom: '5rem' }}>

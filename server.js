@@ -122,6 +122,10 @@ db.query(`
       await db.query("ALTER TABLE members ADD COLUMN pending_tier_upgrade ENUM('Silver','Gold','Platinum') DEFAULT NULL AFTER tier_expires_at");
       console.log('✅ Đã thêm cột pending_tier_upgrade vào bảng members');
     }
+    if (!memberColNames.includes('is_featured')) {
+      await db.query("ALTER TABLE members ADD COLUMN is_featured TINYINT(1) DEFAULT 0");
+      console.log('✅ Đã thêm cột is_featured vào bảng members');
+    }
 
     // Cập nhật ENUM cho status cột của bảng members để hỗ trợ 'suspended'
     await db.query("ALTER TABLE members MODIFY COLUMN status ENUM('pending','approved','rejected','suspended') DEFAULT 'pending'");
@@ -926,6 +930,27 @@ app.patch('/api/admin/members/:id/unlock', authMiddleware, async (req, res) => {
     const memberId = req.params.id;
     await db.query("UPDATE members SET status='approved' WHERE id=?", [memberId]);
     res.json({ success: true, message: 'Đã mở khóa tài khoản hội viên.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Ghim/bỏ ghim nổi bật hội viên (Admin)
+app.patch('/api/admin/members/:id/featured', authMiddleware, async (req, res) => {
+  try {
+    const memberId = req.params.id;
+    const { is_featured } = req.body; // 0 hoặc 1
+
+    if (is_featured) {
+      // Giới hạn tối đa 3 hội viên nổi bật
+      const [existing] = await db.query("SELECT id FROM members WHERE is_featured = 1 AND status = 'approved'");
+      if (existing.length >= 3) {
+        return res.status(400).json({ success: false, error: 'Đã có tối đa 3 hội viên nổi bật được ghim. Vui lòng bỏ ghim bớt trước khi ghim thêm.' });
+      }
+    }
+
+    await db.query("UPDATE members SET is_featured = ? WHERE id = ?", [is_featured ? 1 : 0, memberId]);
+    res.json({ success: true, message: is_featured ? 'Đã ghim hội viên nổi bật.' : 'Đã bỏ ghim hội viên nổi bật.' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

@@ -78,7 +78,8 @@ export const PostDetail = () => {
   }
 
   const dateStr = post.created_at ? new Date(post.created_at).toLocaleDateString('vi-VN') : '11/06/2026';
-  const imgUrl = post.image_url || demoImages[post.id % demoImages.length];
+  const hasValidImg = post.image_url && post.image_url !== 'null' && post.image_url !== 'undefined' && post.image_url.trim() !== '';
+  const imgUrl = hasValidImg ? post.image_url : demoImages[post.id % demoImages.length];
   const isGuest = role === 'guest';
   const isPlatinum = post.company_tier === 'Platinum';
   const isGold = post.company_tier === 'Gold';

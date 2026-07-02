@@ -180,6 +180,26 @@ export const AdminMembers = () => {
     }
   };
 
+  const handleToggleFeatured = async (id, isCurrentlyFeatured, name) => {
+    try {
+      const targetState = isCurrentlyFeatured ? 0 : 1;
+      const res = await fetch(`/api/admin/members/${id}/featured`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ is_featured: targetState })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || 'Thao tác không thành công.');
+        return;
+      }
+      alert(targetState ? `Đã ghim hội viên "${name}" nổi bật.` : `Đã bỏ ghim hội viên "${name}".`);
+      loadMembers();
+    } catch (err) {
+      alert('Có lỗi xảy ra: ' + err.message);
+    }
+  };
+
   const getInitialsColors = (name) => {
     const sum = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const colors = [
@@ -247,8 +267,9 @@ export const AdminMembers = () => {
                   <th style={{ padding: '12px 16px' }}>Người đại diện</th>
                   <th style={{ padding: '12px 16px' }}>Ngành nghề</th>
                   <th style={{ padding: '12px 16px' }}>Phân hạng</th>
+                  <th style={{ padding: '12px 16px' }}>Nổi bật</th>
                   <th style={{ padding: '12px 16px' }}>Trạng thái</th>
-                  <th style={{ padding: '12px 16px', textAction: 'right' }}>Thao tác</th>
+                  <th style={{ padding: '12px 16px', textAlign: 'right' }}>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -305,6 +326,27 @@ export const AdminMembers = () => {
                               </button>
                             </div>
                           </div>
+                        )}
+                      </td>
+                      <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                        {m.status === 'approved' ? (
+                          <button 
+                            onClick={() => handleToggleFeatured(m.id, m.is_featured === 1, m.name)}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: m.is_featured === 1 ? '#F59E0B' : '#CBD5E1',
+                              cursor: 'pointer',
+                              fontSize: '16px',
+                              outline: 'none',
+                              padding: 0
+                            }}
+                            title={m.is_featured === 1 ? "Bỏ ghim nổi bật" : "Ghim nổi bật (Tối đa 3 hội viên)"}
+                          >
+                            <i className={m.is_featured === 1 ? "ti ti-star-filled" : "ti ti-star"}></i>
+                          </button>
+                        ) : (
+                          <span style={{ color: '#94A3B8', fontSize: '11px' }}>-</span>
                         )}
                       </td>
                       <td style={{ padding: '12px 16px' }}>

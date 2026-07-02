@@ -13,7 +13,7 @@ export const MemberDashboard = () => {
     name: '', tax_code: '', license: '', industry: '', size: '', address: '',
     website: '', social: '', description: '', contact_name: '', contact_pos: '',
     phone: '', goal: '', password: '',
-    status: '', tier: ''
+    status: '', tier: '', tier_expires_at: null, pending_tier_upgrade: null
   });
   
   const [dbStats, setDbStats] = useState({
@@ -64,7 +64,9 @@ export const MemberDashboard = () => {
             goal: m.goal || '',
             password: '',
             status: m.status || 'pending',
-            tier: m.tier || 'Silver'
+            tier: m.tier || 'Silver',
+            tier_expires_at: m.tier_expires_at || null,
+            pending_tier_upgrade: m.pending_tier_upgrade || null
           });
           setDbStats(data.stats);
           setMemberPosts(data.posts || []);

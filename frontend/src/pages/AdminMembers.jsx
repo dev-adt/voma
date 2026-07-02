@@ -12,6 +12,11 @@ export const AdminMembers = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState('');
 
+  // States for Editing Member Tier/Expiration
+  const [editTierModalOpen, setEditTierModalOpen] = useState(false);
+  const [selectedMemberToEdit, setSelectedMemberToEdit] = useState(null);
+  const [editTierForm, setEditTierForm] = useState({ tier: 'Silver', tier_expires_at: '' });
+
   const loadMembers = async () => {
     setLoading(true);
     try {
@@ -200,6 +205,40 @@ export const AdminMembers = () => {
     }
   };
 
+  const openEditTierModal = (member) => {
+    setSelectedMemberToEdit(member);
+    let dateVal = '';
+    if (member.tier_expires_at) {
+      dateVal = new Date(member.tier_expires_at).toISOString().substring(0, 10);
+    }
+    setEditTierForm({
+      tier: member.tier || 'Silver',
+      tier_expires_at: dateVal
+    });
+    setEditTierModalOpen(true);
+  };
+
+  const handleSaveTier = async () => {
+    if (!selectedMemberToEdit) return;
+    try {
+      const res = await fetch(`/api/admin/members/${selectedMemberToEdit.id}/tier`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(editTierForm)
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || 'Thao tác không thành công.');
+        return;
+      }
+      alert('Đã cập nhật hạng và thời hạn thành viên thành công!');
+      setEditTierModalOpen(false);
+      loadMembers();
+    } catch (err) {
+      alert('Lỗi: ' + err.message);
+    }
+  };
+
   const getInitialsColors = (name) => {
     const sum = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const colors = [
@@ -366,7 +405,10 @@ export const AdminMembers = () => {
                             <button className="quick-btn quick-btn-approve" onClick={() => handleApprove(m.id, m.name)} style={{ padding: '4px 8px', fontSize: '11px', cursor: 'pointer' }}>Duyệt lại</button>
                           )}
                           {m.status === 'approved' && (
-                            <button className="quick-btn" onClick={() => handleLock(m.id, m.name)} style={{ padding: '4px 8px', fontSize: '11px', background: '#F59E0B', color: '#fff', border: '1px solid #F59E0B', borderRadius: '4px', cursor: 'pointer' }}>Khóa</button>
+                            <>
+                              <button className="quick-btn" onClick={() => openEditTierModal(m)} style={{ padding: '4px 8px', fontSize: '11px', background: '#10B981', color: '#fff', border: '1px solid #10B981', borderRadius: '4px', cursor: 'pointer' }}>Sửa hạng</button>
+                              <button className="quick-btn" onClick={() => handleLock(m.id, m.name)} style={{ padding: '4px 8px', fontSize: '11px', background: '#F59E0B', color: '#fff', border: '1px solid #F59E0B', borderRadius: '4px', cursor: 'pointer' }}>Khóa</button>
+                            </>
                           )}
                           {m.status === 'suspended' && (
                             <button className="quick-btn quick-btn-approve" onClick={() => handleUnlock(m.id, m.name)} style={{ padding: '4px 8px', fontSize: '11px', cursor: 'pointer' }}>Mở khóa</button>
@@ -385,6 +427,62 @@ export const AdminMembers = () => {
           </div>
         )}
       </div>
+
+      {/* EDIT TIER MODAL */}
+      {editTierModalOpen && selectedMemberToEdit && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div className="card" style={{ width: '400px', padding: '1.5rem', background: '#fff', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
+            <h3 style={{ margin: '0 0 1rem', fontSize: '16px', color: '#0F172A', fontWeight: 700, borderBottom: '1px solid #F1F5F9', paddingBottom: '10px' }}>Thay đổi hạng & thời hạn thành viên</h3>
+            
+            <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '1.25rem', textAlign: 'left' }}>
+              Doanh nghiệp: <strong style={{ color: '#0F172A' }}>{selectedMemberToEdit.name}</strong>
+            </div>
+
+            <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>Chọn phân hạng</label>
+              <select 
+                value={editTierForm.tier} 
+                onChange={(e) => setEditTierForm(prev => ({ ...prev, tier: e.target.value }))}
+                style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', outline: 'none', background: '#fff', fontSize: '13px' }}
+              >
+                <option value="Silver">Silver (Mặc định)</option>
+                <option value="Gold">Gold</option>
+                <option value="Platinum">Platinum</option>
+              </select>
+            </div>
+
+            {editTierForm.tier !== 'Silver' && (
+              <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>Hạn dùng gói</label>
+                <input 
+                  type="date" 
+                  value={editTierForm.tier_expires_at} 
+                  onChange={(e) => setEditTierForm(prev => ({ ...prev, tier_expires_at: e.target.value }))}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', outline: 'none', fontSize: '13px' }}
+                  required
+                />
+              </div>
+            )}
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid #F1F5F9', paddingTop: '12px' }}>
+              <button 
+                className="btn" 
+                onClick={() => setEditTierModalOpen(false)}
+                style={{ fontSize: '12px', padding: '6px 14px', background: '#F1F5F9', color: '#475569', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
+              >
+                Hủy
+              </button>
+              <button 
+                className="btn btn-primary" 
+                onClick={handleSaveTier}
+                style={{ fontSize: '12px', padding: '6px 14px', borderRadius: '6px', cursor: 'pointer' }}
+              >
+                Cập nhật
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 };

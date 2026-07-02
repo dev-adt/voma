@@ -935,6 +935,29 @@ app.patch('/api/admin/members/:id/unlock', authMiddleware, async (req, res) => {
   }
 });
 
+// Thay đổi cấp hạng và thời hạn hội viên linh hoạt (Admin)
+app.patch('/api/admin/members/:id/tier', authMiddleware, async (req, res) => {
+  try {
+    const memberId = req.params.id;
+    const { tier, tier_expires_at } = req.body;
+
+    if (!['Silver', 'Gold', 'Platinum'].includes(tier)) {
+      return res.status(400).json({ success: false, error: 'Hạng thành viên không hợp lệ.' });
+    }
+
+    const expiration = (tier === 'Silver' || !tier_expires_at) ? null : tier_expires_at;
+
+    await db.query(
+      "UPDATE members SET tier = ?, tier_expires_at = ?, pending_tier_upgrade = NULL WHERE id = ?",
+      [tier, expiration, memberId]
+    );
+
+    res.json({ success: true, message: `Đã cập nhật thành viên thành gói ${tier} thành công.` });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Ghim/bỏ ghim nổi bật hội viên (Admin)
 app.patch('/api/admin/members/:id/featured', authMiddleware, async (req, res) => {
   try {

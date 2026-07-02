@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Members from './pages/Members';
 import Posts from './pages/Posts';
+import PostDetail from './pages/PostDetail';
 import Events from './pages/Events';
 import AIChat from './pages/AIChat';
 import MemberDashboard from './pages/MemberDashboard';
@@ -43,6 +44,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/members" element={<Members />} />
             <Route path="/posts" element={<Posts />} />
+            <Route path="/posts/:id" element={<PostDetail />} />
             <Route path="/events" element={<Events />} />
             <Route path="/ai-chat" element={<AIChat />} />
 

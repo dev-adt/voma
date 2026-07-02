@@ -38,9 +38,9 @@ export const Footer = () => {
           </div>
           <div>
             <h4 style={{ color: '#ffffff', fontFamily: 'var(--font-title)', fontSize: '14px', fontWeight: '600', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Liên hệ</h4>
-            <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}><i className="ti ti-mail"></i> support@avg.today</div>
-            <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}><i className="ti ti-phone"></i> 1900 xxxx</div>
-            <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}><i className="ti ti-map-pin"></i> Hà Nội, Việt Nam</div>
+            <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}><i className="ti ti-mail"></i> info@adtgroup.net</div>
+            <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}><i className="ti ti-phone"></i> 098635415</div>
+            <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}><i className="ti ti-map-pin"></i> 26 TT23 Khu Đô Thị Văn Phú, Phường Kiến Hưng, Hà Nội, Việt Nam</div>
           </div>
         </div>
         

@@ -76,6 +76,25 @@ export const AdminPosts = () => {
     }
   };
 
+  const handleToggleFeatured = async (id, currentFeatured) => {
+    try {
+      const res = await fetch(`/api/posts/${id}/featured`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ is_featured: currentFeatured ? 0 : 1 })
+      });
+      if (res.ok) {
+        alert(currentFeatured ? 'Đã bỏ ghim bài viết nổi bật.' : 'Đã ghim bài viết nổi bật thành công!');
+        loadPosts();
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Thao tác thất bại.');
+      }
+    } catch (err) {
+      alert('Lỗi: ' + err.message);
+    }
+  };
+
   // Tìm kiếm cục bộ
   const filteredPosts = posts.filter(p => {
     if (!searchQuery) return true;
@@ -125,8 +144,9 @@ export const AdminPosts = () => {
               <thead>
                 <tr style={{ borderBottom: '2px solid #E2E8F0', textAlign: 'left', background: '#F8FAFC' }}>
                   <th style={{ padding: '12px 16px' }}>Doanh nghiệp</th>
-                  <th style={{ padding: '12px 16px', width: '35%' }}>Tiêu đề tin đăng</th>
+                  <th style={{ padding: '12px 16px', width: '30%' }}>Tiêu đề tin đăng</th>
                   <th style={{ padding: '12px 16px' }}>Phân loại</th>
+                  <th style={{ padding: '12px 16px' }}>Nổi bật</th>
                   <th style={{ padding: '12px 16px' }}>Lượt xem</th>
                   <th style={{ padding: '12px 16px' }}>Ngày đăng</th>
                   <th style={{ padding: '12px 16px' }}>Trạng thái</th>
@@ -149,6 +169,26 @@ export const AdminPosts = () => {
                       </div>
                     </td>
                     <td style={{ padding: '12px 16px', color: '#475569' }}>{p.type || 'Nhu cầu'}</td>
+                    <td style={{ padding: '12px 16px' }}>
+                      {p.status === 'approved' ? (
+                        <button 
+                          onClick={() => handleToggleFeatured(p.id, p.is_featured === 1)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: p.is_featured === 1 ? '#F59E0B' : '#CBD5E1',
+                            fontSize: '18px',
+                            padding: 0
+                          }}
+                          title={p.is_featured === 1 ? "Bỏ ghim bài nổi bật" : "Ghim nổi bật (Tối đa 3 bài)"}
+                        >
+                          <i className={`ti ${p.is_featured === 1 ? 'ti-star-filled' : 'ti-star'}`}></i>
+                        </button>
+                      ) : (
+                        <span style={{ color: '#94A3B8', fontSize: '11px' }}>Chờ duyệt</span>
+                      )}
+                    </td>
                     <td style={{ padding: '12px 16px', color: '#475569' }}><i className="ti ti-eye"></i> {p.views || 0}</td>
                     <td style={{ padding: '12px 16px', color: '#64748B' }}>
                       {new Date(p.created_at).toLocaleDateString('vi-VN')}

@@ -47,7 +47,11 @@ export const Home = () => {
         const res = await fetch('/api/posts?status=approved', { headers });
         if (res.ok) {
           const data = await res.json();
-          setLatestPosts((data.data || []).slice(0, 3));
+          const allPosts = data.data || [];
+          // Sắp xếp: bài nổi bật lên đầu, sau đó đến bài viết mới nhất
+          const featured = allPosts.filter(p => p.is_featured === 1);
+          const normal = allPosts.filter(p => p.is_featured !== 1);
+          setLatestPosts([...featured, ...normal].slice(0, 3));
         }
       } catch (err) {
         console.error('Error fetching latest posts:', err);
@@ -285,7 +289,12 @@ export const Home = () => {
                 const imgUrl = p.image_url || demoImages[idx % demoImages.length];
                 const companyName = p.company_name || 'Hội viên ẩn danh';
                 return (
-                  <div className="opp-card" key={p.id}>
+                  <div className="opp-card" key={p.id} style={{ position: 'relative' }}>
+                    {p.is_featured === 1 && (
+                      <span style={{ position: 'absolute', top: '12px', right: '12px', fontSize: '9px', background: 'rgba(245, 158, 11, 0.15)', color: 'var(--amber)', border: '1px solid rgba(245,158,11,0.3)', padding: '2px 6px', borderRadius: '3px', textTransform: 'uppercase', fontWeight: 700, zIndex: 10 }}>
+                        Nổi bật <i className="ti ti-star-filled"></i>
+                      </span>
+                    )}
                     <img src={imgUrl} className="opp-img" alt={p.title} />
                     <div className="opp-content">
                       <h3 className="opp-title">{p.title}</h3>
@@ -297,7 +306,7 @@ export const Home = () => {
                       </div>
                       <div className="opp-foot">
                         <span>{dateStr}</span>
-                        <button className="opp-btn" onClick={() => openPostDetail(p)}>Xem chi tiết</button>
+                        <button className="opp-btn" onClick={() => navigate('/posts/' + p.id)}>Đọc bài</button>
                       </div>
                     </div>
                   </div>
@@ -436,56 +445,7 @@ export const Home = () => {
 
       <Footer />
 
-      {/* Modal xem chi tiết cơ hội giao thương */}
-      {modalOpen && selectedPost && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(8,14,30,0.85)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-          <div className="glass-card" style={{ width: '100%', maxWidth: '550px', padding: '2rem', borderColor: 'var(--border-strong)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
-                <i className="ti ti-bulb" style={{ color: 'var(--neon-cyan)' }}></i> Chi tiết cơ hội giao thương
-              </h3>
-              <button onClick={closePostDetail} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px', cursor: 'pointer' }}><i className="ti ti-x"></i></button>
-            </div>
-            
-            <div style={{ marginBottom: '1.5rem', maxHeight: '50vh', overflowY: 'auto', textAlign: 'left' }}>
-              {selectedPost.image_url && (
-                <div style={{ marginBottom: '14px', width: '100%', height: '180px', borderRadius: '8px', overflow: 'hidden' }}>
-                  <img src={selectedPost.image_url} alt={selectedPost.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              )}
-              <div style={{ marginBottom: '14px' }}>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--neon-cyan)', fontWeight: 700 }}>Doanh nghiệp</span>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: '#FFFFFF', marginTop: '2px' }}>{selectedPost.company_name || 'Hội viên ẩn danh'}</div>
-              </div>
-              <div style={{ marginBottom: '14px' }}>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--neon-cyan)', fontWeight: 700 }}>Tiêu đề</span>
-                <div style={{ fontSize: '14px', fontWeight: 600, color: '#FFFFFF', marginTop: '2px' }}>{selectedPost.title}</div>
-              </div>
-              <div style={{ marginBottom: '14px' }}>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--neon-cyan)', fontWeight: 700 }}>Nội dung chi tiết</span>
-                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '6px', whiteSpace: 'pre-line', lineHeight: '1.6' }}>{selectedPost.body}</div>
-              </div>
-              
-              {role === 'guest' ? (
-                <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(30,136,229,0.08)', border: '1px solid rgba(30,136,229,0.2)', borderRadius: '10px', textAlign: 'center' }}>
-                  <i className="ti ti-lock" style={{ fontSize: '20px', color: 'var(--primary)', display: 'block', marginBottom: '6px' }}></i>
-                  <div style={{ fontSize: '12.5px', color: 'var(--text-secondary)', marginBottom: '10px' }}>Đăng nhập hội viên để xem thông tin liên hệ đối tác</div>
-                  <Link to="/login" className="btn btn-primary" style={{ padding: '7px 18px', fontSize: '12px', textDecoration: 'none', display: 'inline-flex' }}><i className="ti ti-login"></i> Đăng nhập ngay</Link>
-                </div>
-              ) : (
-                <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(0,255,163,0.06)', border: '1px solid rgba(0,255,163,0.2)', borderRadius: '10px' }}>
-                  <div style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--neon-cyan)', fontWeight: 700, marginBottom: '6px' }}><i className="ti ti-phone"></i> Thông tin liên hệ</div>
-                  <div style={{ fontSize: '13px', color: '#FFFFFF', whiteSpace: 'pre-wrap' }}>{selectedPost.contact_info}</div>
-                </div>
-              )}
-            </div>
-            
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <button className="btn btn-primary" onClick={closePostDetail}>Đóng</button>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Modal xem chi tiết sự kiện */}
       {eventModalOpen && selectedEvent && (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
+import RichTextEditor from '../components/RichTextEditor';
 
 export const MemberDashboard = () => {
   const { user, token, getAuthHeaders, logout } = useAuth();
@@ -609,7 +610,11 @@ export const MemberDashboard = () => {
 
                 <div className="fg">
                   <label>Nội dung chi tiết cơ hội giao thương <span style={{ color: 'var(--rose)' }}>*</span></label>
-                  <textarea id="body" value={newPostData.body} onChange={handleNewPostChange} placeholder="Mô tả chi tiết sản phẩm, dịch vụ, tiêu chí đối tác cần tìm kiếm..." style={{ height: '100px', resize: 'vertical' }} required />
+                  <RichTextEditor 
+                    value={newPostData.body} 
+                    onChange={(val) => setNewPostData(prev => ({ ...prev, body: val }))} 
+                    placeholder="Mô tả chi tiết sản phẩm, dịch vụ, tiêu chí đối tác cần tìm kiếm..." 
+                  />
                 </div>
 
                 <div className="fg">

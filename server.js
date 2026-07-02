@@ -97,6 +97,13 @@ db.query(`
       console.log('✅ Đã thêm cột image_url vào bảng posts');
     }
 
+    // Thêm cột is_featured vào bảng posts để ghim bài nổi bật
+    const [isFeaturedCols] = await db.query("SHOW COLUMNS FROM posts LIKE 'is_featured'");
+    if (!isFeaturedCols.length) {
+      await db.query("ALTER TABLE posts ADD COLUMN is_featured TINYINT(1) DEFAULT 0");
+      console.log('✅ Đã thêm cột is_featured vào bảng posts');
+    }
+
     // Thêm cột tier_expires_at và pending_tier_upgrade vào bảng members
     const [memberCols] = await db.query("SHOW COLUMNS FROM members");
     const memberColNames = memberCols.map(c => c.Field);
@@ -1117,6 +1124,27 @@ app.patch('/api/posts/:id/reject', authMiddleware, async (req, res) => {
     const { reason } = req.body;
     await db.query("UPDATE posts SET status='rejected', reject_reason=? WHERE id=?", [reason || '', req.params.id]);
     res.json({ success: true, message: 'Đã từ chối bài viết.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Ghim/bỏ ghim nổi bật bài viết (Admin)
+app.patch('/api/posts/:id/featured', authMiddleware, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { is_featured } = req.body; // 0 hoặc 1
+
+    if (is_featured) {
+      // Giới hạn tối đa 3 bài viết nổi bật
+      const [existing] = await db.query("SELECT id FROM posts WHERE is_featured = 1 AND status = 'approved'");
+      if (existing.length >= 3) {
+        return res.status(400).json({ success: false, error: 'Đã có tối đa 3 bài viết nổi bật được ghim. Vui lòng bỏ ghim bớt trước khi ghim thêm.' });
+      }
+    }
+
+    await db.query("UPDATE posts SET is_featured = ? WHERE id = ?", [is_featured ? 1 : 0, postId]);
+    res.json({ success: true, message: is_featured ? 'Đã ghim bài viết nổi bật.' : 'Đã bỏ ghim bài viết nổi bật.' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

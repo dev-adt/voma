@@ -206,20 +206,31 @@ export const Register = () => {
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
                       <div className="fg">
-                        <label style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px', display: 'block' }}>Lĩnh vực hoạt động <span style={{ color: 'var(--rose)' }}>*</span></label>
-                        <select id="r-industry" value={formData.industry} onChange={handleInputChange} style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', fontSize: '13px', outline: 'none', backgroundColor: '#fff' }}>
-                          <option value="">-- Chọn lĩnh vực --</option>
-                          <option value="Công nghệ thông tin">Công nghệ thông tin</option>
-                          <option value="Xuất nhập khẩu">Xuất nhập khẩu</option>
-                          <option value="Bất động sản">Bất động sản</option>
-                          <option value="Sản xuất & Chế biến">Sản xuất & Chế biến</option>
-                          <option value="Dịch vụ tài chính">Dịch vụ tài chính</option>
-                          <option value="Du lịch & Khách sạn">Du lịch & Khách sạn</option>
-                          <option value="Giáo dục & Đào tạo">Giáo dục & Đào tạo</option>
-                          <option value="Y tế & Sức khỏe">Y tế & Sức khỏe</option>
-                          <option value="Nông nghiệp">Nông nghiệp</option>
-                          <option value="Xây dựng">Xây dựng</option>
-                        </select>
+                        <input 
+                          type="text" 
+                          id="r-industry" 
+                          list="industries-list" 
+                          value={formData.industry} 
+                          onChange={handleInputChange} 
+                          placeholder="Chọn hoặc tự điền lĩnh vực..."
+                          style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', fontSize: '13px', outline: 'none', backgroundColor: '#fff' }} 
+                        />
+                        <datalist id="industries-list">
+                          <option value="Công nghệ thông tin" />
+                          <option value="Xuất nhập khẩu" />
+                          <option value="Bất động sản" />
+                          <option value="Sản xuất & Chế biến" />
+                          <option value="Dịch vụ tài chính" />
+                          <option value="Du lịch & Khách sạn" />
+                          <option value="Giáo dục & Đào tạo" />
+                          <option value="Y tế & Sức khỏe" />
+                          <option value="Nông nghiệp" />
+                          <option value="Xây dựng" />
+                          <option value="Thời trang & May mặc" />
+                          <option value="Logistics & Vận tải" />
+                          <option value="Năng lượng & Môi trường" />
+                          <option value="Thực phẩm & Đồ uống" />
+                        </datalist>
                       </div>
                       <div className="fg">
                         <label style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px', display: 'block' }}>Quy mô (Nhân sự) <span style={{ color: 'var(--rose)' }}>*</span></label>
@@ -240,17 +251,80 @@ export const Register = () => {
                         <input type="text" id="r-tax_code" value={formData.tax_code} onChange={handleInputChange} placeholder="Mã số thuế gồm 10 chữ số" style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', fontSize: '13px', outline: 'none' }} />
                       </div>
                       <div className="fg">
-                        <label style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px', display: 'block' }}>Tỉnh/Thành phố trụ sở <span style={{ color: 'var(--rose)' }}>*</span></label>
-                        <select id="r-city" value={formData.city} onChange={handleInputChange} style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', fontSize: '13px', outline: 'none', backgroundColor: '#fff' }}>
-                          <option value="">-- Chọn tỉnh thành --</option>
-                          <option value="Hà Nội">Hà Nội</option>
-                          <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
-                          <option value="Đà Nẵng">Đà Nẵng</option>
-                          <option value="Bình Dương">Bình Dương</option>
-                          <option value="Đồng Nai">Đồng Nai</option>
-                          <option value="Hải Phòng">Hải Phòng</option>
-                          <option value="Cần Thơ">Cần Thơ</option>
-                        </select>
+                        <input 
+                          type="text" 
+                          id="r-city" 
+                          list="cities-list" 
+                          value={formData.city} 
+                          onChange={handleInputChange} 
+                          placeholder="Chọn hoặc tự điền tỉnh thành..." 
+                          style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', fontSize: '13px', outline: 'none', backgroundColor: '#fff' }}
+                        />
+                        <datalist id="cities-list">
+                          <option value="Hà Nội" />
+                          <option value="TP. Hồ Chí Minh" />
+                          <option value="Đà Nẵng" />
+                          <option value="Bình Dương" />
+                          <option value="Đồng Nai" />
+                          <option value="Hải Phòng" />
+                          <option value="Cần Thơ" />
+                          <option value="An Giang" />
+                          <option value="Bà Rịa - Vũng Tàu" />
+                          <option value="Bắc Giang" />
+                          <option value="Bắc Kạn" />
+                          <option value="Bạc Liêu" />
+                          <option value="Bắc Ninh" />
+                          <option value="Bến Tre" />
+                          <option value="Bình Định" />
+                          <option value="Bình Phước" />
+                          <option value="Bình Thuận" />
+                          <option value="Cà Mau" />
+                          <option value="Cao Bằng" />
+                          <option value="Đắk Lắk" />
+                          <option value="Đắk Nông" />
+                          <option value="Điện Biên" />
+                          <option value="Đồng Tháp" />
+                          <option value="Gia Lai" />
+                          <option value="Hà Giang" />
+                          <option value="Hà Nam" />
+                          <option value="Hà Tĩnh" />
+                          <option value="Hải Dương" />
+                          <option value="Hậu Giang" />
+                          <option value="Hòa Bình" />
+                          <option value="Hưng Yên" />
+                          <option value="Khánh Hòa" />
+                          <option value="Kiên Giang" />
+                          <option value="Kon Tum" />
+                          <option value="Lai Châu" />
+                          <option value="Lâm Đồng" />
+                          <option value="Lạng Sơn" />
+                          <option value="Lào Cai" />
+                          <option value="Long An" />
+                          <option value="Nam Định" />
+                          <option value="Nghệ An" />
+                          <option value="Ninh Bình" />
+                          <option value="Ninh Thuận" />
+                          <option value="Phú Thọ" />
+                          <option value="Phú Yên" />
+                          <option value="Quảng Bình" />
+                          <option value="Quảng Nam" />
+                          <option value="Quảng Ngãi" />
+                          <option value="Quảng Ninh" />
+                          <option value="Quảng Trị" />
+                          <option value="Sóc Trăng" />
+                          <option value="Sơn La" />
+                          <option value="Tây Ninh" />
+                          <option value="Thái Bình" />
+                          <option value="Thái Nguyên" />
+                          <option value="Thanh Hóa" />
+                          <option value="Thừa Thiên Huế" />
+                          <option value="Tiền Giang" />
+                          <option value="Trà Vinh" />
+                          <option value="Tuyên Quang" />
+                          <option value="Vĩnh Long" />
+                          <option value="Vĩnh Phúc" />
+                          <option value="Yên Bái" />
+                        </datalist>
                       </div>
                     </div>
 

@@ -206,6 +206,7 @@ export const Register = () => {
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
                       <div className="fg">
+                        <label style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px', display: 'block' }}>Lĩnh vực hoạt động <span style={{ color: 'var(--rose)' }}>*</span></label>
                         <input 
                           type="text" 
                           id="r-industry" 
@@ -251,6 +252,7 @@ export const Register = () => {
                         <input type="text" id="r-tax_code" value={formData.tax_code} onChange={handleInputChange} placeholder="Mã số thuế gồm 10 chữ số" style={{ width: '100%', padding: '9px 12px', borderRadius: '8px', border: '1px solid #D8E2EF', fontSize: '13px', outline: 'none' }} />
                       </div>
                       <div className="fg">
+                        <label style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px', display: 'block' }}>Tỉnh/Thành phố trụ sở <span style={{ color: 'var(--rose)' }}>*</span></label>
                         <input 
                           type="text" 
                           id="r-city" 

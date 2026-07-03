@@ -192,8 +192,8 @@ export const Home = () => {
     return '/register';
   };
   const getTiersButtonText = () => {
-    if (role === 'member') return 'Nâng cấp ngay';
-    return 'Đăng ký ngay';
+    if (role === 'member') return t('btn_upgrade_now');
+    return t('btn_join_now');
   };
 
   // Demo images for trade opportunity cards
@@ -217,20 +217,20 @@ export const Home = () => {
         <div className="hero-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '3rem', marginTop: '3rem', marginBottom: '5rem', flexWrap: 'wrap' }}>
           <div className="hero-left" style={{ flex: '1.2', minWidth: '320px' }}>
             <div className="hero-badge">
-              <i className="ti ti-sparkles"></i> Kết nối giao thương số 1 Việt Nam
+              <i className="ti ti-sparkles"></i> {t('hero_badge')}
             </div>
             <h1 className="hero-title">
-              Kết nối doanh nghiệp,<br /><span>Cùng phát triển bền vững</span>
+              {t('hero_title').split(', ')[0] || ''},<br /><span>{t('hero_title').split(', ')[1] || ''}</span>
             </h1>
             <p className="hero-desc">
-              AVG là cầu nối tin cậy giữa các doanh nghiệp hàng đầu. Tìm kiếm đối tác kinh doanh nhanh chóng, chia sẻ cơ hội đầu tư hợp tác và tiếp cận trợ lý AI nghiệp vụ thông minh 24/7.
+              {t('hero_desc')}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
               <Link to="/register" className="btn btn-primary" style={{ padding: '12px 24px', fontSize: '14px', textDecoration: 'none' }}>
-                <i className="ti ti-arrow-up-right"></i> Gia nhập ngay (Miễn phí)
+                <i className="ti ti-arrow-up-right"></i> {t('hero_btn_register')}
               </Link>
               <Link to="/members" className="btn" style={{ padding: '12px 24px', fontSize: '14px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#ffffff', textDecoration: 'none' }}>
-                <i className="ti ti-search"></i> Khám phá hội viên
+                <i className="ti ti-search"></i> {t('hero_btn_explore')}
               </Link>
             </div>
           </div>
@@ -240,7 +240,7 @@ export const Home = () => {
               <img src="/images/hero_network.png" alt="Mạng lưới kết nối AVG" />
               <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', background: 'rgba(8, 14, 30, 0.75)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: 'var(--radius)', border: '0.5px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--emerald)', animation: 'pulse 2s infinite' }}></div>
-                <span style={{ fontSize: '11px', fontWeight: 600, color: '#FFFFFF' }}>Thời gian thực kết nối doanh nghiệp Việt</span>
+                <span style={{ fontSize: '11px', fontWeight: 600, color: '#FFFFFF' }}>{t('hero_realtime')}</span>
               </div>
             </div>
           </div>
@@ -249,55 +249,55 @@ export const Home = () => {
         {/* STATISTICS CARD GRID */}
         <div className="stats-row" style={{ marginBottom: '5rem' }}>
           <div className="glass-card stat-card">
-            <div className="stat-label">Hội viên hoạt động</div>
+            <div className="stat-label">{t('stat_active_members')}</div>
             <div className="stat-val">{stats.members || 20}+</div>
-            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>Doanh nghiệp đã xác thực</div>
+            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>{t('stat_verified_companies')}</div>
           </div>
           <div className="glass-card stat-card">
-            <div className="stat-label">Cơ hội chia sẻ</div>
+            <div className="stat-label">{t('stat_shared_opportunities')}</div>
             <div className="stat-val">{stats.posts || 50}+</div>
-            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>Tin kết nối mới định kỳ</div>
+            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>{t('stat_new_connections')}</div>
           </div>
           <div className="glass-card stat-card">
-            <div className="stat-label">Doanh nghiệp đa dạng</div>
+            <div className="stat-label">{t('stat_diverse_companies')}</div>
             <div className="stat-val">1.2k+</div>
-            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>Công nghệ, Sản xuất, Bán lẻ</div>
+            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>{t('stat_industries')}</div>
           </div>
           <div className="glass-card stat-card">
-            <div className="stat-label">Sự kiện giao thương</div>
+            <div className="stat-label">{t('stat_trade_events')}</div>
             <div className="stat-val">{stats.events || 5}+</div>
-            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>Hội nghị xúc tiến hàng năm</div>
+            <div className="stat-sub" style={{ color: 'var(--text-dark-muted)' }}>{t('stat_annual_meetings')}</div>
           </div>
         </div>
 
         {/* MAIN SERVICES SECTION */}
         <section id="features" style={{ marginBottom: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Các dịch vụ chính</div>
-            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff' }}>Giải pháp số hoá kết nối doanh nghiệp</h2>
-            <p style={{ fontSize: '14px', color: 'var(--text-dark-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>AVG cung cấp hạ tầng chuyển đổi số toàn diện để bạn giao thương, tìm đối tác và sử dụng Trợ lý AI phân tích sâu.</p>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>{t('services_badge')}</div>
+            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff' }}>{t('services_title')}</h2>
+            <p style={{ fontSize: '14px', color: 'var(--text-dark-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>{t('services_desc')}</p>
           </div>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
             <div className="srv-card">
               <div className="srv-icon"><i className="ti ti-users"></i></div>
-              <h3 className="srv-title">Kết nối Hội viên</h3>
-              <p className="srv-desc">Kết nối hội viên, tiếp cận các doanh nghiệp lớn đã xác thực hồ sơ pháp nhân an toàn.</p>
+              <h3 className="srv-title">{t('service_1_title')}</h3>
+              <p className="srv-desc">{t('service_1_desc')}</p>
             </div>
             <div className="srv-card">
               <div className="srv-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: 'var(--emerald)' }}><i className="ti ti-list-details"></i></div>
-              <h3 className="srv-title">Bảng tin Cơ hội</h3>
-              <p className="srv-desc">Tìm kiếm đối tác tiềm năng, bảng tin hội hỗ trợ kết nối dự án và cơ hội đầu tư hiệu quả.</p>
+              <h3 className="srv-title">{t('service_2_title')}</h3>
+              <p className="srv-desc">{t('service_2_desc')}</p>
             </div>
             <div className="srv-card">
               <div className="srv-icon" style={{ background: 'rgba(0, 229, 255, 0.1)', color: 'var(--neon-cyan)' }}><i className="ti ti-robot"></i></div>
-              <h3 className="srv-title">Trợ lý AI thông minh</h3>
-              <p className="srv-desc">Trợ lý AI nghiệp vụ trả lời thông tin tức thời, hỗ trợ tìm kiếm đối tác và đề xuất tự động.</p>
+              <h3 className="srv-title">{t('service_3_title')}</h3>
+              <p className="srv-desc">{t('service_3_desc')}</p>
             </div>
             <div className="srv-card">
               <div className="srv-icon" style={{ background: 'rgba(245, 158, 11, 0.1)', color: 'var(--amber)' }}><i className="ti ti-chart-dots"></i></div>
-              <h3 className="srv-title">Phân tích Thị trường</h3>
-              <p className="srv-desc">Trợ lý AI thông minh phân tích xu hướng thị trường, tổng hợp dữ liệu giao dịch ngành.</p>
+              <h3 className="srv-title">{t('service_4_title')}</h3>
+              <p className="srv-desc">{t('service_4_desc')}</p>
             </div>
           </div>
         </section>
@@ -306,11 +306,11 @@ export const Home = () => {
         <section id="posts" style={{ marginBottom: '5rem' }}>
           <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Cơ hội giao thương mới nhất</div>
-              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>Dự án kết nối nổi bật</h2>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_opportunities')}</div>
+              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>{t('featured_projects_title')}</h2>
             </div>
             <Link to="/posts" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
-              Xem tất cả cơ hội <i className="ti ti-arrow-right"></i>
+              {t('btn_view_all_posts')} <i className="ti ti-arrow-right"></i>
             </Link>
           </div>
 
@@ -362,11 +362,11 @@ export const Home = () => {
           <section id="featured-members" style={{ marginBottom: '5rem' }}>
             <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
               <div>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Đối tác tin cậy</div>
-                <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>Hội viên nổi bật</h2>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_members')}</div>
+                <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>{t('featured_members_title')}</h2>
               </div>
               <Link to="/members" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
-                Xem tất cả hội viên <i className="ti ti-arrow-right"></i>
+                {t('btn_view_all_members')} <i className="ti ti-arrow-right"></i>
               </Link>
             </div>
 
@@ -432,11 +432,11 @@ export const Home = () => {
         <section id="events" style={{ marginBottom: '5rem' }}>
           <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Sự kiện giao thương sắp tới</div>
-              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>Giao lưu & Kết nối doanh nghiệp</h2>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_events')}</div>
+              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>{t('events_section_title')}</h2>
             </div>
             <Link to="/events" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
-              Xem tất cả sự kiện <i className="ti ti-arrow-right"></i>
+              {t('btn_view_all_events')} <i className="ti ti-arrow-right"></i>
             </Link>
           </div>
 
@@ -492,17 +492,17 @@ export const Home = () => {
         {/* MEMBERSHIP TIERS */}
         <section id="tiers" style={{ marginBottom: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Các gói hội viên</div>
-            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff' }}>Lựa chọn gói hội viên phù hợp</h2>
-            <p style={{ fontSize: '14px', color: 'var(--text-dark-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>Tham gia định vị thương hiệu, gia tăng quyền lợi giao thương và kết nối với các đối tác VIP.</p>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>{t('menu_tiers')}</div>
+            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff' }}>{t('pricing_section_title')}</h2>
+            <p style={{ fontSize: '14px', color: 'var(--text-dark-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>{t('pricing_section_desc')}</p>
           </div>
 
           <div className="tiers-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
             {/* Silver */}
             <div className="pkg-card silver">
               <div className="pkg-header">
-                <div className="pkg-name" style={{ color: 'var(--text-dark-secondary)' }}>Silver</div>
-                <div className="pkg-price">Miễn phí</div>
+                <div className="pkg-name" style={{ color: 'var(--text-dark-secondary)' }}>{t('tier_silver')}</div>
+                <div className="pkg-price">{t('price_free')}</div>
               </div>
               <div className="pkg-list">
                 <div className="pkg-item"><i className="ti ti-check"></i> Hội viên hoạt động cơ bản</div>

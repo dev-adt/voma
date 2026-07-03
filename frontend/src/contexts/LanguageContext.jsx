@@ -27,7 +27,17 @@ const LANGS = {
     section_new_members: 'Hội viên mới đăng ký',
     section_pending_posts: 'Bài chờ duyệt',
     btn_add: 'Thêm mới',
-    notify_lang_switch: (n) => `Đã chuyển sang ${n}`
+    notify_lang_switch: (n) => `Đã chuyển sang ${n}`,
+    menu_directory: 'Danh mục đầy đủ',
+    menu_tiers: 'Quyền lợi gói dịch vụ',
+    menu_marketplace: 'Thị trường',
+    menu_opportunities: 'Cơ hội giao thương',
+    menu_national_feeds: 'Bảng tin toàn quốc',
+    menu_events: 'Sự kiện',
+    menu_guide: 'Hướng dẫn',
+    menu_login: 'Đăng nhập',
+    menu_logout: 'Đăng xuất',
+    menu_welcome: 'Xin chào'
   },
   en: {
     flag: '🇺🇸',
@@ -55,7 +65,17 @@ const LANGS = {
     section_new_members: 'New registrations',
     section_pending_posts: 'Posts awaiting review',
     btn_add: 'Add new',
-    notify_lang_switch: (n) => `Switched to ${n}`
+    notify_lang_switch: (n) => `Switched to ${n}`,
+    menu_directory: 'Full Directory',
+    menu_tiers: 'Membership Tiers',
+    menu_marketplace: 'Marketplace',
+    menu_opportunities: 'Trade Opportunities',
+    menu_national_feeds: 'National Opportunity Feeds',
+    menu_events: 'Events',
+    menu_guide: 'Guide',
+    menu_login: 'Login',
+    menu_logout: 'Logout',
+    menu_welcome: 'Welcome'
   },
   zh: {
     flag: '🇨🇳',
@@ -83,7 +103,17 @@ const LANGS = {
     section_new_members: '新注册会员',
     section_pending_posts: '待审文章',
     btn_add: '新增',
-    notify_lang_switch: (n) => `已切换到${n}`
+    notify_lang_switch: (n) => `已切换到${n}`,
+    menu_directory: '全部名录',
+    menu_tiers: '会员权益',
+    menu_marketplace: '市场交易',
+    menu_opportunities: '商业机会',
+    menu_national_feeds: '全国看板',
+    menu_events: '活动机会',
+    menu_guide: '使用指南',
+    menu_login: '登录',
+    menu_logout: '退出',
+    menu_welcome: '欢迎'
   },
   ja: {
     flag: '🇯🇵',
@@ -111,7 +141,17 @@ const LANGS = {
     section_new_members: '新規会員',
     section_pending_posts: '承認待ち記事',
     btn_add: '新規追加',
-    notify_lang_switch: (n) => `${n}に切り替えました`
+    notify_lang_switch: (n) => `${n}に切り替えました`,
+    menu_directory: 'フルディレクトリ',
+    menu_tiers: '会員特典',
+    menu_marketplace: 'マーケット',
+    menu_opportunities: 'ビジネス機会',
+    menu_national_feeds: '全国フィード',
+    menu_events: 'イベント',
+    menu_guide: 'ガイド',
+    menu_login: 'ログイン',
+    menu_logout: 'ログアウト',
+    menu_welcome: 'ようこそ'
   }
 };
 

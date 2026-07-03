@@ -792,8 +792,10 @@ app.get('/api/members/:id', async (req, res) => {
     const [rows] = await db.query('SELECT * FROM members WHERE id = ?', [req.params.id]);
     if (!rows.length) return res.status(404).json({ success: false, error: 'Không tìm thấy hội viên.' });
 
+    const m = rows[0];
+
     // Nếu hội viên chưa được duyệt, chỉ cho phép admin đã đăng nhập xem
-    if (rows[0].status !== 'approved') {
+    if (m.status !== 'approved') {
       const authHeader = req.headers['authorization'];
       let isAdmin = false;
       if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -806,7 +808,34 @@ app.get('/api/members/:id', async (req, res) => {
       }
     }
 
-    res.json({ success: true, data: rows[0] });
+    // Kiểm tra xem người gọi có đăng nhập hội viên/admin hay không để ẩn thông tin liên hệ
+    let isAuthenticated = false;
+    const authHeader = req.headers['authorization'];
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      const [adminSess] = await db.query('SELECT id FROM admin_sessions WHERE token = ? AND expires_at > NOW()', [token]);
+      if (adminSess.length) {
+        isAuthenticated = true;
+      } else {
+        const [memberSess] = await db.query(
+          `SELECT s.id FROM member_sessions s JOIN members m ON s.member_id = m.id WHERE s.token = ? AND s.expires_at > NOW() AND m.status = 'approved'`,
+          [token]
+        );
+        if (memberSess.length) {
+          isAuthenticated = true;
+        }
+      }
+    }
+
+    if (!isAuthenticated) {
+      // Ẩn thông tin liên hệ nhạy cảm của hội viên đối với khách vãng lai
+      m.email = '***@***.***';
+      m.phone = '09** *** ***';
+      m.contact_name = '***';
+      m.contact_pos = '***';
+    }
+
+    res.json({ success: true, data: m });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

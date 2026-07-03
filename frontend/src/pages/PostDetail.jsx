@@ -13,6 +13,31 @@ export const PostDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Xem chi tiết hội viên đăng tải
+  const [showMemberModal, setShowMemberModal] = useState(false);
+  const [memberDetails, setMemberDetails] = useState(null);
+  const [loadingMember, setLoadingMember] = useState(false);
+
+  const handleViewMemberDetails = async (memberId) => {
+    if (!memberId) return;
+    setLoadingMember(true);
+    setShowMemberModal(true);
+    try {
+      const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+      const res = await fetch(`/api/members/${memberId}`, { headers });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setMemberDetails(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching member details', err);
+    } finally {
+      setLoadingMember(false);
+    }
+  };
+
   const demoImages = [
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
@@ -186,6 +211,27 @@ export const PostDetail = () => {
                     }}>
                       {post.company_tier || 'Silver'}
                     </span>
+                    {post.member_id && (
+                      <button 
+                        onClick={() => handleViewMemberDetails(post.member_id)}
+                        style={{
+                          marginTop: '8px',
+                          background: 'rgba(0, 229, 255, 0.08)',
+                          border: '1px solid rgba(0, 229, 255, 0.2)',
+                          color: 'var(--neon-cyan)',
+                          padding: '4px 10px',
+                          borderRadius: '4px',
+                          fontSize: '11px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          outline: 'none'
+                        }}
+                      >
+                        <i className="ti ti-info-circle"></i> Xem chi tiết
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -229,6 +275,126 @@ export const PostDetail = () => {
       </main>
 
       <Footer />
+
+      {showMemberModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={() => setShowMemberModal(false)}>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', maxWidth: '600px', width: '100%', maxHeight: '90vh', overflowY: 'auto', padding: '24px', position: 'relative', textAlign: 'left' }} onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button onClick={() => setShowMemberModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px', padding: '4px' }} className="hover-highlight">
+              <i className="ti ti-x"></i>
+            </button>
+
+            {loadingMember ? (
+              <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-secondary)' }}>
+                <i className="ti ti-loader animate-spin" style={{ fontSize: '28px', display: 'block', margin: '0 auto 10px' }}></i>
+                Đang tải thông tin hội viên...
+              </div>
+            ) : memberDetails ? (
+              <div>
+                {/* Header Profile */}
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
+                  <div className="av-circle" style={{ width: '56px', height: '56px', fontSize: '22px', background: memberDetails.tier === 'Platinum' ? 'linear-gradient(135deg, #FFD700, #FFA500)' : memberDetails.tier === 'Gold' ? 'var(--amber-glow)' : 'var(--primary-glow)', color: '#fff', fontWeight: 600 }}>
+                    {memberDetails.name ? memberDetails.name.substring(0, 2).toUpperCase() : 'DN'}
+                  </div>
+                  <div>
+                    <h2 style={{ fontSize: '18px', color: '#fff', fontWeight: 700, margin: 0 }}>{memberDetails.name}</h2>
+                    <span style={{ 
+                      display: 'inline-block',
+                      marginTop: '4px',
+                      fontSize: '9px',
+                      background: memberDetails.tier === 'Platinum' ? 'rgba(245,158,11,0.15)' : memberDetails.tier === 'Gold' ? 'rgba(245,158,11,0.1)' : 'rgba(255,255,255,0.05)',
+                      color: memberDetails.tier === 'Platinum' || memberDetails.tier === 'Gold' ? 'var(--amber)' : 'var(--text-muted)',
+                      border: `1px solid ${memberDetails.tier === 'Platinum' || memberDetails.tier === 'Gold' ? 'rgba(245,158,11,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                      padding: '1px 6px',
+                      borderRadius: '3px',
+                      fontWeight: 700,
+                      textTransform: 'uppercase'
+                    }}>
+                      Hạng: {memberDetails.tier || 'Silver'}
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', marginBottom: '15px' }} />
+
+                {/* Main Information */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
+                  <div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Lĩnh vực hoạt động</div>
+                    <div style={{ fontSize: '13.5px', color: '#fff', fontWeight: 500, marginTop: '2px' }}>{memberDetails.industry || 'Chưa cập nhật'}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Quy mô</div>
+                    <div style={{ fontSize: '13.5px', color: '#fff', fontWeight: 500, marginTop: '2px' }}>{memberDetails.size || 'Chưa cập nhật'}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Tỉnh/Thành phố</div>
+                    <div style={{ fontSize: '13.5px', color: '#fff', fontWeight: 500, marginTop: '2px' }}>{memberDetails.city || 'Chưa cập nhật'}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Địa chỉ</div>
+                    <div style={{ fontSize: '13.5px', color: '#fff', fontWeight: 500, marginTop: '2px' }}>{memberDetails.address || 'Chưa cập nhật'}</div>
+                  </div>
+                  {memberDetails.website && (
+                    <div style={{ gridColumn: 'span 2' }}>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Website</div>
+                      <a href={memberDetails.website.startsWith('http') ? memberDetails.website : `https://${memberDetails.website}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '13px', color: 'var(--neon-cyan)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                        <i className="ti ti-world"></i> {memberDetails.website}
+                      </a>
+                    </div>
+                  )}
+                </div>
+
+                {memberDetails.description && (
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Mô tả hoạt động</div>
+                    <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.6', background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.04)' }}>
+                      {memberDetails.description}
+                    </div>
+                  </div>
+                )}
+
+                {/* Contact wall check */}
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', marginBottom: '15px' }} />
+                
+                <h3 style={{ fontSize: '13px', color: '#fff', fontWeight: 600, margin: '0 0 10px' }}>Thông tin liên hệ</h3>
+                {isGuest ? (
+                  <div style={{ padding: '15px', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '8px', textAlign: 'center' }}>
+                    <i className="ti ti-lock" style={{ fontSize: '18px', color: 'var(--neon-cyan)', marginBottom: '6px', display: 'block' }}></i>
+                    <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '0 0 10px', lineHeight: '1.4' }}>
+                      Bạn cần đăng nhập để xem thông tin liên hệ trực tiếp của doanh nghiệp này.
+                    </p>
+                    <Link to="/login" className="btn btn-primary" style={{ padding: '4px 15px', fontSize: '11px' }}>Đăng nhập ngay</Link>
+                  </div>
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                    <div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Người liên hệ</div>
+                      <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{memberDetails.contact_name || 'Chưa cập nhật'}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Chức vụ</div>
+                      <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{memberDetails.contact_pos || 'Chưa cập nhật'}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Email</div>
+                      <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{memberDetails.email || 'Chưa cập nhật'}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Số điện thoại</div>
+                      <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{memberDetails.phone || 'Chưa cập nhật'}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--text-secondary)' }}>
+                Không tìm thấy thông tin hội viên này.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

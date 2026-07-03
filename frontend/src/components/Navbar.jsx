@@ -47,22 +47,22 @@ export const Navbar = () => {
         <div className="nav-link nav-dropdown">
           {t('menu_members')} <i className="ti ti-chevron-down" style={{ fontSize: '10px' }}></i>
           <div className="nav-dropdown-menu">
-            <Link to="/members" className="nav-dropdown-item">Danh mục đầy đủ <span className="nav-dropdown-sub">&gt;</span></Link>
-            <a href="#tiers" onClick={(e) => handleAnchorClick(e, '#tiers')} className="nav-dropdown-item">Quyền lợi gói dịch vụ <span className="nav-dropdown-sub">&gt;</span></a>
+            <Link to="/members" className="nav-dropdown-item">{t('menu_directory')} <span className="nav-dropdown-sub">&gt;</span></Link>
+            <a href="#tiers" onClick={(e) => handleAnchorClick(e, '#tiers')} className="nav-dropdown-item">{t('menu_tiers')} <span className="nav-dropdown-sub">&gt;</span></a>
           </div>
         </div>
 
         <div className="nav-link nav-dropdown">
-          Thị trường <i className="ti ti-chevron-down" style={{ fontSize: '10px' }}></i>
+          {t('menu_marketplace')} <i className="ti ti-chevron-down" style={{ fontSize: '10px' }}></i>
           <div className="nav-dropdown-menu">
-            <a href="#posts" onClick={(e) => handleAnchorClick(e, '#posts')} className="nav-dropdown-item">Cơ hội giao thương <span className="nav-dropdown-sub">&gt;</span></a>
-            <Link to="/posts" className="nav-dropdown-item">Bảng tin toàn quốc <span className="nav-dropdown-sub">&gt;</span></Link>
+            <a href="#posts" onClick={(e) => handleAnchorClick(e, '#posts')} className="nav-dropdown-item">{t('menu_opportunities')} <span className="nav-dropdown-sub">&gt;</span></a>
+            <Link to="/posts" className="nav-dropdown-item">{t('menu_national_feeds')} <span className="nav-dropdown-sub">&gt;</span></Link>
           </div>
         </div>
 
-        <Link to="/events" className="nav-link">Sự kiện</Link>
-        <Link to="/guide" className="nav-link">Hướng dẫn</Link>
-        <Link to="/ai-chat" className="nav-link">Khám phá trợ lý AI</Link>
+        <Link to="/events" className="nav-link">{t('menu_events')}</Link>
+        <Link to="/ai-chat" className="nav-link">{t('menu_ai')}</Link>
+        <Link to="/guide" className="nav-link">{t('menu_guide')}</Link>
       </div>
 
       <div className="nav-right">

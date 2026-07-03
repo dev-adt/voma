@@ -1247,6 +1247,74 @@ app.delete('/api/admin/posts/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// Tìm kiếm toàn diện trên website (Bài viết, Hội viên, Sự kiện)
+app.get('/api/public-search', async (req, res) => {
+  try {
+    const q = req.query.q || '';
+    if (!q.trim()) {
+      return res.json({ success: true, posts: [], members: [], events: [] });
+    }
+    const searchPattern = `%${q}%`;
+
+    // 1. Tìm tin đăng giao thương (Approved)
+    const [posts] = await db.query(
+      `SELECT p.*, m.name as company_name, m.tier as company_tier 
+       FROM posts p LEFT JOIN members m ON p.member_id = m.id 
+       WHERE p.status = 'approved' AND (p.title LIKE ? OR p.summary LIKE ? OR p.body LIKE ?)
+       ORDER BY p.is_featured DESC, p.id DESC LIMIT 15`,
+      [searchPattern, searchPattern, searchPattern]
+    );
+
+    // 2. Tìm doanh nghiệp hội viên (Approved)
+    const authHeader = req.headers.authorization;
+    let isAuthenticated = false;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded && decoded.id) {
+          isAuthenticated = true;
+        }
+      } catch (e) {}
+    }
+
+    const [members] = await db.query(
+      `SELECT id, name, industry, city, description, email, phone, contact_name, tier, is_featured
+       FROM members 
+       WHERE status = 'approved' AND (name LIKE ? OR industry LIKE ? OR city LIKE ? OR description LIKE ?)
+       ORDER BY is_featured DESC, tier = 'Platinum' DESC, tier = 'Gold' DESC, id DESC LIMIT 15`,
+      [searchPattern, searchPattern, searchPattern, searchPattern]
+    );
+
+    const processedMembers = members.map(m => {
+      if (isAuthenticated) return m;
+      return {
+        ...m,
+        email: '***@***.***',
+        phone: '09** *** ***',
+        contact_name: '***'
+      };
+    });
+
+    // 3. Tìm sự kiện
+    const [events] = await db.query(
+      `SELECT * FROM events 
+       WHERE title LIKE ? OR organizer LIKE ? OR description LIKE ? OR location LIKE ?
+       ORDER BY date DESC LIMIT 15`,
+      [searchPattern, searchPattern, searchPattern, searchPattern]
+    );
+
+    res.json({
+      success: true,
+      posts,
+      members: processedMembers,
+      events
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 
 
 // Lấy số liệu công khai cho trang chủ

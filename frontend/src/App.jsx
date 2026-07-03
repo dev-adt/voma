@@ -13,6 +13,7 @@ import Posts from './pages/Posts';
 import PostDetail from './pages/PostDetail';
 import Events from './pages/Events';
 import AIChat from './pages/AIChat';
+import Search from './pages/Search';
 import MemberDashboard from './pages/MemberDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminMembers from './pages/AdminMembers';
@@ -47,6 +48,7 @@ function App() {
             <Route path="/posts/:id" element={<PostDetail />} />
             <Route path="/events" element={<Events />} />
             <Route path="/ai-chat" element={<AIChat />} />
+            <Route path="/search" element={<Search />} />
 
             {/* Tuyến đường bảo vệ dành cho Hội viên */}
             <Route 

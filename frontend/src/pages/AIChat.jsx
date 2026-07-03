@@ -77,8 +77,8 @@ export const AIChat = () => {
         const list = data.data || [];
         setSessions(list);
         
-        if (selectFirst && list.length > 0) {
-          selectSession(list[0].session_id);
+        if (selectFirst) {
+          newChatSession();
         } else if (list.length === 0) {
           newChatSession();
         }

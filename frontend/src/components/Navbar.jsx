@@ -67,7 +67,7 @@ export const Navbar = () => {
 
       <div className="nav-right">
         {/* Nút Tìm kiếm */}
-        <Link to="/ai-chat" style={{ fontSize: '18px', color: 'var(--text-dark-secondary)', marginRight: '8px', padding: '4px' }}>
+        <Link to="/search" style={{ fontSize: '18px', color: 'var(--text-dark-secondary)', marginRight: '8px', padding: '4px' }}>
           <i className="ti ti-search"></i>
         </Link>
 

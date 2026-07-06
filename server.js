@@ -1650,8 +1650,8 @@ app.post('/api/translate', async (req, res) => {
   else if (targetLang === 'zh') langName = 'Chinese';
 
   // Lấy cấu hình AI đang hoạt động từ DB
-  let provider = 'gemini';
-  let model = 'gemini-1.5-flash';
+  let provider = 'openrouter';
+  let model = 'google/gemini-3-flash-preview';
   try {
     const [rows] = await db.query('SELECT provider, model FROM ai_config WHERE is_active = 1 LIMIT 1');
     if (rows[0]) {

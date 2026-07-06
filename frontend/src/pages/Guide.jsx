@@ -484,10 +484,6 @@ export const Guide = () => {
     <div className="public-body">
       <Navbar />
 
-      {/* Background gradient decorative elements */}
-      <div style={{ position: 'fixed', top: '-10%', left: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(79,70,229,0.04) 0%, rgba(79,70,229,0) 70%)', zIndex: -1, pointerEvents: 'none', borderRadius: '50%' }}></div>
-      <div style={{ position: 'fixed', bottom: '-10%', right: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(245,158,11,0.02) 0%, rgba(245,158,11,0) 70%)', zIndex: -1, pointerEvents: 'none', borderRadius: '50%' }}></div>
-
       <div className="public-container" style={{ minHeight: '85vh', paddingBottom: '4rem', paddingTop: '2.5rem' }}>
         {/* Header Title */}
         <div style={{ textAlign: 'left', marginBottom: '2.5rem' }}>

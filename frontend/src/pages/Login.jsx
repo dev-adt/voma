@@ -43,9 +43,6 @@ export const Login = () => {
 
   return (
     <div className="public-body" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-      {/* Background Blur Spots */}
-      <div style={{ position: 'fixed', top: '-10%', left: '-10%', width: '350px', height: '350px', background: 'radial-gradient(circle, rgba(79,70,229,0.15) 0%, rgba(79,70,229,0) 70%)', borderRadius: '50%', zIndex: 1, filter: 'blur(30px)', pointerEvents: 'none' }}></div>
-      <div style={{ position: 'fixed', bottom: '-10%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, rgba(16,185,129,0) 70%)', borderRadius: '50%', zIndex: 1, filter: 'blur(30px)', pointerEvents: 'none' }}></div>
 
       <div style={{ width: '100%', maxWidth: '420px', padding: '1.5rem', zIndex: 10 }}>
         <div className="glass-card" style={{ padding: '2.5rem 2.25rem', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>

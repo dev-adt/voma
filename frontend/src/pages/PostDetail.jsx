@@ -26,11 +26,31 @@ export const PostDetail = () => {
   const [translatedBody, setTranslatedBody] = useState('');
   const [isTranslated, setIsTranslated] = useState(false);
   const [loadingTranslate, setLoadingTranslate] = useState(false);
+  const [translateTargetLang, setTranslateTargetLang] = useState(currentLang === 'vi' ? 'en' : currentLang);
   
   // Trạng thái dịch mô tả hội viên trong Modal
   const [translatedMemberDesc, setTranslatedMemberDesc] = useState('');
   const [isMemberDescTranslated, setIsMemberDescTranslated] = useState(false);
   const [loadingMemberDescTranslate, setLoadingMemberDescTranslate] = useState(false);
+  const [memberTranslateTargetLang, setMemberTranslateTargetLang] = useState(currentLang === 'vi' ? 'en' : currentLang);
+
+  useEffect(() => {
+    setIsTranslated(false);
+    setTranslatedTitle('');
+    setTranslatedSummary('');
+    setTranslatedBody('');
+  }, [translateTargetLang]);
+
+  useEffect(() => {
+    setIsMemberDescTranslated(false);
+    setTranslatedMemberDesc('');
+  }, [memberTranslateTargetLang]);
+
+  useEffect(() => {
+    const target = currentLang === 'vi' ? 'en' : currentLang;
+    setTranslateTargetLang(target);
+    setMemberTranslateTargetLang(target);
+  }, [currentLang]);
 
   const handleTranslatePost = async () => {
     if (isTranslated) {
@@ -46,7 +66,7 @@ export const PostDetail = () => {
       const resTitle = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: post.title, targetLang: currentLang })
+        body: JSON.stringify({ text: post.title, targetLang: translateTargetLang })
       });
       const dataTitle = await resTitle.json();
 
@@ -55,7 +75,7 @@ export const PostDetail = () => {
         const resSum = await fetch('/api/translate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: post.summary, targetLang: currentLang })
+          body: JSON.stringify({ text: post.summary, targetLang: translateTargetLang })
         });
         const dataSum = await resSum.json();
         tSummary = dataSum.translatedText || '';
@@ -64,7 +84,7 @@ export const PostDetail = () => {
       const resBody = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: post.body, targetLang: currentLang })
+        body: JSON.stringify({ text: post.body, targetLang: translateTargetLang })
       });
       const dataBody = await resBody.json();
 
@@ -99,7 +119,7 @@ export const PostDetail = () => {
       const res = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: memberDetails.description, targetLang: currentLang })
+        body: JSON.stringify({ text: memberDetails.description, targetLang: memberTranslateTargetLang })
       });
       const data = await res.json();
       if (data.success) {
@@ -261,29 +281,53 @@ export const PostDetail = () => {
                   Đăng ngày: <strong style={{ color: '#fff' }}>{dateStr}</strong>
                 </div>
 
-                <button
-                  onClick={handleTranslatePost}
-                  disabled={loadingTranslate}
-                  style={{
-                    marginTop: '15px',
-                    background: isTranslated ? 'rgba(16, 185, 129, 0.1)' : 'rgba(30, 136, 229, 0.1)',
-                    border: `1px solid ${isTranslated ? 'rgba(16, 185, 129, 0.3)' : 'rgba(30, 136, 229, 0.3)'}`,
-                    color: isTranslated ? 'var(--emerald)' : 'var(--primary-light)',
-                    padding: '6px 12px',
-                    borderRadius: '6px',
-                    fontSize: '11.5px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    fontWeight: 600,
-                    outline: 'none',
-                    transition: 'var(--transition)'
-                  }}
-                >
-                  <i className={loadingTranslate ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
-                  {loadingTranslate ? 'Đang dịch...' : isTranslated ? 'Xem bản gốc (VI)' : `Dịch nội dung (AI)`}
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '11.5px', color: 'var(--text-muted)' }}>Dịch sang:</span>
+                    <select
+                      value={translateTargetLang}
+                      onChange={(e) => setTranslateTargetLang(e.target.value)}
+                      style={{
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        borderRadius: '6px',
+                        color: '#fff',
+                        fontSize: '11.5px',
+                        padding: '4px 8px',
+                        outline: 'none',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <option value="en">🇬🇧 Tiếng Anh (English)</option>
+                      <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+                      <option value="ja">🇯🇵 Tiếng Nhật (Japanese)</option>
+                      <option value="zh">🇨🇳 Tiếng Trung (Chinese)</option>
+                    </select>
+                  </div>
+
+                  <button
+                    onClick={handleTranslatePost}
+                    disabled={loadingTranslate}
+                    style={{
+                      background: isTranslated ? 'rgba(16, 185, 129, 0.1)' : 'rgba(30, 136, 229, 0.1)',
+                      border: `1px solid ${isTranslated ? 'rgba(16, 185, 129, 0.3)' : 'rgba(30, 136, 229, 0.3)'}`,
+                      color: isTranslated ? 'var(--emerald)' : 'var(--primary-light)',
+                      padding: '5px 12px',
+                      borderRadius: '6px',
+                      fontSize: '11.5px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      fontWeight: 600,
+                      outline: 'none',
+                      transition: 'var(--transition)'
+                    }}
+                  >
+                    <i className={loadingTranslate ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
+                    {loadingTranslate ? 'Đang dịch...' : isTranslated ? 'Xem bản gốc (VI)' : `Dịch nội dung (AI)`}
+                  </button>
+                </div>
               </div>
 
               {/* Summary / Lead Paragraph */}
@@ -474,28 +518,49 @@ export const PostDetail = () => {
 
                 {memberDetails.description && (
                   <div style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '8px' }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Mô tả hoạt động</div>
-                      <button
-                        onClick={handleTranslateMemberDesc}
-                        disabled={loadingMemberDescTranslate}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: isMemberDescTranslated ? 'var(--emerald)' : 'var(--neon-cyan)',
-                          fontSize: '11.5px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          fontWeight: 600,
-                          padding: 0,
-                          outline: 'none'
-                        }}
-                      >
-                        <i className={loadingMemberDescTranslate ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
-                        {loadingMemberDescTranslate ? 'Đang dịch...' : isMemberDescTranslated ? 'Xem bản gốc (VI)' : 'Dịch AI'}
-                      </button>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <select
+                          value={memberTranslateTargetLang}
+                          onChange={(e) => setMemberTranslateTargetLang(e.target.value)}
+                          style={{
+                            background: 'rgba(255,255,255,0.05)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            borderRadius: '4px',
+                            color: '#fff',
+                            fontSize: '10.5px',
+                            padding: '2px 4px',
+                            outline: 'none',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <option value="en">🇬🇧 EN</option>
+                          <option value="vi">🇻🇳 VI</option>
+                          <option value="ja">🇯🇵 JA</option>
+                          <option value="zh">🇨🇳 ZH</option>
+                        </select>
+                        <button
+                          onClick={handleTranslateMemberDesc}
+                          disabled={loadingMemberDescTranslate}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: isMemberDescTranslated ? 'var(--emerald)' : 'var(--neon-cyan)',
+                            fontSize: '11.5px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            fontWeight: 600,
+                            padding: 0,
+                            outline: 'none'
+                          }}
+                        >
+                          <i className={loadingMemberDescTranslate ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
+                          {loadingMemberDescTranslate ? '...' : isMemberDescTranslated ? 'Xem gốc' : 'Dịch AI'}
+                        </button>
+                      </div>
                     </div>
                     <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.6', background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.04)' }}>
                       {isMemberDescTranslated ? translatedMemberDesc : memberDetails.description}

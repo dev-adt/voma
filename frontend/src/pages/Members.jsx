@@ -21,6 +21,16 @@ export const Members = () => {
   // Trạng thái dịch mô tả hội viên (map từ memberId sang text)
   const [translatedDescs, setTranslatedDescs] = useState({});
   const [loadingTranslations, setLoadingTranslations] = useState({});
+  const [memberTargetLangs, setMemberTargetLangs] = useState({});
+
+  const handleMemberTargetLangChange = (memberId, lang) => {
+    setMemberTargetLangs(prev => ({ ...prev, [memberId]: lang }));
+    setTranslatedDescs(prev => {
+      const copy = { ...prev };
+      delete copy[memberId];
+      return copy;
+    });
+  };
 
   const handleTranslateMember = async (memberId, originalDesc) => {
     if (translatedDescs[memberId]) {
@@ -32,12 +42,13 @@ export const Members = () => {
       return;
     }
 
+    const targetLang = memberTargetLangs[memberId] || (currentLang === 'vi' ? 'en' : currentLang);
     setLoadingTranslations(prev => ({ ...prev, [memberId]: true }));
     try {
       const res = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: originalDesc, targetLang: currentLang })
+        body: JSON.stringify({ text: originalDesc, targetLang })
       });
       const data = await res.json();
       if (data.success) {
@@ -279,28 +290,47 @@ export const Members = () => {
                           {translatedDescs[`feat-${m.id}`] ? translatedDescs[`feat-${m.id}`] : m.desc}
                         </p>
                         {m.desc && m.desc.trim() !== '' && (
-                          <button
-                            onClick={() => handleTranslateMember(`feat-${m.id}`, m.desc)}
-                            disabled={loadingTranslations[`feat-${m.id}`]}
-                            style={{
-                              alignSelf: 'flex-start',
-                              background: 'none',
-                              border: 'none',
-                              color: translatedDescs[`feat-${m.id}`] ? 'var(--emerald)' : 'var(--neon-cyan)',
-                              fontSize: '10.5px',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '3px',
-                              fontWeight: 600,
-                              padding: '2px 0',
-                              marginBottom: '10px',
-                              outline: 'none'
-                            }}
-                          >
-                            <i className={loadingTranslations[`feat-${m.id}`] ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
-                            {loadingTranslations[`feat-${m.id}`] ? 'Đang dịch...' : translatedDescs[`feat-${m.id}`] ? 'Xem bản gốc' : 'Dịch AI'}
-                          </button>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
+                            <select
+                              value={memberTargetLangs[`feat-${m.id}`] || (currentLang === 'vi' ? 'en' : currentLang)}
+                              onChange={(e) => handleMemberTargetLangChange(`feat-${m.id}`, e.target.value)}
+                              style={{
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '4px',
+                                color: '#fff',
+                                fontSize: '10px',
+                                padding: '2px 4px',
+                                outline: 'none',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              <option value="en">🇬🇧 EN</option>
+                              <option value="vi">🇻🇳 VI</option>
+                              <option value="ja">🇯🇵 JA</option>
+                              <option value="zh">🇨🇳 ZH</option>
+                            </select>
+                            <button
+                              onClick={() => handleTranslateMember(`feat-${m.id}`, m.desc)}
+                              disabled={loadingTranslations[`feat-${m.id}`]}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: translatedDescs[`feat-${m.id}`] ? 'var(--emerald)' : 'var(--neon-cyan)',
+                                fontSize: '10.5px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                                fontWeight: 600,
+                                padding: 0,
+                                outline: 'none'
+                              }}
+                            >
+                              <i className={loadingTranslations[`feat-${m.id}`] ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
+                              {loadingTranslations[`feat-${m.id}`] ? '...' : translatedDescs[`feat-${m.id}`] ? 'Xem gốc' : 'Dịch AI'}
+                            </button>
+                          </div>
                         )}
                       </div>
                       
@@ -384,28 +414,47 @@ export const Members = () => {
                           {translatedDescs[m.id] ? translatedDescs[m.id] : m.desc}
                         </p>
                         {m.desc && m.desc.trim() !== '' && (
-                          <button
-                            onClick={() => handleTranslateMember(m.id, m.desc)}
-                            disabled={loadingTranslations[m.id]}
-                            style={{
-                              alignSelf: 'flex-start',
-                              background: 'none',
-                              border: 'none',
-                              color: translatedDescs[m.id] ? 'var(--emerald)' : 'var(--neon-cyan)',
-                              fontSize: '10.5px',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '3px',
-                              fontWeight: 600,
-                              padding: '2px 0',
-                              marginBottom: '10px',
-                              outline: 'none'
-                            }}
-                          >
-                            <i className={loadingTranslations[m.id] ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
-                            {loadingTranslations[m.id] ? 'Đang dịch...' : translatedDescs[m.id] ? 'Xem bản gốc' : 'Dịch AI'}
-                          </button>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
+                            <select
+                              value={memberTargetLangs[m.id] || (currentLang === 'vi' ? 'en' : currentLang)}
+                              onChange={(e) => handleMemberTargetLangChange(m.id, e.target.value)}
+                              style={{
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '4px',
+                                color: '#fff',
+                                fontSize: '10px',
+                                padding: '2px 4px',
+                                outline: 'none',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              <option value="en">🇬🇧 EN</option>
+                              <option value="vi">🇻🇳 VI</option>
+                              <option value="ja">🇯🇵 JA</option>
+                              <option value="zh">🇨🇳 ZH</option>
+                            </select>
+                            <button
+                              onClick={() => handleTranslateMember(m.id, m.desc)}
+                              disabled={loadingTranslations[m.id]}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: translatedDescs[m.id] ? 'var(--emerald)' : 'var(--neon-cyan)',
+                                fontSize: '10.5px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                                fontWeight: 600,
+                                padding: 0,
+                                outline: 'none'
+                              }}
+                            >
+                              <i className={loadingTranslations[m.id] ? "ti ti-loader animate-spin" : "ti ti-language"}></i>
+                              {loadingTranslations[m.id] ? '...' : translatedDescs[m.id] ? 'Xem gốc' : 'Dịch AI'}
+                            </button>
+                          </div>
                         )}
                       </div>
                       

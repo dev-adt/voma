@@ -85,7 +85,7 @@ export const Search = () => {
             <i className="ti ti-search" style={{ color: 'var(--primary)' }}></i> Tìm kiếm thông tin
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px', marginBlockEnd: 0 }}>
-            Tìm kiếm tin giao thương, doanh nghiệp đối tác và các sự kiện trong mạng lưới AVG.
+            Tìm kiếm tin giao thương, doanh nghiệp đối tác và các sự kiện trong mạng lưới Voma.
           </p>
         </div>
 

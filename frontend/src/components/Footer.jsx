@@ -14,7 +14,7 @@ export const Footer = () => {
               <div style={{ width: '34px', height: '34px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '16px' }}>
                 <img src="/favicon.png" alt="Logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
               </div>
-              AVG
+              Voma
             </div>
             <p style={{ lineHeight: '1.7', marginBottom: '1.5rem' }}>
               {t('footer_desc')}

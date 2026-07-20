@@ -256,7 +256,7 @@ export const AdminEvents = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '11.5px', fontWeight: 600, color: '#475569' }}>Đơn vị tổ chức</label>
-                    <input type="text" id="organizer" value={formData.organizer} onChange={handleFormChange} placeholder="Ví dụ: Ban thư ký AVG..." style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #CBD5E1', outline: 'none', fontSize: '12.5px' }} />
+                    <input type="text" id="organizer" value={formData.organizer} onChange={handleFormChange} placeholder="Ví dụ: Ban thư ký Voma..." style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #CBD5E1', outline: 'none', fontSize: '12.5px' }} />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '11.5px', fontWeight: 600, color: '#475569' }}>Sức chứa tối đa (Khách)</label>

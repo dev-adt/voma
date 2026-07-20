@@ -82,9 +82,9 @@ export const Sidebar = () => {
   return (
     <aside className="sidebar">
       <Link to="/admin-dashboard" className="sb-logo" style={{ textDecoration: 'none' }}>
-        <div className="sb-logo-icon"><img src="/avg_logo.png" alt="Logo" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /></div>
+        <div className="sb-logo-icon"><img src="/voma_logo.png" alt="Logo" style={{ width: '20px', height: '20px', objectFit: 'contain' }} /></div>
         <div>
-          <div className="sb-logo-name">AVG</div>
+          <div className="sb-logo-name">Voma</div>
           <div className="sb-logo-sub">Hội viên doanh nghiệp</div>
         </div>
       </Link>

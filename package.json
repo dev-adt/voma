@@ -1,12 +1,12 @@
 {
-  "name": "bizhub-ai",
+  "name": "voma-ai",
   "version": "2.0.0",
-  "description": "BizHub — Hệ thống quản lý hội viên doanh nghiệp với AI + MySQL",
+  "description": "Voma — Hệ thống quản lý hội viên doanh nghiệp với AI + MySQL",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "pm2": "pm2 start server.js --name bizhub-ai"
+    "pm2": "pm2 start server.js --name voma-ai"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

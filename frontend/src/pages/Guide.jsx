@@ -6,11 +6,11 @@ import { useTranslation } from '../contexts/LanguageContext';
 const GUIDE_CONTENT = {
   vi: {
     title: "Hướng dẫn sử dụng",
-    subtitle: "Tài liệu hướng dẫn đăng ký, quản lý tài khoản và giao thương trên AVG.",
+    subtitle: "Tài liệu hướng dẫn đăng ký, quản lý tài khoản và giao thương trên Voma.",
     sections: {
       intro: {
         title: "Giới thiệu chung",
-        text: "Chào mừng doanh nghiệp của bạn tham gia vào mạng lưới BizHub AVG - nền tảng kết nối giao thương, chia sẻ cơ hội hợp tác kinh tế và ứng dụng Trợ lý AI chuyên sâu cho doanh nghiệp.",
+        text: "Chào mừng doanh nghiệp của bạn tham gia vào mạng lưới BizHub Voma - nền tảng kết nối giao thương, chia sẻ cơ hội hợp tác kinh tế và ứng dụng Trợ lý AI chuyên sâu cho doanh nghiệp.",
         img_label: "Ảnh demo toàn bộ trang chủ web"
       },
       register: {
@@ -48,7 +48,7 @@ const GUIDE_CONTENT = {
       },
       connect: {
         title: "5. Kết nối & Xem đối tác",
-        text: "BizHub AVG cung cấp các giải pháp kết nối trực tiếp hiệu quả giữa các doanh nghiệp thành viên.",
+        text: "BizHub Voma cung cấp các giải pháp kết nối trực tiếp hiệu quả giữa các doanh nghiệp thành viên.",
         sub1_title: "Bảng tin cơ hội & Thư mục hội viên & Sự kiện",
         sub1_text: "- Bảng tin: Xem toàn bộ cơ hội giao thương từ các doanh nghiệp khác. Bài viết chi tiết sẽ hiển thị full màn hình chuyên nghiệp. Để bảo vệ thông tin, khách vãng lai (chưa đăng nhập) sẽ bị ẩn thông tin liên hệ và cần đăng nhập để mở khóa liên kết email/số điện thoại trực tiếp.\n- Thư mục hội viên: Danh sách đối tác được xếp hạng ưu tiên (Platinum trước, sau đó đến Gold và Silver). Bạn có thể tìm kiếm, lọc theo hạng, ngành nghề và số lượng hiển thị trên trang để kết nối giao thương nhanh nhất.\n- Sự kiện: Danh sách các sự kiện được tổ chức bởi các doanh nghiệp, hỗ trợ theo dõi mức độ quan tâm và địa điểm diễn ra."
       }
@@ -56,11 +56,11 @@ const GUIDE_CONTENT = {
   },
   en: {
     title: "User Guide",
-    subtitle: "Guide document for registration, account management and trading features on AVG.",
+    subtitle: "Guide document for registration, account management and trading features on Voma.",
     sections: {
       intro: {
         title: "General Introduction",
-        text: "Welcome to AVG BizHub - the business connection platform, sharing economic cooperation opportunities and applying professional AI Assistants.",
+        text: "Welcome to Voma BizHub - the business connection platform, sharing economic cooperation opportunities and applying professional AI Assistants.",
         img_label: "Website Homepage Overview"
       },
       register: {
@@ -98,7 +98,7 @@ const GUIDE_CONTENT = {
       },
       connect: {
         title: "5. Connecting & Directory",
-        text: "AVG BizHub offers direct matching features to help member companies connect.",
+        text: "Voma BizHub offers direct matching features to help member companies connect.",
         sub1_title: "Opportunity Feed, Directory & Events",
         sub1_text: "- Opportunity Feed: Read B2B posts from other members. Fullscreen detail view. Unauthenticated guests must log in to unlock emails and phone numbers.\n- Member Directory: Prioritized ranking by subscription tier (Platinum -> Gold -> Silver). Apply name, industry, and city search filters.\n- Events: Lists business matchmaking conferences and forums with event interest trackers."
       }
@@ -106,11 +106,11 @@ const GUIDE_CONTENT = {
   },
   zh: {
     title: "使用指南",
-    subtitle: "关于在 AVG 平台注册、管理账户和发布商机的指南文档。",
+    subtitle: "关于在 Voma 平台注册、管理账户和发布商机的指南文档。",
     sections: {
       intro: {
         title: "平台介绍",
-        text: "欢迎您的企业加入 AVG 商业对接 network — 这是一个致力于促进 B2B 贸易、共享合作商机并应用专业级 AI 助手的企业服务平台。",
+        text: "欢迎您的企业加入 Voma 商业对接 network — 这是一个致力于促进 B2B 贸易、共享合作商机并应用专业级 AI 助手的企业服务平台。",
         img_label: "网站首页预览"
       },
       register: {
@@ -148,7 +148,7 @@ const GUIDE_CONTENT = {
       },
       connect: {
         title: "5. 对接与名录",
-        text: "AVG 平台为企业会员提供高效的直连对接渠道。",
+        text: "Voma 平台为企业会员提供高效的直连对接渠道。",
         sub1_title: "商机看板、会员名录及活动",
         sub1_text: "- 商机看板：查看其他企业发布的 B2B 合作信息，点击支持全屏详情页。游客状态下联系人姓名和电话将被隐藏，需登录以解锁。\n- 会员名录：根据等级排序（白金牌 -> 金牌 -> 银牌），支持按行业、城市等关键字进行筛选匹配。\n- 活动看板：展示即将举办的商务会议与对接论坛，支持关注并查看线下地址。"
       }
@@ -156,11 +156,11 @@ const GUIDE_CONTENT = {
   },
   ja: {
     title: "ご利用ガイド",
-    subtitle: "AVGにおける新規登録、アカウント管理、およびマッチング機能の解説マニュアル。",
+    subtitle: "Vomaにおける新規登録、アカウント管理、およびマッチング機能の解説マニュアル。",
     sections: {
       intro: {
         title: "はじめに",
-        text: "AVGビズハブへようこそ。当プラットフォームは、企業間のビジネスマッチング、提携機会の共有、および業務特化型AIアシスタントの活用を支援するWebシステムです。",
+        text: "Vomaビズハブへようこそ。当プラットフォームは、企業間のビジネスマッチング、提携機会の共有、および業務特化型AIアシスタントの活用を支援するWebシステムです。",
         img_label: "ホームページ全体の概要"
       },
       register: {
@@ -198,7 +198,7 @@ const GUIDE_CONTENT = {
       },
       connect: {
         title: "5. パートナー探索",
-        text: "AVGは、会員企業間の効率的でダイレクトなコネクションを提供します。",
+        text: "Vomaは、会員企業間の効率的でダイレクトなコネクションを提供します。",
         sub1_title: "案件フィード、会員名録、およびイベント",
         sub1_text: "- 案件フィード：他社が投稿したB2B案件の詳細を全画面表示で確認できます。ゲスト状態では連絡先名と電話番号が非表示となり、ログインすることでロックが解除されます。\n- 会員名録：ランク順（プラチナ -> ゴールド -> シルバー）に優先表示され、業界、都市、キーワードで検索可能です。\n- イベント：近日開催予定の商談会やフォーラムを一覧表示し、イベントへの参加意向を表明できます。"
       }

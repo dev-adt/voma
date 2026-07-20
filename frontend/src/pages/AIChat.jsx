@@ -20,12 +20,12 @@ export const AIChat = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [aiConfig, setAiConfig] = useState({ provider: 'Gemini', model: 'gemini-1.5-flash' });
   const [selectedModelOverride, setSelectedModelOverride] = useState(() => {
-    return localStorage.getItem('avg_chat_model_override') || '';
+    return localStorage.getItem('voma_chat_model_override') || '';
   });
 
   const handleModelOverrideChange = (val) => {
     setSelectedModelOverride(val);
-    localStorage.setItem('avg_chat_model_override', val);
+    localStorage.setItem('voma_chat_model_override', val);
   };
 
   const messagesEndRef = useRef(null);

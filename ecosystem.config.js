@@ -1,13 +1,13 @@
 // PM2 Ecosystem Config
 // Chạy: pm2 start ecosystem.config.js
-// Xem log: pm2 logs bizhub-ai
-// Reload: pm2 reload bizhub-ai
+// Xem log: pm2 logs voma-ai
+// Reload: pm2 reload voma-ai
 // Auto-start khi reboot: pm2 startup && pm2 save
 
 module.exports = {
   apps: [
     {
-      name        : 'bizhub-ai',
+      name        : 'voma-ai',
       script      : 'server.js',
       instances   : 1,           // tăng lên 'max' nếu muốn cluster
       exec_mode   : 'fork',

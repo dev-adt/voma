@@ -1,6 +1,6 @@
-# BizHub AI — Hệ thống Kết nối Doanh nghiệp & Trợ lý AI
+# Voma AI — Hệ thống Kết nối Doanh nghiệp & Trợ lý AI
 
-BizHub AVG là nền tảng kết nối giao thương B2B số hóa, chia sẻ cơ hội hợp tác đầu tư và tích hợp Trợ lý AI nghiệp vụ thông minh 24/7. Dự án hỗ trợ phân hạng thành viên (Silver, Gold, Platinum) linh hoạt và đa ngôn ngữ tự động (Tiếng Việt, Tiếng Anh, Tiếng Trung, Tiếng Nhật).
+Voma là nền tảng kết nối giao thương B2B số hóa, chia sẻ cơ hội hợp tác đầu tư và tích hợp Trợ lý AI nghiệp vụ thông minh 24/7. Dự án hỗ trợ phân hạng thành viên (Silver, Gold, Platinum) linh hoạt và đa ngôn ngữ tự động (Tiếng Việt, Tiếng Anh, Tiếng Trung, Tiếng Nhật).
 
 Dưới đây là tài liệu chi tiết giúp bạn cài đặt, phát triển và sao chép (clone) dự án này một cách nhanh chóng nhất.
 
@@ -18,7 +18,7 @@ Dưới đây là tài liệu chi tiết giúp bạn cài đặt, phát triển 
 ## 📁 Cấu trúc Thư mục Dự án
 
 ```text
-bizhub-complete/
+voma.today/
 ├── server.js               # Express Backend API, xử lý Database & AI Proxy chính
 ├── schema.sql              # Cấu trúc bảng MySQL của toàn bộ hệ thống
 ├── .env.example            # Bản mẫu cấu hình biến môi trường
@@ -45,14 +45,14 @@ bizhub-complete/
 
 ### Bước 1: Clone mã nguồn từ GitHub
 ```bash
-git clone <url-repository-cua-ban> /var/www/bizhub
-cd /var/www/bizhub
+git clone <url-repository-cua-ban> /var/www/voma.today
+cd /var/www/voma.today
 ```
 
 ### Bước 2: Thiết lập Cơ sở dữ liệu MySQL
 1. Đăng nhập vào trình quản lý MySQL của bạn (hoặc thông qua aaPanel / phpMyAdmin).
-2. Tạo một cơ sở dữ liệu mới (ví dụ tên là: `bizhub`).
-3. Import cấu trúc bảng từ tệp [schema.sql](file:///e:/ADT/bizhub-complete/schema.sql) để khởi tạo các bảng: `members`, `member_sessions`, `posts`, `events`, `event_interests`, v.v.
+2. Tạo một cơ sở dữ liệu mới (ví dụ tên là: `voma_db`).
+3. Import cấu trúc bảng từ tệp [schema.sql](schema.sql) để khởi tạo các bảng: `members`, `member_sessions`, `posts`, `events`, `event_interests`, v.v.
 
 ### Bước 3: Cấu hình Biến môi trường (.env)
 Sao chép tệp cấu hình mẫu:
@@ -92,11 +92,11 @@ pm2 startup
 Kiểm tra trạng thái chạy:
 ```bash
 pm2 status
-pm2 logs bizhub-ai
+pm2 logs voma-ai
 ```
 
 ### Bước 6: Cấu hình Nginx và SSL (HTTPS)
-Sử dụng file mẫu [nginx.conf](file:///e:/ADT/bizhub-complete/nginx.conf) để cấu hình reverse proxy chuyển tiếp yêu cầu từ cổng `80` / `443` về cổng chạy nội bộ của Node.js (ví dụ: `3000`).
+Sử dụng file mẫu [nginx.conf](nginx.conf) để cấu hình reverse proxy chuyển tiếp yêu cầu từ cổng `80` / `443` về cổng chạy nội bộ của Node.js (ví dụ: `3000`).
 Cài đặt SSL miễn phí thông qua Let's Encrypt / Certbot:
 ```bash
 sudo apt install -y certbot python3-certbot-nginx
@@ -125,7 +125,7 @@ Dự án tích hợp cơ chế đổi ngôn ngữ cục bộ bằng React contex
 ### Cách gỡ bỏ các file cấu hình hoặc hướng dẫn cục bộ khỏi Git (Không bị đẩy lên Github)
 Nếu sếp có các tệp tin lưu ghi chú cá nhân (như file `.env`, file hướng dẫn deploy VPS, file test API) và đã lỡ commit lên GitHub, sếp hãy thực hiện:
 
-1. Thêm tên file vào [.gitignore](file:///e:/ADT/bizhub-complete/.gitignore).
+1. Thêm tên file vào [.gitignore](.gitignore).
 2. Chạy lệnh gỡ chỉ mục theo dõi của Git (không làm mất file vật lý trên máy):
    ```bash
    git rm --cached TÊN_FILE_CỦA_BẠN.md

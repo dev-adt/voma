@@ -153,7 +153,7 @@ export const Register = () => {
           </div>
           
           <div className="register-sidebar-text">
-            <h2>AVG Connection</h2>
+            <h2>Voma Connection</h2>
             <p>{t('register_sidebar_desc')}</p>
           </div>
         </div>
@@ -397,7 +397,7 @@ export const Register = () => {
                         <option value="">{t('placeholder_referral')}</option>
                         <option value="Mạng xã hội (Facebook, LinkedIn...)">Mạng xã hội (Facebook, LinkedIn...)</option>
                         <option value="Báo chí, truyền thông">Báo chí, truyền thông</option>
-                        <option value="Được hội viên AVG giới thiệu">Được hội viên AVG giới thiệu</option>
+                        <option value="Được hội viên Voma giới thiệu">Được hội viên Voma giới thiệu</option>
                         <option value="Tìm kiếm Google">Tìm kiếm Google</option>
                         <option value="Hội thảo, sự kiện">Hội thảo, sự kiện</option>
                       </select>

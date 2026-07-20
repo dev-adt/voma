@@ -248,14 +248,14 @@ export const PostDetail = () => {
             <span style={{ color: '#fff' }}>{post.title}</span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '30px', alignItems: 'start' }}>
+          <div className="post-detail-layout">
             
             {/* Left Column: Post Details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', minWidth: 0 }}>
               
               {/* Cover Image */}
-              <div style={{ width: '100%', maxHeight: '420px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <img src={imgUrl} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ width: '100%', height: '360px', maxHeight: '400px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.2)', flexShrink: 0 }}>
+                <img src={imgUrl} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
 
               {/* Title & Meta Info */}
@@ -356,7 +356,7 @@ export const PostDetail = () => {
             </div>
 
             {/* Right Column: Sidebar (Author Details & Contact Info) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', minWidth: 0 }}>
               
               {/* Author / Company Details */}
               <div className="glass-card" style={{ padding: '20px' }}>

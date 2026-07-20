@@ -374,7 +374,7 @@ export const MemberDashboard = () => {
 
         <div className="dash-container" style={{ textAlign: 'left' }}>
           {/* Left Column: Edit profile */}
-          <div>
+          <div style={{ minWidth: 0 }}>
             {userStatus === 'pending' && (
               <div className="status-banner pending">
                 <i className="ti ti-clock status-icon"></i>
@@ -560,7 +560,7 @@ export const MemberDashboard = () => {
           </div>
 
           {/* Right Column: Statistics & opportunities list */}
-          <div>
+          <div style={{ minWidth: 0 }}>
             {userTier !== 'Platinum' && (
               <div className="dash-card" style={{ padding: '1.25rem', border: '1px solid rgba(245,158,11,0.2)', background: 'linear-gradient(to bottom, rgba(245,158,11,0.02), rgba(0,0,0,0))', marginBottom: '1rem' }}>
                 <div className="card-title" style={{ color: 'var(--amber)', marginBottom: '0.75rem' }}>

@@ -1243,6 +1243,9 @@ nav {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .glass-card::before {
@@ -1896,8 +1899,9 @@ nav {
   margin: 2rem auto;
   padding: 0 1.5rem;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 2rem;
+  align-items: start;
 }
 .dash-card {
   background: rgba(15, 27, 53, 0.45);
@@ -1908,6 +1912,10 @@ nav {
   padding: 1.5rem;
   margin-bottom: 2rem;
   box-shadow: var(--shadow);
+  min-width: 0;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .card-title {
   font-family: var(--font-title);
@@ -1950,7 +1958,7 @@ nav {
 }
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -1960,6 +1968,8 @@ nav {
   border-radius: 10px;
   padding: 1rem;
   text-align: center;
+  min-width: 0;
+  overflow: hidden;
 }
 .stat-val {
   font-family: var(--font-title);
@@ -1967,6 +1977,9 @@ nav {
   font-weight: 800;
   color: var(--neon-cyan);
   margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .stat-lbl {
   font-size: 11px;
@@ -1976,7 +1989,7 @@ nav {
 }
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
 }
 .fg {
@@ -2475,6 +2488,66 @@ select option {
 .light-theme .card-title {
   color: var(--text-primary) !important;
   border-bottom-color: var(--border) !important;
+}
+
+/* ── Post Detail & Dashboard Grid Layout Fixes ── */
+.post-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .post-detail-layout {
+    grid-template-columns: 1fr;
+  }
+  .dash-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Post HTML Body rich text & media overflow constraints */
+.post-html-body {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.post-html-body img {
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+  margin: 1.25rem auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.post-html-body video, .post-html-body iframe {
+  max-width: 100% !important;
+  border-radius: 10px;
+}
+.post-html-body table {
+  max-width: 100% !important;
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+.post-html-body pre, .post-html-body code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 

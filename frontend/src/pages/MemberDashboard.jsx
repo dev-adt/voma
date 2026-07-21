@@ -630,7 +630,7 @@ export const MemberDashboard = () => {
                   {memberPosts.map(p => (
                     <div className="post-item" key={p.id}>
                       <div style={{ flex: 1, minWidth: 0, textAlign: 'left' }}>
-                        <div style={{ fontWeight: '600', fontSize: '13px', color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <div style={{ fontWeight: '600', fontSize: '13px', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {p.title}
                         </div>
                         <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px', display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -640,14 +640,14 @@ export const MemberDashboard = () => {
                           <span>·</span>
                           <button 
                             onClick={() => handleStartEditPost(p.id)}
-                            style={{ background: 'none', border: 'none', color: 'var(--primary-light)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '11px', outline: 'none' }}
+                            style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '11px', outline: 'none', fontWeight: 600 }}
                           >
                             <i className="ti ti-edit"></i> {t('btn_edit')}
                           </button>
                           <span>·</span>
                           <button 
                             onClick={() => handleDeletePost(p.id, p.title)}
-                            style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '11px', outline: 'none' }}
+                            style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '11px', outline: 'none', fontWeight: 600 }}
                           >
                             <i className="ti ti-trash"></i> {t('btn_delete')}
                           </button>
@@ -668,13 +668,13 @@ export const MemberDashboard = () => {
 
       {/* Modal đăng cơ hội giao thương mới */}
       {modalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(8,14,30,0.85)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-          <div className="glass-card" style={{ width: '100%', maxWidth: '600px', padding: '2rem', borderColor: 'var(--border-strong)', textAlign: 'left' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(8,14,30,0.5)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
+          <div style={{ width: '100%', maxWidth: '600px', padding: '2rem', background: '#FFFFFF', borderRadius: '16px', border: '1px solid var(--border-strong)', boxShadow: 'var(--shadow-lg)', textAlign: 'left' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
-                <i className="ti ti-plus" style={{ color: 'var(--neon-cyan)' }}></i> {editingPostId ? t('modal_edit_post_title') : t('modal_create_post_title')}
+              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', color: 'var(--text-primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+                <i className="ti ti-plus" style={{ color: 'var(--primary)' }}></i> {editingPostId ? t('modal_edit_post_title') : t('modal_create_post_title')}
               </h3>
-              <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px', cursor: 'pointer' }}><i className="ti ti-x"></i></button>
+              <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: '20px', cursor: 'pointer' }}><i className="ti ti-x"></i></button>
             </div>
 
             <form onSubmit={(e) => e.preventDefault()}>
@@ -748,12 +748,13 @@ export const MemberDashboard = () => {
                         cursor: 'pointer', 
                         margin: 0, 
                         flexShrink: 0,
-                        backgroundColor: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        backgroundColor: 'var(--surface-0)',
+                        border: '1px solid var(--border-strong)',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '4px',
-                        color: '#FFF'
+                        color: 'var(--text-primary)',
+                        fontWeight: 600
                       }}
                     >
                       <i className="ti ti-upload"></i> {t('btn_choose_file')}
@@ -769,7 +770,7 @@ export const MemberDashboard = () => {
                 </div>
 
                 {profileData.tier === 'Platinum' && (
-                  <div className="fg" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '15px', background: 'rgba(245, 158, 11, 0.05)', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(245,158,11,0.15)' }}>
+                  <div className="fg" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '15px', background: 'var(--amber-bg)', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(245,158,11,0.25)' }}>
                     <input 
                       type="checkbox" 
                       id="featured_requested" 
@@ -777,7 +778,7 @@ export const MemberDashboard = () => {
                       onChange={(e) => setNewPostData(prev => ({ ...prev, featured_requested: e.target.checked ? 1 : 0 }))} 
                       style={{ width: '16px', height: '16px', cursor: 'pointer' }}
                     />
-                    <label htmlFor="featured_requested" style={{ margin: 0, cursor: 'pointer', fontSize: '13px', fontWeight: 650, color: 'var(--amber)' }}>
+                    <label htmlFor="featured_requested" style={{ margin: 0, cursor: 'pointer', fontSize: '13px', fontWeight: 650, color: 'var(--amber-dark)' }}>
                       <i className="ti ti-star-filled"></i> {t('modal_request_featured_label')}
                     </label>
                   </div>
@@ -785,12 +786,12 @@ export const MemberDashboard = () => {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '1.5rem', borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
-                <button type="button" className="btn" onClick={() => setModalOpen(false)}>{t('btn_cancel')}</button>
+                <button type="button" className="btn" onClick={() => setModalOpen(false)} style={{ background: '#FFFFFF', border: '1px solid var(--border-strong)', color: 'var(--text-primary)' }}>{t('btn_cancel')}</button>
                 <button 
                   type="button" 
                   onClick={() => handleSubmitAction(true)} 
                   className="btn" 
-                  style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF' }}
+                  style={{ backgroundColor: 'var(--surface-0)', border: '1px solid var(--border-strong)', color: 'var(--text-primary)', fontWeight: 600 }}
                   disabled={creatingPost || uploadingImage}
                 >
                   {t('btn_save_draft')}

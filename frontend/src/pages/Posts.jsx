@@ -332,11 +332,11 @@ export const Posts = () => {
                         {/* Member avatar & details line */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                           <div className="av-circle" style={{ width: '22px', height: '22px', fontSize: '9px', background: avatarColors.bg, color: avatarColors.fg, fontWeight: 600 }}>{initials}</div>
-                          <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#fff' }}>{p.company_name}</span>
+                          <span style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--text-primary)' }}>{p.company_name}</span>
                           <span style={{ 
                             fontSize: '8.5px', 
-                            background: isPlat ? 'rgba(245,158,11,0.15)' : isGld ? 'rgba(245,158,11,0.1)' : 'rgba(255,255,255,0.05)', 
-                            color: isPlat || isGld ? 'var(--amber)' : 'var(--text-muted)',
+                            background: isPlat ? 'rgba(245,158,11,0.15)' : isGld ? 'rgba(245,158,11,0.1)' : 'var(--surface-0)', 
+                            color: isPlat || isGld ? 'var(--amber-dark)' : 'var(--text-secondary)',
                             padding: '1px 5px',
                             borderRadius: '3px',
                             fontWeight: 700,
@@ -348,13 +348,13 @@ export const Posts = () => {
                         </div>
 
                         {/* Title */}
-                        <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '15px', fontWeight: 650, color: '#fff', margin: '0 0 6px', lineHeight: 1.4 }}>{p.title}</h3>
+                        <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '15px', fontWeight: 650, color: 'var(--text-primary)', margin: '0 0 6px', lineHeight: 1.4 }}>{p.title}</h3>
                         <p style={{ fontSize: '12.5px', color: 'var(--text-secondary)', margin: '0 0 10px', lineHeight: 1.5 }}>{p.summary || p.body.replace(/<[^>]*>/g, '').substring(0, 120)}</p>
                       </div>
 
                       {/* Tag & classification */}
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '9.5px', textTransform: 'uppercase', padding: '2px 8px', borderRadius: '4px', background: 'rgba(0,229,255,0.08)', color: 'var(--neon-cyan)', border: '1px solid rgba(0,229,255,0.15)', fontWeight: 600 }}>
+                        <span style={{ fontSize: '9.5px', textTransform: 'uppercase', padding: '2px 8px', borderRadius: '4px', background: 'var(--primary-glow)', color: 'var(--primary)', border: '1px solid var(--border)', fontWeight: 600 }}>
                           {p.type === 'offer' ? t('type_offer_short') : p.type === 'demand' ? t('type_demand_short') : t('type_cooperate_short')}
                         </span>
                         {p.category && (
@@ -386,7 +386,7 @@ export const Posts = () => {
                 >
                   <i className="ti ti-chevron-left"></i> {t('btn_back_prev')}
                 </button>
-                <span style={{ fontSize: '12.5px', color: '#fff' }}>
+                <span style={{ fontSize: '12.5px', color: 'var(--text-primary)' }}>
                   {t('label_page')} <strong>{currentPage}</strong> / {totalPages}
                 </span>
                 <button 

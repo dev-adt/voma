@@ -248,10 +248,10 @@ export const Members = () => {
 
         {/* 1. TOP PINNED FEATURED MEMBERS */}
         {!loading && !error && featuredMembers.length > 0 && currentPage === 1 && (
-          <div style={{ marginBottom: '3rem', background: 'rgba(245, 158, 11, 0.03)', border: '1px solid rgba(245,158,11,0.15)', borderRadius: '16px', padding: '1.5rem' }}>
+          <div style={{ marginBottom: '3rem', background: 'var(--amber-bg)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '16px', padding: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem', textAlign: 'left' }}>
-              <i className="ti ti-crown" style={{ color: 'var(--amber)', fontSize: '20px' }}></i>
-              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', fontWeight: 700, color: 'var(--amber)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <i className="ti ti-crown" style={{ color: 'var(--amber-dark)', fontSize: '20px' }}></i>
+              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', fontWeight: 700, color: 'var(--amber-dark)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {t('featured_members_header')}
               </h2>
             </div>
@@ -264,16 +264,16 @@ export const Members = () => {
                 const tierClass = m.tier === 'Platinum' ? 'b-platinum' : m.tier === 'Gold' ? 'b-gold' : 'b-silver';
                 
                 return (
-                  <div className="card" key={`feat-${m.id}`} style={{ border: '1px solid rgba(245,158,11,0.3)', boxShadow: '0 4px 20px rgba(245,158,11,0.08)', borderRadius: 'var(--radius-lg)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'var(--surface-2)' }}>
-                    <div style={{ height: '60px', background: `linear-gradient(135deg, ${colors.bg} 0%, rgba(255,255,255,0) 100%)`, borderBottom: '1px solid rgba(255,255,255,0.05)' }}></div>
+                  <div className="card" key={`feat-${m.id}`} style={{ border: '1px solid rgba(245,158,11,0.3)', boxShadow: '0 4px 20px rgba(245,158,11,0.12)', borderRadius: 'var(--radius-lg)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', background: '#FFFFFF' }}>
+                    <div style={{ height: '60px', background: `linear-gradient(135deg, ${colors.bg} 0%, rgba(255,255,255,0) 100%)`, borderBottom: '1px solid var(--border)' }}></div>
                     <div style={{ padding: '1.25rem', marginTop: '-35px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                      <div className="av-circle" style={{ background: colors.bg, color: colors.fg, width: '54px', height: '54px', fontSize: '16px', border: '3px solid var(--surface-2)', marginBottom: '12px', fontWeight: 750 }}>{initials}</div>
-                      <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '4px', lineHeight: 1.3, textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div className="av-circle" style={{ background: colors.bg, color: colors.fg, width: '54px', height: '54px', fontSize: '16px', border: '3px solid #FFFFFF', marginBottom: '12px', fontWeight: 750 }}>{initials}</div>
+                      <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '4px', lineHeight: 1.3, textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         {m.name}
-                        <i className="ti ti-star-filled" style={{ color: 'var(--amber)', fontSize: '14px' }}></i>
+                        <i className="ti ti-star-filled" style={{ color: 'var(--amber-dark)', fontSize: '14px' }}></i>
                       </h3>
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <i className="ti ti-briefcase" style={{ color: 'var(--amber)' }}></i> {m.industry}
+                        <i className="ti ti-briefcase" style={{ color: 'var(--primary)' }}></i> {m.industry}
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                         <p style={{ 
@@ -295,14 +295,15 @@ export const Members = () => {
                               value={memberTargetLangs[`feat-${m.id}`] || (currentLang === 'vi' ? 'en' : currentLang)}
                               onChange={(e) => handleMemberTargetLangChange(`feat-${m.id}`, e.target.value)}
                               style={{
-                                background: 'rgba(255,255,255,0.05)',
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                background: '#FFFFFF',
+                                border: '1px solid var(--border-strong)',
                                 borderRadius: '4px',
-                                color: '#fff',
+                                color: 'var(--text-primary)',
                                 fontSize: '10px',
                                 padding: '2px 4px',
                                 outline: 'none',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                fontWeight: 600
                               }}
                             >
                               <option value="en">🇬🇧 EN</option>
@@ -316,7 +317,7 @@ export const Members = () => {
                               style={{
                                 background: 'none',
                                 border: 'none',
-                                color: translatedDescs[`feat-${m.id}`] ? 'var(--emerald)' : 'var(--neon-cyan)',
+                                color: translatedDescs[`feat-${m.id}`] ? 'var(--emerald-dark)' : 'var(--primary)',
                                 fontSize: '10.5px',
                                 cursor: 'pointer',
                                 display: 'flex',
@@ -419,14 +420,15 @@ export const Members = () => {
                               value={memberTargetLangs[m.id] || (currentLang === 'vi' ? 'en' : currentLang)}
                               onChange={(e) => handleMemberTargetLangChange(m.id, e.target.value)}
                               style={{
-                                background: 'rgba(255,255,255,0.05)',
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                background: '#FFFFFF',
+                                border: '1px solid var(--border-strong)',
                                 borderRadius: '4px',
-                                color: '#fff',
+                                color: 'var(--text-primary)',
                                 fontSize: '10px',
                                 padding: '2px 4px',
                                 outline: 'none',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                fontWeight: 600
                               }}
                             >
                               <option value="en">🇬🇧 EN</option>
@@ -440,7 +442,7 @@ export const Members = () => {
                               style={{
                                 background: 'none',
                                 border: 'none',
-                                color: translatedDescs[m.id] ? 'var(--emerald)' : 'var(--neon-cyan)',
+                                color: translatedDescs[m.id] ? 'var(--emerald-dark)' : 'var(--primary)',
                                 fontSize: '10.5px',
                                 cursor: 'pointer',
                                 display: 'flex',

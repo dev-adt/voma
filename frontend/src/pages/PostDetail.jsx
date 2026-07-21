@@ -245,7 +245,7 @@ export const PostDetail = () => {
             <i className="ti ti-chevron-right" style={{ fontSize: '10px' }}></i>
             <Link to="/posts" style={{ color: 'inherit', textDecoration: 'none' }}>Bảng tin cơ hội</Link>
             <i className="ti ti-chevron-right" style={{ fontSize: '10px' }}></i>
-            <span style={{ color: '#fff' }}>{post.title}</span>
+            <span style={{ color: 'var(--text-primary)' }}>{post.title}</span>
           </div>
 
           <div className="post-detail-layout">
@@ -254,31 +254,31 @@ export const PostDetail = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', minWidth: 0 }}>
               
               {/* Cover Image */}
-              <div style={{ width: '100%', height: '360px', maxHeight: '400px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.2)', flexShrink: 0 }}>
+              <div style={{ width: '100%', height: '360px', maxHeight: '400px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--border)', background: 'var(--surface-0)', flexShrink: 0 }}>
                 <img src={imgUrl} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
 
               {/* Title & Meta Info */}
               <div className="glass-card" style={{ padding: '24px', position: 'relative' }}>
                 {post.is_featured === 1 && (
-                  <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', background: 'rgba(245, 158, 11, 0.15)', color: 'var(--amber)', border: '1px solid rgba(245,158,11,0.3)', padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', background: 'rgba(245, 158, 11, 0.15)', color: 'var(--amber-dark)', border: '1px solid rgba(245,158,11,0.3)', padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', fontWeight: 700 }}>
                     {t('badge_featured')} <i className="ti ti-star-filled"></i>
                   </span>
                 )}
                 
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
-                  <span style={{ fontSize: '10px', background: 'rgba(0, 229, 255, 0.1)', color: 'var(--neon-cyan)', border: '1px solid rgba(0, 229, 255, 0.2)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', fontWeight: 600 }}>
+                  <span style={{ fontSize: '10px', background: 'var(--primary-glow)', color: 'var(--primary)', border: '1px solid var(--border)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', fontWeight: 600 }}>
                     {post.type === 'offer' ? t('type_offer') : post.type === 'demand' ? t('type_demand') : t('type_cooperate')}
                   </span>
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{post.category || t('category_default')}</span>
                 </div>
 
-                <h1 style={{ fontFamily: 'var(--font-title)', fontSize: '28px', color: '#fff', fontWeight: 700, lineHeight: '1.4', margin: '0 0 12px' }}>
+                <h1 style={{ fontFamily: 'var(--font-title)', fontSize: '28px', color: 'var(--text-primary)', fontWeight: 700, lineHeight: '1.4', margin: '0 0 12px' }}>
                   {isTranslated ? translatedTitle : post.title}
                 </h1>
                 
                 <div style={{ fontSize: '12.5px', color: 'var(--text-secondary)' }}>
-                  {t('date_posted_label')}: <strong style={{ color: '#fff' }}>{dateStr}</strong>
+                  {t('date_posted_label')}: <strong style={{ color: 'var(--text-primary)' }}>{dateStr}</strong>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
@@ -288,10 +288,10 @@ export const PostDetail = () => {
                       value={translateTargetLang}
                       onChange={(e) => setTranslateTargetLang(e.target.value)}
                       style={{
-                        background: 'rgba(255,255,255,0.06)',
-                        border: '1px solid rgba(255,255,255,0.12)',
+                        background: '#FFFFFF',
+                        border: '1px solid var(--border-strong)',
                         borderRadius: '6px',
-                        color: '#fff',
+                        color: 'var(--text-primary)',
                         fontSize: '11.5px',
                         padding: '4px 8px',
                         outline: 'none',
@@ -309,9 +309,9 @@ export const PostDetail = () => {
                     onClick={handleTranslatePost}
                     disabled={loadingTranslate}
                     style={{
-                      background: isTranslated ? 'rgba(16, 185, 129, 0.1)' : 'rgba(30, 136, 229, 0.1)',
-                      border: `1px solid ${isTranslated ? 'rgba(16, 185, 129, 0.3)' : 'rgba(30, 136, 229, 0.3)'}`,
-                      color: isTranslated ? 'var(--emerald)' : 'var(--primary-light)',
+                      background: isTranslated ? 'var(--emerald-bg)' : 'var(--primary-glow)',
+                      border: `1px solid ${isTranslated ? 'var(--emerald)' : 'var(--primary)'}`,
+                      color: isTranslated ? 'var(--emerald-dark)' : 'var(--primary)',
                       padding: '5px 12px',
                       borderRadius: '6px',
                       fontSize: '11.5px',
@@ -332,8 +332,8 @@ export const PostDetail = () => {
 
               {/* Summary / Lead Paragraph */}
               {post.summary && (
-                <div className="glass-card" style={{ padding: '20px 24px', background: 'rgba(0,229,255,0.02)', borderColor: 'rgba(0,229,255,0.1)' }}>
-                  <p style={{ fontSize: '14.5px', fontWeight: 500, color: 'var(--neon-cyan)', margin: 0, lineHeight: '1.6' }}>
+                <div className="glass-card" style={{ padding: '20px 24px', background: 'var(--primary-glow)', borderColor: 'var(--border)' }}>
+                  <p style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary-dark)', margin: 0, lineHeight: '1.6' }}>
                     {isTranslated ? translatedSummary : post.summary}
                   </p>
                 </div>
@@ -346,7 +346,7 @@ export const PostDetail = () => {
                   dangerouslySetInnerHTML={{ __html: isTranslated ? translatedBody : post.body }}
                   style={{
                     fontSize: '15px',
-                    color: 'rgba(255,255,255,0.9)',
+                    color: 'var(--text-primary)',
                     lineHeight: '1.8',
                     textAlign: 'left',
                   }}
@@ -363,18 +363,18 @@ export const PostDetail = () => {
                 <h4 style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 15px' }}>{t('sidebar_author')}</h4>
                 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '15px' }}>
-                  <div className="av-circle" style={{ width: '48px', height: '48px', fontSize: '18px', background: isPlatinum ? 'linear-gradient(135deg, #FFD700, #FFA500)' : isGold ? 'var(--amber-glow)' : 'var(--primary-glow)', color: '#fff' }}>
+                  <div className="av-circle" style={{ width: '48px', height: '48px', fontSize: '18px', background: isPlatinum ? 'linear-gradient(135deg, #FFD700, #FFA500)' : isGold ? 'var(--amber-bg)' : 'var(--primary-glow)', color: isPlatinum ? '#000' : 'var(--primary)' }}>
                     {post.company_name ? post.company_name.substring(0, 2).toUpperCase() : 'DN'}
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '15px', color: '#fff', fontWeight: 600, margin: 0 }}>{post.company_name || 'Hội viên ẩn danh'}</h3>
+                    <h3 style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: 600, margin: 0 }}>{post.company_name || 'Hội viên ẩn danh'}</h3>
                     <span style={{ 
                       display: 'inline-block',
                       marginTop: '4px',
                       fontSize: '9px',
-                      background: isPlatinum ? 'rgba(245,158,11,0.15)' : isGold ? 'rgba(245,158,11,0.1)' : 'rgba(255,255,255,0.05)',
-                      color: isPlatinum || isGold ? 'var(--amber)' : 'var(--text-muted)',
-                      border: `1px solid ${isPlatinum || isGold ? 'rgba(245,158,11,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                      background: isPlatinum ? 'rgba(245,158,11,0.15)' : isGold ? 'rgba(245,158,11,0.1)' : 'var(--surface-0)',
+                      color: isPlatinum || isGold ? 'var(--amber-dark)' : 'var(--text-secondary)',
+                      border: `1px solid ${isPlatinum || isGold ? 'rgba(245,158,11,0.3)' : 'var(--border)'}`,
                       padding: '1px 6px',
                       borderRadius: '3px',
                       fontWeight: 700,
@@ -387,9 +387,9 @@ export const PostDetail = () => {
                         onClick={() => handleViewMemberDetails(post.member_id)}
                         style={{
                           marginTop: '8px',
-                          background: 'rgba(0, 229, 255, 0.08)',
-                          border: '1px solid rgba(0, 229, 255, 0.2)',
-                          color: 'var(--neon-cyan)',
+                          background: 'var(--surface-0)',
+                          border: '1px solid var(--border)',
+                          color: 'var(--primary)',
                           padding: '4px 10px',
                           borderRadius: '4px',
                           fontSize: '11px',
@@ -397,7 +397,8 @@ export const PostDetail = () => {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '4px',
-                          outline: 'none'
+                          outline: 'none',
+                          fontWeight: 600
                         }}
                       >
                         <i className="ti ti-info-circle"></i> {t('btn_view_details')}
@@ -406,15 +407,15 @@ export const PostDetail = () => {
                   </div>
                 </div>
 
-                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', margin: '15px 0' }} />
+                <div style={{ height: '1px', background: 'var(--border)', margin: '15px 0' }} />
                 
                 {/* Contact Information Section (Login Wall) */}
                 <h4 style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 12px' }}>{t('contact_info_label')}</h4>
                 
                 {isGuest ? (
-                  <div style={{ padding: '15px', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '8px', textAlign: 'center' }}>
-                    <i className="ti ti-lock" style={{ fontSize: '20px', color: 'var(--neon-cyan)', marginBottom: '8px', display: 'block' }}></i>
-                    <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '0 0 12px', lineHeight: '1.5' }}>
+                  <div style={{ padding: '15px', background: 'var(--surface-0)', border: '1px dashed var(--border-strong)', borderRadius: '8px', textAlign: 'center' }}>
+                    <i className="ti ti-lock" style={{ fontSize: '20px', color: 'var(--primary)', marginBottom: '8px', display: 'block' }}></i>
+                    <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: '0 0 12px', lineHeight: '1.5' }}>
                       {t('login_required_desc')}
                     </p>
                     <Link to="/login" className="btn btn-primary" style={{ display: 'block', padding: '6px 12px', fontSize: '11.5px', textDecoration: 'none', textAlign: 'center' }}>
@@ -424,8 +425,8 @@ export const PostDetail = () => {
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                      <i className="ti ti-info-square" style={{ color: 'var(--neon-cyan)', marginTop: '2px' }}></i>
-                      <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.85)', wordBreak: 'break-word' }}>
+                      <i className="ti ti-info-square" style={{ color: 'var(--primary)', marginTop: '2px' }}></i>
+                      <div style={{ fontSize: '12.5px', color: 'var(--text-primary)', wordBreak: 'break-word' }}>
                         {post.contact_info || t('contact_info_label')}
                       </div>
                     </div>
@@ -434,7 +435,7 @@ export const PostDetail = () => {
               </div>
 
               {/* Navigation Back */}
-              <Link to="/posts" className="btn" style={{ display: 'block', padding: '10px 15px', fontSize: '12.5px', textDecoration: 'none', background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#fff', textAlign: 'center' }}>
+              <Link to="/posts" className="btn" style={{ display: 'block', padding: '10px 15px', fontSize: '12.5px', textDecoration: 'none', background: '#FFFFFF', border: '1.5px solid var(--border-strong)', color: 'var(--text-primary)', textAlign: 'center', fontWeight: 600 }}>
                 <i className="ti ti-arrow-left"></i> {t('btn_back_to_feed')}
               </Link>
 

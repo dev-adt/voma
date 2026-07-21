@@ -327,11 +327,11 @@ export const MemberDashboard = () => {
       <div className="dashboard-wrap">
         
         {/* Top Header Banner */}
-        <div style={{ background: 'var(--surface-2)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '2rem 0' }}>
+        <div style={{ background: 'var(--surface-0)', borderBottom: '1px solid var(--border)', padding: '2rem 0' }}>
           <div className="public-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div style={{ textAlign: 'left' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <h1 style={{ fontFamily: 'var(--font-title)', fontSize: '24px', fontWeight: 800, color: '#fff', margin: 0 }}>
+                <h1 style={{ fontFamily: 'var(--font-title)', fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                   {t('dashboard_title')}
                 </h1>
                 <span className={`badge ${userTier === 'Platinum' ? 'b-platinum' : userTier === 'Gold' ? 'b-gold' : 'b-silver'}`} style={{ marginRight: '8px' }}>

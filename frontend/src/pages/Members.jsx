@@ -336,21 +336,21 @@ export const Members = () => {
                       
                       {/* Contact Info Block */}
                       {m.email !== '***@***.***' ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', fontSize: '11.5px', border: '1px solid rgba(255,255,255,0.04)' }}>
-                          <div style={{ color: '#fff', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-user" style={{ color: 'var(--amber)' }}></i> {m.contact_name}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'var(--surface-0)', borderRadius: '6px', fontSize: '11.5px', border: '1px solid var(--border)' }}>
+                          <div style={{ color: 'var(--text-primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <i className="ti ti-user" style={{ color: 'var(--primary)' }}></i> {m.contact_name}
                           </div>
                           <div style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-mail" style={{ color: 'var(--amber)' }}></i> {m.email}
+                            <i className="ti ti-mail" style={{ color: 'var(--primary)' }}></i> {m.email}
                           </div>
                           <div style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-phone" style={{ color: 'var(--amber)' }}></i> {m.phone}
+                            <i className="ti ti-phone" style={{ color: 'var(--primary)' }}></i> {m.phone}
                           </div>
                         </div>
                       ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', fontSize: '11.5px', border: '1px dashed rgba(255,255,255,0.05)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'var(--surface-0)', borderRadius: '6px', fontSize: '11.5px', border: '1px dashed var(--border-strong)' }}>
                           <div style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-lock"></i> {t('contact_login_required')}
+                            <i className="ti ti-lock" style={{ color: 'var(--primary)' }}></i> {t('contact_login_required')}
                           </div>
                         </div>
                       )}
@@ -460,21 +460,21 @@ export const Members = () => {
                       
                       {/* Contact Info Block */}
                       {m.email !== '***@***.***' ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', fontSize: '11.5px', border: '1px solid rgba(255,255,255,0.04)' }}>
-                          <div style={{ color: '#fff', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-user" style={{ color: 'var(--amber)' }}></i> {m.contact_name}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'var(--surface-0)', borderRadius: '6px', fontSize: '11.5px', border: '1px solid var(--border)' }}>
+                          <div style={{ color: 'var(--text-primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <i className="ti ti-user" style={{ color: 'var(--primary)' }}></i> {m.contact_name}
                           </div>
                           <div style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-mail" style={{ color: 'var(--amber)' }}></i> {m.email}
+                            <i className="ti ti-mail" style={{ color: 'var(--primary)' }}></i> {m.email}
                           </div>
                           <div style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-phone" style={{ color: 'var(--amber)' }}></i> {m.phone}
+                            <i className="ti ti-phone" style={{ color: 'var(--primary)' }}></i> {m.phone}
                           </div>
                         </div>
                       ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', fontSize: '11.5px', border: '1px dashed rgba(255,255,255,0.05)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', marginTop: '8px', padding: '8px 10px', background: 'var(--surface-0)', borderRadius: '6px', fontSize: '11.5px', border: '1px dashed var(--border-strong)' }}>
                           <div style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <i className="ti ti-lock"></i> {t('contact_login_required')}
+                            <i className="ti ti-lock" style={{ color: 'var(--primary)' }}></i> {t('contact_login_required')}
                           </div>
                         </div>
                       )}

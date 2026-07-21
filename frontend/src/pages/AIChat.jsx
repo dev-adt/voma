@@ -398,11 +398,11 @@ export const AIChat = () => {
 
         {/* Center: Message Viewport */}
         <div className="chat-main">
-          <div style={{ backgroundColor: 'var(--surface-2)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '0 1.25rem', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-            <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <i className="ti ti-robot" style={{ color: 'var(--neon-cyan)', fontSize: '18px' }}></i> {t('ai_assistant_title')}
+          <div style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border)', padding: '0 1.25rem', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+            <div style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <i className="ti ti-robot" style={{ color: 'var(--primary)', fontSize: '18px' }}></i> {t('ai_assistant_title')}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#10B981', background: 'rgba(16,185,129,0.08)', border: '0.5px solid rgba(16,185,129,0.2)', padding: '4px 12px', borderRadius: '99px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--emerald-dark)', background: 'var(--emerald-bg)', border: '1px solid rgba(16,185,129,0.3)', padding: '4px 12px', borderRadius: '99px', fontWeight: 600 }}>
               <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981', animation: 'pulse 2s infinite' }}></span>
               <span>
                 {user && (user.tier === 'Gold' || user.tier === 'Platinum') && selectedModelOverride 
@@ -422,13 +422,13 @@ export const AIChat = () => {
                 </div>
               ) : messages.length === 0 ? (
                 // Welcome Message
-                <div className="chat-bubble ai" style={{ alignSelf: 'flex-start', maxWidth: '85%', padding: '12px 16px', borderRadius: '12px', background: 'var(--surface-2)', color: '#fff', fontSize: '13px', lineHeight: '1.6', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'left' }}>
+                <div className="chat-bubble ai" style={{ alignSelf: 'flex-start', maxWidth: '85%', padding: '12px 16px', borderRadius: '12px', background: '#FFFFFF', color: 'var(--text-primary)', fontSize: '13px', lineHeight: '1.6', border: '1px solid var(--border)', boxShadow: 'var(--shadow)', textAlign: 'left' }}>
                   {t('ai_welcome_1')}<br/><br/>
                   {t('ai_welcome_2')}
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
-                    <button className="chip" onClick={() => handleSend(t('ai_suggestion_1_val'))} style={{ padding: '4px 10px', fontSize: '11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', color: '#fff', cursor: 'pointer' }}>{t('ai_suggestion_1_lbl')}</button>
-                    <button className="chip" onClick={() => handleSend(t('ai_suggestion_2_val'))} style={{ padding: '4px 10px', fontSize: '11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', color: '#fff', cursor: 'pointer' }}>{t('ai_suggestion_2_lbl')}</button>
-                    <button className="chip" onClick={() => handleSend(t('ai_suggestion_3_val'))} style={{ padding: '4px 10px', fontSize: '11px', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', color: '#fff', cursor: 'pointer' }}>{t('ai_suggestion_3_lbl')}</button>
+                    <button className="chip" onClick={() => handleSend(t('ai_suggestion_1_val'))} style={{ padding: '4px 10px', fontSize: '11px', borderRadius: '99px', border: '1px solid var(--border)', background: 'var(--surface-0)', color: 'var(--primary)', fontWeight: 600, cursor: 'pointer' }}>{t('ai_suggestion_1_lbl')}</button>
+                    <button className="chip" onClick={() => handleSend(t('ai_suggestion_2_val'))} style={{ padding: '4px 10px', fontSize: '11px', borderRadius: '99px', border: '1px solid var(--border)', background: 'var(--surface-0)', color: 'var(--primary)', fontWeight: 600, cursor: 'pointer' }}>{t('ai_suggestion_2_lbl')}</button>
+                    <button className="chip" onClick={() => handleSend(t('ai_suggestion_3_val'))} style={{ padding: '4px 10px', fontSize: '11px', borderRadius: '99px', border: '1px solid var(--border)', background: 'var(--surface-0)', color: 'var(--primary)', fontWeight: 600, cursor: 'pointer' }}>{t('ai_suggestion_3_lbl')}</button>
                   </div>
                 </div>
               ) : (
@@ -443,11 +443,12 @@ export const AIChat = () => {
                         maxWidth: '85%', 
                         padding: '12px 16px', 
                         borderRadius: '12px', 
-                        background: isUser ? 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)' : 'var(--surface-2)', 
-                        color: '#fff', 
+                        background: isUser ? 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)' : '#FFFFFF', 
+                        color: isUser ? '#FFFFFF' : 'var(--text-primary)', 
                         fontSize: '13px', 
                         lineHeight: '1.6', 
-                        border: isUser ? 'none' : '1px solid rgba(255,255,255,0.04)',
+                        border: isUser ? 'none' : '1px solid var(--border)',
+                        boxShadow: 'var(--shadow)',
                         textAlign: 'left'
                       }}
                     >

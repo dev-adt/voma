@@ -9,16 +9,16 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     return (
       <div style={{
         height: '100vh',
-        backgroundColor: '#0F172A',
-        color: '#F8FAFC',
+        backgroundColor: 'var(--bg-base)',
+        color: 'var(--text-secondary)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        fontFamily: 'Inter, sans-serif'
+        fontFamily: 'inherit'
       }}>
-        <i className="ti ti-loader animate-spin" style={{ fontSize: '32px', marginBottom: '12px', color: '#1E88E5' }}></i>
-        <div style={{ fontSize: '13px', color: '#64748B', fontWeight: '500' }}>Đang xác thực thông tin...</div>
+        <i className="ti ti-loader animate-spin" style={{ fontSize: '32px', marginBottom: '12px', color: 'var(--primary-light)' }}></i>
+        <div style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>Đang xác thực thông tin...</div>
       </div>
     );
   }

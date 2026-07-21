@@ -183,7 +183,7 @@ export const Members = () => {
                 placeholder={t('search_members_placeholder')} 
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                style={{ padding: '8px 12px 8px 30px', width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', outline: 'none', backgroundColor: 'var(--surface-3)', color: '#fff' }}
+                style={{ padding: '8px 12px 8px 30px', width: '100%', borderRadius: '8px', border: '1px solid var(--border-strong)', fontSize: '12.5px', outline: 'none', backgroundColor: '#FFFFFF', color: 'var(--text-primary)' }}
               />
             </div>
 
@@ -191,7 +191,7 @@ export const Members = () => {
             <select
               value={selectedTier}
               onChange={(e) => { setSelectedTier(e.target.value); setCurrentPage(1); }}
-              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', outline: 'none', backgroundColor: 'var(--surface-3)', color: '#fff', cursor: 'pointer', minWidth: '130px' }}
+              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-strong)', fontSize: '12.5px', outline: 'none', backgroundColor: '#FFFFFF', color: 'var(--text-primary)', cursor: 'pointer', minWidth: '130px' }}
             >
               <option value="">{t('all_tiers')}</option>
               <option value="Platinum">💎 Platinum</option>
@@ -203,7 +203,7 @@ export const Members = () => {
             <select
               value={selectedIndustry}
               onChange={(e) => { setSelectedIndustry(e.target.value); setCurrentPage(1); }}
-              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', outline: 'none', backgroundColor: 'var(--surface-3)', color: '#fff', cursor: 'pointer', minWidth: '150px' }}
+              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-strong)', fontSize: '12.5px', outline: 'none', backgroundColor: '#FFFFFF', color: 'var(--text-primary)', cursor: 'pointer', minWidth: '150px' }}
             >
               <option value="">{t('all_industries')}</option>
               {uniqueIndustries.map(ind => (
@@ -224,9 +224,9 @@ export const Members = () => {
                 style={{
                   padding: '4px 8px',
                   borderRadius: '6px',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  background: 'var(--surface-3)',
-                  color: '#fff',
+                  border: '1px solid var(--border-strong)',
+                  background: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   fontSize: '11.5px',
                   cursor: 'pointer',
                   outline: 'none'

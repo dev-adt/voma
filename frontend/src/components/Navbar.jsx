@@ -69,7 +69,7 @@ export const Navbar = () => {
 
       <div className="nav-right">
         {/* Nút Tìm kiếm */}
-        <Link to="/search" style={{ fontSize: '18px', color: 'var(--text-dark-secondary)', marginRight: '8px', padding: '4px' }}>
+        <Link to="/search" style={{ fontSize: '18px', color: 'var(--text-primary)', marginRight: '8px', padding: '4px' }}>
           <i className="ti ti-search"></i>
         </Link>
 
@@ -78,9 +78,9 @@ export const Navbar = () => {
           <button 
             onClick={() => setLangOpen(!langOpen)}
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              color: '#fff',
+              background: '#FFFFFF',
+              border: '1.5px solid var(--border)',
+              color: 'var(--text-primary)',
               fontSize: '11px',
               fontWeight: '600',
               padding: '4px 10px',
@@ -88,7 +88,8 @@ export const Navbar = () => {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '4px'
+              gap: '4px',
+              boxShadow: '0 2px 6px rgba(13, 148, 136, 0.08)'
             }}
           >
             <span>{currentLangDetails.flag}</span>
@@ -100,7 +101,7 @@ export const Navbar = () => {
                 position: 'absolute',
                 top: '110%',
                 right: 0,
-                backgroundColor: 'var(--surface-2)',
+                backgroundColor: '#FFFFFF',
                 border: '1px solid var(--border)',
                 borderRadius: '8px',
                 padding: '6px 0',
@@ -119,16 +120,16 @@ export const Navbar = () => {
                   style={{
                     width: '100%',
                     padding: '6px 12px',
-                    background: 'none',
+                    background: currentLang === langKey ? 'var(--surface-0)' : 'transparent',
                     border: 'none',
-                    color: currentLang === langKey ? '#fff' : 'var(--text-secondary)',
+                    color: currentLang === langKey ? 'var(--primary)' : 'var(--text-primary)',
                     textAlign: 'left',
                     fontSize: '12px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    backgroundColor: currentLang === langKey ? 'rgba(255,255,255,0.05)' : 'transparent'
+                    fontWeight: currentLang === langKey ? '700' : '500'
                   }}
                 >
                   <span>{LANGS[langKey].flag}</span>
@@ -141,7 +142,7 @@ export const Navbar = () => {
 
         {/* Chuông báo */}
         <div style={{ position: 'relative', marginRight: '12px' }}>
-          <Link to={role === 'guest' ? "/login" : (role === 'admin' ? "/admin-dashboard" : "/member-dashboard")} style={{ fontSize: '18px', color: 'var(--text-dark-secondary)', padding: '4px', display: 'block' }}>
+          <Link to={role === 'guest' ? "/login" : (role === 'admin' ? "/admin-dashboard" : "/member-dashboard")} style={{ fontSize: '18px', color: 'var(--text-primary)', padding: '4px', display: 'block' }}>
             <i className="ti ti-bell"></i>
             {role !== 'guest' && (
               <span style={{ position: 'absolute', top: '1px', right: '1px', width: '6px', height: '6px', backgroundColor: 'var(--rose)', borderRadius: '50%' }}></span>

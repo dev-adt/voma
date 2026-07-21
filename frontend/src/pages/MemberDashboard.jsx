@@ -310,9 +310,9 @@ export const MemberDashboard = () => {
 
   if (loading) {
     return (
-      <div style={{ height: '100vh', backgroundColor: '#0F172A', color: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <i className="ti ti-loader animate-spin" style={{ fontSize: '32px', marginBottom: '12px', color: '#1E88E5' }}></i>
-        <div style={{ fontSize: '13px', color: '#64748B' }}>Đang tải dữ liệu Dashboard...</div>
+      <div style={{ height: '100vh', backgroundColor: 'var(--bg-base)', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <i className="ti ti-loader animate-spin" style={{ fontSize: '32px', marginBottom: '12px', color: 'var(--primary-light)' }}></i>
+        <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Đang tải dữ liệu Dashboard...</div>
       </div>
     );
   }
@@ -327,7 +327,7 @@ export const MemberDashboard = () => {
       <div className="dashboard-wrap">
         
         {/* Top Header Banner */}
-        <div style={{ background: '#0F172A', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '2rem 0' }}>
+        <div style={{ background: 'var(--surface-2)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '2rem 0' }}>
           <div className="public-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div style={{ textAlign: 'left' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

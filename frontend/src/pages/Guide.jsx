@@ -216,7 +216,7 @@ const SECTIONS = [
 ];
 
 export const Guide = () => {
-  const { currentLang, t } = useTranslation();
+  const { currentLang } = useTranslation();
   const [activeTab, setActiveTab] = useState('intro');
   const [selectedImg, setSelectedImg] = useState(null);
 
@@ -232,20 +232,20 @@ export const Guide = () => {
       case 'intro':
         return (
           <div style={{ animation: 'fadeIn 0.3s ease' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="ti ti-help" style={{ color: 'var(--primary)' }}></i> {s.intro.title}
             </h2>
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '2rem' }}>
               {s.intro.text}
             </p>
-            <div style={{ textAlign: 'center', background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ textAlign: 'center', background: 'var(--surface-0)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border)' }}>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '12px', fontWeight: 600 }}>
                 {s.intro.img_label} (Click to expand)
               </span>
               <img 
                 src="/img_guide/img_full.png" 
                 alt="Homepage" 
-                style={{ width: '100%', maxWidth: '650px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', cursor: 'zoom-in', transition: 'transform 0.2s' }}
+                style={{ width: '100%', maxWidth: '650px', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in', transition: 'transform 0.2s' }}
                 onClick={() => handleOpenImg('/img_guide/img_full.png')}
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.01)'}
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -256,13 +256,13 @@ export const Guide = () => {
       case 'register':
         return (
           <div style={{ animation: 'fadeIn 0.3s ease' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="ti ti-user-plus" style={{ color: 'var(--primary)' }}></i> {s.register.title}
             </h2>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-circle-number-1"></i> {s.register.step1_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -272,14 +272,14 @@ export const Guide = () => {
                   <img 
                     src="/img_guide/image%201.png" 
                     alt="Step 1" 
-                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                     onClick={() => handleOpenImg('/img_guide/image 1.png')}
                   />
                 </div>
               </div>
 
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-circle-number-2"></i> {s.register.step2_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -289,14 +289,14 @@ export const Guide = () => {
                   <img 
                     src="/img_guide/image%202.png" 
                     alt="Step 2" 
-                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                     onClick={() => handleOpenImg('/img_guide/image 2.png')}
                   />
                 </div>
               </div>
 
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-circle-number-3"></i> {s.register.step3_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -305,7 +305,7 @@ export const Guide = () => {
               </div>
 
               <div>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-circle-number-4"></i> {s.register.step4_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -318,7 +318,7 @@ export const Guide = () => {
       case 'dashboard':
         return (
           <div style={{ animation: 'fadeIn 0.3s ease' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="ti ti-layout-dashboard" style={{ color: 'var(--primary)' }}></i> {s.dashboard.title}
             </h2>
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '2rem' }}>
@@ -326,8 +326,8 @@ export const Guide = () => {
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-edit"></i> {s.dashboard.sub1_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -336,7 +336,7 @@ export const Guide = () => {
               </div>
 
               <div>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-star"></i> {s.dashboard.sub2_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -346,7 +346,7 @@ export const Guide = () => {
                   <img 
                     src="/img_guide/image%203.png" 
                     alt="Dashboard" 
-                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                     onClick={() => handleOpenImg('/img_guide/image 3.png')}
                   />
                 </div>
@@ -357,7 +357,7 @@ export const Guide = () => {
       case 'post':
         return (
           <div style={{ animation: 'fadeIn 0.3s ease' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="ti ti-file-text" style={{ color: 'var(--primary)' }}></i> {s.post.title}
             </h2>
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '2rem' }}>
@@ -365,8 +365,8 @@ export const Guide = () => {
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-pencil"></i> {s.post.sub1_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -376,14 +376,14 @@ export const Guide = () => {
                   <img 
                     src="/img_guide/image%204.png" 
                     alt="Editor" 
-                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                     onClick={() => handleOpenImg('/img_guide/image 4.png')}
                   />
                 </div>
               </div>
 
               <div>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-circle-check"></i> {s.post.sub2_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -396,7 +396,7 @@ export const Guide = () => {
       case 'ai':
         return (
           <div style={{ animation: 'fadeIn 0.3s ease' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="ti ti-robot" style={{ color: 'var(--primary)' }}></i> {s.ai.title}
             </h2>
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '2rem' }}>
@@ -405,7 +405,7 @@ export const Guide = () => {
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               <div>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-messages"></i> {s.ai.sub1_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', margin: 0 }}>
@@ -415,7 +415,7 @@ export const Guide = () => {
                   <img 
                     src="/img_guide/image%205.png" 
                     alt="AI Models" 
-                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                    style={{ width: '100%', maxWidth: '600px', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                     onClick={() => handleOpenImg('/img_guide/image 5.png')}
                   />
                 </div>
@@ -426,7 +426,7 @@ export const Guide = () => {
       case 'connect':
         return (
           <div style={{ animation: 'fadeIn 0.3s ease' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', fontFamily: 'var(--font-title)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="ti ti-users" style={{ color: 'var(--primary)' }}></i> {s.connect.title}
             </h2>
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '2rem' }}>
@@ -435,7 +435,7 @@ export const Guide = () => {
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
               <div>
-                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--amber)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <h3 style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--primary)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="ti ti-network"></i> {s.connect.sub1_title}
                 </h3>
                 <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line', marginBottom: '1.5rem' }}>
@@ -443,30 +443,30 @@ export const Guide = () => {
                 </p>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
+                  <div style={{ background: 'var(--surface-0)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center' }}>
                     <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '10px', fontWeight: 600 }}>Bảng tin bài đăng</span>
                     <img 
                       src="/img_guide/image%206.png" 
                       alt="Feeds" 
-                      style={{ width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                      style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                       onClick={() => handleOpenImg('/img_guide/image 6.png')}
                     />
                   </div>
-                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
+                  <div style={{ background: 'var(--surface-0)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center' }}>
                     <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '10px', fontWeight: 600 }}>Thư mục hội viên</span>
                     <img 
                       src="/img_guide/image%207.png" 
                       alt="Directory" 
-                      style={{ width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                      style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                       onClick={() => handleOpenImg('/img_guide/image 7.png')}
                     />
                   </div>
-                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
+                  <div style={{ background: 'var(--surface-0)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center' }}>
                     <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '10px', fontWeight: 600 }}>Sự kiện</span>
                     <img 
                       src="/img_guide/image%208.png" 
                       alt="Events" 
-                      style={{ width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', cursor: 'zoom-in' }}
+                      style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)', cursor: 'zoom-in' }}
                       onClick={() => handleOpenImg('/img_guide/image 8.png')}
                     />
                   </div>
@@ -484,10 +484,6 @@ export const Guide = () => {
     <div className="public-body">
       <Navbar />
 
-      {/* Background gradient decorative elements */}
-      <div style={{ position: 'fixed', top: '-10%', left: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(79,70,229,0.04) 0%, rgba(79,70,229,0) 70%)', zIndex: -1, pointerEvents: 'none', borderRadius: '50%' }}></div>
-      <div style={{ position: 'fixed', bottom: '-10%', right: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(245,158,11,0.02) 0%, rgba(245,158,11,0) 70%)', zIndex: -1, pointerEvents: 'none', borderRadius: '50%' }}></div>
-
       <div className="public-container" style={{ minHeight: '85vh', paddingBottom: '4rem', paddingTop: '2.5rem' }}>
         {/* Header Title */}
         <div style={{ textAlign: 'left', marginBottom: '2.5rem' }}>
@@ -502,7 +498,7 @@ export const Guide = () => {
         {/* Documentation Portal Layout */}
         <div className="shell-doc" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
           {/* Left Sidebar (Navigation Tabs) */}
-          <div className="glass-card" style={{ width: '100%', maxWidth: '280px', minWidth: '220px', padding: '1rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(8,14,30,0.6)' }}>
+          <div className="glass-card" style={{ width: '100%', maxWidth: '280px', minWidth: '220px', padding: '1rem', borderRadius: '16px', border: '1px solid var(--border)', background: '#FFFFFF', boxShadow: 'var(--shadow)' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {SECTIONS.map((sec) => {
                 const isActive = activeTab === sec.id;
@@ -517,26 +513,26 @@ export const Guide = () => {
                       gap: '10px',
                       width: '100%',
                       padding: '12px 14px',
-                      background: isActive ? 'var(--primary-glow)' : 'transparent',
+                      background: isActive ? 'var(--surface-0)' : 'transparent',
                       border: 'none',
                       borderRadius: '10px',
-                      color: isActive ? '#fff' : 'var(--text-secondary)',
+                      color: isActive ? 'var(--primary)' : 'var(--text-primary)',
                       fontFamily: 'var(--font-title)',
                       fontSize: '13.5px',
-                      fontWeight: isActive ? 600 : 550,
+                      fontWeight: isActive ? 700 : 500,
                       textAlign: 'left',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      borderLeft: isActive ? '3px solid var(--primary-light)' : '3px solid transparent'
+                      borderLeft: isActive ? '3px solid var(--primary)' : '3px solid transparent'
                     }}
                     onMouseEnter={(e) => {
-                      if (!isActive) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)';
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'var(--surface-0)';
                     }}
                     onMouseLeave={(e) => {
                       if (!isActive) e.currentTarget.style.backgroundColor = 'transparent';
                     }}
                   >
-                    <i className={sec.icon} style={{ fontSize: '15px', color: isActive ? 'var(--primary-light)' : 'var(--text-muted)' }}></i>
+                    <i className={sec.icon} style={{ fontSize: '15px', color: isActive ? 'var(--primary)' : 'var(--text-muted)' }}></i>
                     <span>{secTitle}</span>
                   </button>
                 );
@@ -545,7 +541,7 @@ export const Guide = () => {
           </div>
 
           {/* Right Main Content Panel */}
-          <div className="glass-card" style={{ flex: 1, minWidth: '320px', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(8,14,30,0.4)', minHeight: '400px' }}>
+          <div className="glass-card" style={{ flex: 1, minWidth: '320px', padding: '2.5rem', borderRadius: '16px', border: '1px solid var(--border)', background: '#FFFFFF', minHeight: '400px', boxShadow: 'var(--shadow)' }}>
             {renderContent()}
           </div>
         </div>
@@ -560,7 +556,7 @@ export const Guide = () => {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(5, 8, 18, 0.9)',
+            background: 'rgba(5, 8, 18, 0.8)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
             zIndex: 99999,

@@ -301,16 +301,16 @@ export const AIChat = () => {
     return (
       <div className="public-body" style={{ height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <Navbar />
-        <div style={{ flex: 1, background: 'rgba(8,14,30,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ textAlign: 'center', maxWidth: '420px', padding: '2.5rem' }}>
-            <i className="ti ti-lock" style={{ fontSize: '48px', color: 'var(--neon-cyan)', display: 'block', marginBottom: '1.5rem' }}></i>
-            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '22px', color: '#FFFFFF', marginBottom: '0.75rem' }}>{t('login_ai_chat_title')}</h2>
+        <div style={{ flex: 1, background: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="glass-card" style={{ textAlign: 'center', maxWidth: '440px', padding: '2.5rem', background: '#FFFFFF', borderRadius: '16px', border: '1px solid var(--border-strong)' }}>
+            <i className="ti ti-lock" style={{ fontSize: '48px', color: 'var(--primary)', display: 'block', marginBottom: '1.5rem' }}></i>
+            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '22px', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>{t('login_ai_chat_title')}</h2>
             <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '2rem' }}>
               {t('login_ai_chat_desc')}
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
               <Link to="/login" className="btn btn-primary" style={{ padding: '10px 24px', fontSize: '14px', textDecoration: 'none' }}><i className="ti ti-login"></i> {t('login_now')}</Link>
-              <Link to="/register" className="btn" style={{ padding: '10px 24px', fontSize: '14px', textDecoration: 'none' }}><i className="ti ti-user-plus"></i> {t('register_new')}</Link>
+              <Link to="/register" className="btn" style={{ padding: '10px 24px', fontSize: '14px', textDecoration: 'none', background: '#FFFFFF', color: 'var(--text-primary)', border: '1.5px solid var(--border-strong)' }}><i className="ti ti-user-plus"></i> {t('register_new')}</Link>
             </div>
           </div>
         </div>

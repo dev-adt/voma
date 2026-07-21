@@ -229,7 +229,7 @@ export const Home = () => {
               <Link to="/register" className="btn btn-primary" style={{ padding: '12px 24px', fontSize: '14px', textDecoration: 'none' }}>
                 <i className="ti ti-arrow-up-right"></i> {t('hero_btn_register')}
               </Link>
-              <Link to="/members" className="btn" style={{ padding: '12px 24px', fontSize: '14px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#ffffff', textDecoration: 'none' }}>
+              <Link to="/members" className="btn" style={{ padding: '12px 24px', fontSize: '14px', textDecoration: 'none' }}>
                 <i className="ti ti-search"></i> {t('hero_btn_explore')}
               </Link>
             </div>
@@ -238,9 +238,9 @@ export const Home = () => {
           <div className="hero-right float-effect" style={{ flex: '1', minWidth: '320px', display: 'flex', justifyContent: 'center' }}>
             <div className="hero-img-wrap">
               <img src="/images/hero_network.png" alt="Mạng lưới kết nối Voma" />
-              <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', background: 'rgba(8, 14, 30, 0.75)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: 'var(--radius)', border: '0.5px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--emerald)', animation: 'pulse 2s infinite' }}></div>
-                <span style={{ fontSize: '11px', fontWeight: 600, color: '#FFFFFF' }}>{t('hero_realtime')}</span>
+              <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', background: 'rgba(255, 255, 255, 0.92)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--primary)', animation: 'pulse 2s infinite' }}></div>
+                <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-primary)' }}>{t('hero_realtime')}</span>
               </div>
             </div>
           </div>
@@ -273,9 +273,9 @@ export const Home = () => {
         {/* MAIN SERVICES SECTION */}
         <section id="features" style={{ marginBottom: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>{t('services_badge')}</div>
-            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff' }}>{t('services_title')}</h2>
-            <p style={{ fontSize: '14px', color: 'var(--text-dark-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>{t('services_desc')}</p>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>{t('services_badge')}</div>
+            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)' }}>{t('services_title')}</h2>
+            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>{t('services_desc')}</p>
           </div>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
@@ -290,7 +290,7 @@ export const Home = () => {
               <p className="srv-desc">{t('service_2_desc')}</p>
             </div>
             <div className="srv-card">
-              <div className="srv-icon" style={{ background: 'rgba(0, 229, 255, 0.1)', color: 'var(--neon-cyan)' }}><i className="ti ti-robot"></i></div>
+              <div className="srv-icon" style={{ background: 'rgba(13, 148, 136, 0.1)', color: 'var(--primary)' }}><i className="ti ti-robot"></i></div>
               <h3 className="srv-title">{t('service_3_title')}</h3>
               <p className="srv-desc">{t('service_3_desc')}</p>
             </div>
@@ -306,17 +306,17 @@ export const Home = () => {
         <section id="posts" style={{ marginBottom: '5rem' }}>
           <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_opportunities')}</div>
-              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>{t('featured_projects_title')}</h2>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_opportunities')}</div>
+              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 0 }}>{t('featured_projects_title')}</h2>
             </div>
-            <Link to="/posts" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
+            <Link to="/posts" className="btn" style={{ fontSize: '12px', padding: '8px 16px', textDecoration: 'none' }}>
               {t('btn_view_all_posts')} <i className="ti ti-arrow-right"></i>
             </Link>
           </div>
 
           <div className="opp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
             {loadingPosts ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-dark-secondary)' }}>
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
                 <i className="ti ti-loader animate-spin" style={{ fontSize: '24px', display: 'block', margin: '0 auto 10px' }}></i> {t('loading_latest_opps')}
               </div>
             ) : latestPosts.length > 0 ? (
@@ -336,10 +336,10 @@ export const Home = () => {
                     <div className="opp-content">
                       <h3 className="opp-title">{p.title}</h3>
                       <div className="opp-meta">
-                        <div className="av-circle" style={{ width: '20px', height: '20px', fontSize: '9px', border: 'none', background: 'var(--primary-glow)', color: 'var(--primary-light)' }}>
+                        <div className="av-circle" style={{ width: '20px', height: '20px', fontSize: '9px', border: 'none', background: 'var(--surface-0)', color: 'var(--primary)' }}>
                           {companyName.substring(0, 2).toUpperCase()}
                         </div>
-                        <span style={{ fontWeight: 600, color: '#FFFFFF' }}>{companyName}</span>
+                        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{companyName}</span>
                       </div>
                       <div className="opp-foot">
                         <span>{dateStr}</span>
@@ -350,7 +350,7 @@ export const Home = () => {
                 );
               })
             ) : (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-dark-muted)' }}>
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
                 <i className="ti ti-news" style={{ fontSize: '24px', display: 'block', margin: '0 auto 10px' }}></i> {t('no_approved_opps')}
               </div>
             )}
@@ -363,9 +363,9 @@ export const Home = () => {
             <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
               <div>
                 <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_members')}</div>
-                <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>{t('featured_members_title')}</h2>
+                <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 0 }}>{t('featured_members_title')}</h2>
               </div>
-              <Link to="/members" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
+              <Link to="/members" className="btn" style={{ fontSize: '12px', padding: '8px 16px', textDecoration: 'none' }}>
                 {t('btn_view_all_members')} <i className="ti ti-arrow-right"></i>
               </Link>
             </div>
@@ -382,8 +382,8 @@ export const Home = () => {
                     position: 'relative', 
                     borderRadius: '16px', 
                     overflow: 'hidden', 
-                    border: '1px solid rgba(245,158,11,0.25)', 
-                    background: 'linear-gradient(135deg, rgba(245,158,11,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+                    border: '1px solid var(--border)', 
+                    background: '#FFFFFF',
                     display: 'flex', 
                     flexDirection: 'column',
                     transition: 'transform 0.3s ease, border-color 0.3s ease',
@@ -391,22 +391,22 @@ export const Home = () => {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.borderColor = 'rgba(245,158,11,0.45)';
+                    e.currentTarget.style.borderColor = 'var(--primary)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'none';
-                    e.currentTarget.style.borderColor = 'rgba(245,158,11,0.25)';
+                    e.currentTarget.style.borderColor = 'var(--border)';
                   }}
                   onClick={() => navigate('/members')}
                   >
-                    <div style={{ position: 'absolute', top: 0, right: 0, width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0) 70%)', pointerEvents: 'none' }} />
+                    <div style={{ position: 'absolute', top: 0, right: 0, width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(13,148,136,0.08) 0%, rgba(13,148,136,0) 70%)', pointerEvents: 'none' }} />
 
-                    <div style={{ height: '60px', background: `linear-gradient(135deg, ${avatarColors.bg} 0%, rgba(255,255,255,0) 100%)`, borderBottom: '1px solid rgba(255,255,255,0.05)' }}></div>
+                    <div style={{ height: '60px', background: `linear-gradient(135deg, ${avatarColors.bg} 0%, rgba(255,255,255,0) 100%)`, borderBottom: '1px solid var(--border)' }}></div>
                     <div style={{ padding: '1.5rem', marginTop: '-35px', display: 'flex', flexDirection: 'column', flex: 1, textAlign: 'left' }}>
-                      <div className="av-circle" style={{ background: avatarColors.bg, color: avatarColors.fg, width: '54px', height: '54px', fontSize: '16px', border: '3px solid var(--surface-1)', marginBottom: '12px', fontWeight: 700 }}>{initials}</div>
+                      <div className="av-circle" style={{ background: avatarColors.bg, color: avatarColors.fg, width: '54px', height: '54px', fontSize: '16px', border: '3px solid #FFFFFF', marginBottom: '12px', fontWeight: 700 }}>{initials}</div>
                       
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
-                        <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', fontWeight: 700, color: '#fff', margin: 0, flex: 1 }}>{m.name}</h3>
+                        <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, flex: 1 }}>{m.name}</h3>
                         <span className={`badge ${tierClass}`} style={{ fontSize: '9px', padding: '2px 6px' }}>{tierBadge}</span>
                       </div>
 
@@ -416,9 +416,9 @@ export const Home = () => {
 
                       <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '15px', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{m.description || t('desc_default')}</p>
                       
-                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px', marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px', marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}><i className="ti ti-map-pin"></i> {m.city || t('location_default')}</span>
-                        <span style={{ fontSize: '12px', color: 'var(--amber)', fontWeight: 600 }}>{t('btn_contact')} <i className="ti ti-chevron-right"></i></span>
+                        <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 600 }}>{t('btn_contact')} <i className="ti ti-chevron-right"></i></span>
                       </div>
                     </div>
                   </div>
@@ -433,16 +433,16 @@ export const Home = () => {
           <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div>
               <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--amber)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>{t('menu_events')}</div>
-              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff', marginBottom: 0 }}>{t('events_section_title')}</h2>
+              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 0 }}>{t('events_section_title')}</h2>
             </div>
-            <Link to="/events" className="btn" style={{ fontSize: '12px', padding: '8px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: '#FFFFFF', textDecoration: 'none' }}>
+            <Link to="/events" className="btn" style={{ fontSize: '12px', padding: '8px 16px', textDecoration: 'none' }}>
               {t('btn_view_all_events')} <i className="ti ti-arrow-right"></i>
             </Link>
           </div>
 
           <div className="opp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
             {loadingEvents ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-dark-secondary)' }}>
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
                 <i className="ti ti-loader animate-spin" style={{ fontSize: '24px', display: 'block', margin: '0 auto 10px' }}></i> {t('loading_events_list')}
               </div>
             ) : events.length > 0 ? (
@@ -450,7 +450,7 @@ export const Home = () => {
                 const dateStr = e.event_date ? new Date(e.event_date).toLocaleDateString('vi-VN') : '15/07/2026';
                 const statusLabel = e.status === 'upcoming' ? t('status_upcoming') : e.status === 'ongoing' ? t('status_ongoing') : e.status === 'completed' ? t('status_completed') : t('status_cancelled');
                 return (
-                  <div className="opp-card" key={e.id} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1.5rem', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '12px' }}>
+                  <div className="opp-card" key={e.id} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1.5rem', background: '#FFFFFF', border: '1px solid var(--border)', borderRadius: '12px' }}>
                     <div style={{ textAlign: 'left' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                         <span style={{ fontSize: '10px', background: e.status === 'upcoming' ? 'rgba(245,158,11,0.1)' : 'rgba(16,185,129,0.1)', color: e.status === 'upcoming' ? 'var(--amber)' : '#10B981', border: `1px solid ${e.status === 'upcoming' ? 'rgba(245,158,11,0.2)' : 'rgba(16,185,129,0.2)'}`, padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', fontWeight: 600 }}>{statusLabel}</span>
@@ -459,14 +459,14 @@ export const Home = () => {
                             evt.stopPropagation();
                             handleToggleEventInterest(e.id);
                           }}
-                          style={{ background: 'none', border: 'none', color: e.is_interested ? 'var(--amber)' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: '16px', outline: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                          style={{ background: 'none', border: 'none', color: e.is_interested ? 'var(--amber)' : 'var(--text-muted)', cursor: 'pointer', fontSize: '16px', outline: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                           title={e.is_interested ? "Bỏ quan tâm" : "Quan tâm sự kiện"}
                         >
                           <i className={e.is_interested ? "ti ti-star-filled" : "ti ti-star"}></i>
-                          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)' }}>{e.interest_count || 0}</span>
+                          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{e.interest_count || 0}</span>
                         </button>
                       </div>
-                      <h3 className="opp-title" style={{ minHeight: 'unset', marginBottom: '8px' }}>{e.title}</h3>
+                      <h3 className="opp-title" style={{ minHeight: 'unset', marginBottom: '8px', color: 'var(--text-primary)' }}>{e.title}</h3>
                       <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', marginBottom: '4px' }}><i className="ti ti-calendar"></i> Ngày: {dateStr}</div>
                       <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', marginBottom: '4px' }}><i className="ti ti-users"></i> Tổ chức: {e.organizer || 'Voma'}</div>
                       {!token && (
@@ -475,14 +475,14 @@ export const Home = () => {
                         </div>
                       )}
                     </div>
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px', marginTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+                    <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px', marginTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
                       <button className="opp-btn" onClick={() => openEventDetail(e)}>{t('btn_view_details')}</button>
                     </div>
                   </div>
                 );
               })
             ) : (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-dark-muted)' }}>
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
                 <i className="ti ti-calendar" style={{ fontSize: '24px', display: 'block', margin: '0 auto 10px' }}></i> {t('no_upcoming_events')}
               </div>
             )}
@@ -492,16 +492,16 @@ export const Home = () => {
         {/* MEMBERSHIP TIERS */}
         <section id="tiers" style={{ marginBottom: '5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--neon-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>{t('menu_tiers')}</div>
-            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: '#ffffff' }}>{t('pricing_section_title')}</h2>
-            <p style={{ fontSize: '14px', color: 'var(--text-dark-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>{t('pricing_section_desc')}</p>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>{t('menu_tiers')}</div>
+            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)' }}>{t('pricing_section_title')}</h2>
+            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '8px auto 0' }}>{t('pricing_section_desc')}</p>
           </div>
 
           <div className="tiers-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
             {/* Silver */}
             <div className="pkg-card silver">
               <div className="pkg-header">
-                <div className="pkg-name" style={{ color: 'var(--text-dark-secondary)' }}>{t('tier_silver')}</div>
+                <div className="pkg-name" style={{ color: 'var(--text-primary)' }}>{t('tier_silver')}</div>
                 <div className="pkg-price">{t('price_free')}</div>
               </div>
               <div className="pkg-list">
@@ -510,7 +510,7 @@ export const Home = () => {
                 <div className="pkg-item"><i className="ti ti-check"></i> {t('silver_feat_3')}</div>
                 <div className="pkg-item"><i className="ti ti-check"></i> {t('silver_feat_4')}</div>
               </div>
-              <Link to={getTiersLink()} className="btn" style={{ width: '100%', justifyContent: 'center', padding: '10px', backgroundColor: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.1)', color: '#ffffff', fontWeight: 600, textDecoration: 'none' }}>{getTiersButtonText()}</Link>
+              <Link to={getTiersLink()} className="btn" style={{ width: '100%', justifyContent: 'center', padding: '10px', textDecoration: 'none' }}>{getTiersButtonText()}</Link>
             </div>
 
             {/* Gold */}
@@ -534,7 +534,7 @@ export const Home = () => {
             <div className="pkg-card platinum">
               <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'var(--primary)', color: '#fff', fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase' }}>{t('label_elite')}</div>
               <div className="pkg-header">
-                <div className="pkg-name" style={{ color: 'var(--primary-light)' }}>{t('tier_platinum')}</div>
+                <div className="pkg-name" style={{ color: 'var(--primary)' }}>{t('tier_platinum')}</div>
                 <div className="pkg-price" style={{ fontSize: '24px' }}>{t('price_platinum_val')} <span>/ {t('pricing_per_year')}</span></div>
               </div>
               <div className="pkg-list">
@@ -544,7 +544,7 @@ export const Home = () => {
                 <div className="pkg-item"><i className="ti ti-check"></i> {t('plat_feat_4')}</div>
                 <div className="pkg-item"><i className="ti ti-check"></i> {t('plat_feat_5')}</div>
               </div>
-              <Link to={getTiersLink()} className="btn" style={{ width: '100%', justifyContent: 'center', padding: '10px', backgroundColor: 'rgba(30, 136, 229, 0.1)', borderColor: 'var(--primary)', color: '#ffffff', fontWeight: 600, textDecoration: 'none' }}>{getTiersButtonText()}</Link>
+              <Link to={getTiersLink()} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '10px', fontWeight: 600, textDecoration: 'none' }}>{getTiersButtonText()}</Link>
             </div>
           </div>
         </section>
@@ -557,10 +557,10 @@ export const Home = () => {
 
       {/* Modal xem chi tiết sự kiện */}
       {eventModalOpen && selectedEvent && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(8,14,30,0.85)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-          <div className="glass-card" style={{ width: '100%', maxWidth: '550px', padding: '2rem', borderColor: 'var(--border-strong)' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(8,14,30,0.65)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
+          <div className="glass-card" style={{ width: '100%', maxWidth: '550px', padding: '2rem', borderColor: 'var(--border-strong)', background: '#FFFFFF' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '16px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
                 <i className="ti ti-calendar-event" style={{ color: 'var(--amber)' }}></i> {t('event_details_title')}
               </h3>
               <button onClick={() => setEventModalOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px', cursor: 'pointer' }}><i className="ti ti-x"></i></button>
@@ -569,25 +569,25 @@ export const Home = () => {
             <div style={{ marginBottom: '1.5rem', maxHeight: '50vh', overflowY: 'auto', textAlign: 'left' }}>
               <div style={{ marginBottom: '14px' }}>
                 <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--amber)', fontWeight: 700 }}>{t('label_event_name')}</span>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: '#FFFFFF', marginTop: '2px' }}>{selectedEvent.title}</div>
+                <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>{selectedEvent.title}</div>
               </div>
               <div style={{ marginBottom: '14px' }}>
                 <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--amber)', fontWeight: 700 }}>{t('label_organizer')}</span>
-                <div style={{ fontSize: '13px', color: '#FFFFFF', marginTop: '2px' }}>{selectedEvent.organizer || 'Voma'}</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginTop: '2px' }}>{selectedEvent.organizer || 'Voma'}</div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
                 <div>
                   <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--amber)', fontWeight: 700 }}>{t('label_event_date')}</span>
-                  <div style={{ fontSize: '13px', color: '#FFFFFF', marginTop: '2px' }}>{new Date(selectedEvent.event_date).toLocaleDateString('vi-VN')}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginTop: '2px' }}>{new Date(selectedEvent.event_date).toLocaleDateString('vi-VN')}</div>
                 </div>
                 <div>
                   <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--amber)', fontWeight: 700 }}>{t('label_max_capacity')}</span>
-                  <div style={{ fontSize: '13px', color: '#FFFFFF', marginTop: '2px' }}>{selectedEvent.capacity ? t('capacity_people')(selectedEvent.capacity) : t('capacity_unlimited')}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginTop: '2px' }}>{selectedEvent.capacity ? t('capacity_people')(selectedEvent.capacity) : t('capacity_unlimited')}</div>
                 </div>
               </div>
               <div style={{ marginBottom: '14px' }}>
                 <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--amber)', fontWeight: 700 }}>{t('label_location')}</span>
-                <div style={{ fontSize: '13px', color: '#FFFFFF', marginTop: '2px' }}>{selectedEvent.location || t('location_default')}</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginTop: '2px' }}>{selectedEvent.location || t('location_default')}</div>
               </div>
               <div style={{ marginBottom: '14px' }}>
                 <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--amber)', fontWeight: 700 }}>{t('label_event_description')}</span>
@@ -599,7 +599,7 @@ export const Home = () => {
               <button 
                 onClick={() => handleToggleEventInterest(selectedEvent.id)}
                 className="btn"
-                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', background: selectedEvent.is_interested ? 'var(--amber)' : 'rgba(255,255,255,0.05)', color: selectedEvent.is_interested ? '#000' : '#fff', borderColor: selectedEvent.is_interested ? 'var(--amber)' : 'rgba(255,255,255,0.1)', padding: '6px 16px', fontWeight: 600, cursor: 'pointer' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', background: selectedEvent.is_interested ? 'var(--amber)' : '#FFFFFF', color: selectedEvent.is_interested ? '#000' : 'var(--text-primary)', borderColor: selectedEvent.is_interested ? 'var(--amber)' : 'var(--border)', padding: '6px 16px', fontWeight: 600, cursor: 'pointer' }}
               >
                 <i className={selectedEvent.is_interested ? "ti ti-star-filled" : "ti ti-star"}></i>
                 {selectedEvent.is_interested ? t('status_interested') : t('btn_interest')} ({selectedEvent.interest_count || 0})

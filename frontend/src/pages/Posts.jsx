@@ -222,7 +222,7 @@ export const Posts = () => {
                 placeholder={t('search_posts_placeholder')} 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ padding: '8px 12px 8px 30px', width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', outline: 'none', backgroundColor: 'var(--surface-3)', color: '#fff' }}
+                style={{ padding: '8px 12px 8px 30px', width: '100%', borderRadius: '8px', border: '1px solid var(--border-strong)', fontSize: '12.5px', outline: 'none', backgroundColor: '#FFFFFF', color: 'var(--text-primary)' }}
               />
             </div>
 
@@ -230,7 +230,7 @@ export const Posts = () => {
             <select
               value={selectedTier}
               onChange={(e) => setSelectedTier(e.target.value)}
-              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', outline: 'none', backgroundColor: 'var(--surface-3)', color: '#fff', cursor: 'pointer', minWidth: '130px' }}
+              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-strong)', fontSize: '12.5px', outline: 'none', backgroundColor: '#FFFFFF', color: 'var(--text-primary)', cursor: 'pointer', minWidth: '130px' }}
             >
               <option value="">{t('all_members')}</option>
               <option value="Platinum">{t('tier_platinum_members')}</option>
@@ -242,7 +242,7 @@ export const Posts = () => {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontSize: '12.5px', outline: 'none', backgroundColor: 'var(--surface-3)', color: '#fff', cursor: 'pointer', minWidth: '140px' }}
+              style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-strong)', fontSize: '12.5px', outline: 'none', backgroundColor: '#FFFFFF', color: 'var(--text-primary)', cursor: 'pointer', minWidth: '140px' }}
             >
               <option value="">{t('all_types')}</option>
               <option value="offer">{t('type_offer')}</option>
@@ -263,9 +263,9 @@ export const Posts = () => {
                 style={{
                   padding: '4px 8px',
                   borderRadius: '6px',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  background: 'var(--surface-3)',
-                  color: '#fff',
+                  border: '1px solid var(--border-strong)',
+                  background: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   fontSize: '11.5px',
                   cursor: 'pointer',
                   outline: 'none'
